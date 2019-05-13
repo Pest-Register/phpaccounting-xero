@@ -1,6 +1,6 @@
 {
-    "name": "pest-register/php-accounting-myob",
-    "description": "MYOB package for PHP Accounting",
+    "name": "pest-register/php-accounting-xero",
+    "description": "XERO package for PHP Accounting",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -16,7 +16,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "PHPAccounting\\MYOB\\" : "src/" }
+        "psr-4": { "PHPAccounting\\XERO\\" : "src/" }
     },
     "minimum-stability": "dev",
     "require": {
