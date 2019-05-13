@@ -1,0 +1,27 @@
+{
+    "name": "pest-register/php-accounting-myob",
+    "description": "MYOB package for PHP Accounting",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dylan",
+            "email": "dylan@pestregister.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Pest-Register/PHPAccounting-common"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "PHPAccounting\\MYOB\\" : "src/" }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php-http/guzzle6-adapter": "*",
+        "pest-register/php-accounting-common": "dev-master"
+    },
+    "prefer-stable": true
+}
