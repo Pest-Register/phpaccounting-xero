@@ -14,7 +14,7 @@ class AbstractRequest extends \PhpAccounting\Common\Message\AbstractRequest
      *
      * @var string URL
      */
-    protected $endpoint = '';
+    protected $endpoint = 'https://api.xero.com/api.xro/2.0';
 
 
     /**

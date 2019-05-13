@@ -43,6 +43,16 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\MYOB\Message\Customers\Requests\CreateCustomerRequest', $parameters);
     }
 
+    public function GetCustomer(array $parameters = []){
+
+        if(array_key_exists('company', $parameters)) {
+            return $this->createRequest('\PHPAccounting\MYOB\Message\Customers\Requests\GetCompanyCustomerRequest', $parameters);
+        }
+        else {
+            return $this->createRequest('\PHPAccounting\MYOB\Message\Customers\Requests\GetCustomerRequest', $parameters);
+        }
+    }
+
 
 
     public function __call($name, $arguments)
