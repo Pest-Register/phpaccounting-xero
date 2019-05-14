@@ -62,7 +62,7 @@ class AbstractRequest extends \PHPAccounting\Common\Message\AbstractRequest
      */
     public function issetParam($dataArray, $xeroKey, $localkey){
         if(array_key_exists($localkey, $this->getParameters())){
-            $dataArray[$xeroKey] = $this->getParameters()[$localkey];
+            $dataArray[$xeroKey] = $this->getParameter($localkey);
         }
     }
 
