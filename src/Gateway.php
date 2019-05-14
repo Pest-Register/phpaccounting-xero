@@ -1,6 +1,6 @@
 <?php
 
-use PhpAccounting\Common\AbstractGateway;
+use PHPAccounting\Common\AbstractGateway;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,31 +43,7 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\MYOB\Message\Customers\Requests\CreateCustomerRequest', $parameters);
     }
 
-    public function GetCustomer(array $parameters = []){
-
-        if(array_key_exists('company', $parameters)) {
-            return $this->createRequest('\PHPAccounting\MYOB\Message\Customers\Requests\GetCompanyCustomerRequest', $parameters);
-        }
-        else {
-            return $this->createRequest('\PHPAccounting\MYOB\Message\Customers\Requests\GetCustomerRequest', $parameters);
-        }
-    }
-
-
-
-    public function __call($name, $arguments)
-    {
-        // TODO: Implement @method \PhpAccounting\Common\Message\NotificationInterface acceptNotification(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface authorize(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface completeAuthorize(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface capture(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface purchase(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface completePurchase(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface refund(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface fetchTransaction(array $options = [])
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface void(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface createCard(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface updateCard(array $options = array())
-        // TODO: Implement @method \PhpAccounting\Common\Message\RequestInterface deleteCard(array $options = array())
+    public function GetContact(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\XERO\Message\Customers\Requests\GetContactRequest', $parameters);
     }
 }

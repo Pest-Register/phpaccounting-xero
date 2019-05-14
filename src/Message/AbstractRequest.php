@@ -6,7 +6,7 @@
  * Time: 3:30 PM
  */
 
-class AbstractRequest extends \PhpAccounting\Common\Message\AbstractRequest
+class AbstractRequest extends \PHPAccounting\Common\Message\AbstractRequest
 {
 
     /**
@@ -37,6 +37,24 @@ class AbstractRequest extends \PhpAccounting\Common\Message\AbstractRequest
     }
 
     /**
+     * Get Access Token
+     */
+
+    public function getAccessToken(){
+        return $this->getParameter('accessToken');
+    }
+
+    /**
+     * Set Access Token
+     * @param $value
+     * @return AbstractRequest
+     */
+
+    public function setAccessToken($value){
+        return $this->setParameter('accessToken', $value);
+    }
+
+    /**
      * Get HTTP Method.
      *
      * This is nearly always POST but can be over-ridden in sub classes.
@@ -63,7 +81,7 @@ class AbstractRequest extends \PhpAccounting\Common\Message\AbstractRequest
     {
         $headers = array_merge(
             $this->getHeaders(),
-            array('Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':'))
+            array('Authorization' => 'Basic ' . base64_encode($this->getAccessToken() . ':'))
         );
         $body = $data ? http_build_query($data, '', '&') : null;
         $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);

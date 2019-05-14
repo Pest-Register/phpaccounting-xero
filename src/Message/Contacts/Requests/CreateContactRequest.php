@@ -1,5 +1,7 @@
 <?php
 
+use PHPAccounting\XERO\Message\Customers\Responses\CreateCustomerResponse;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,14 +13,22 @@
 class CreateContactRequest extends AbstractRequest
 {
 
-
     public function getName(){
         return $this->getParameter('name');
     }
 
-    public function setName($value){
-        return $this->setParameter('name', $value);
+    public function getEmail() {
+        return $this->getParameter('email');
     }
+
+    public function getFirstName(){
+        return $this->getParameter('first_name');
+    }
+
+    public function getLastName(){
+        return $this->getParameter('last_name');
+    }
+
 
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
@@ -31,17 +41,24 @@ class CreateContactRequest extends AbstractRequest
         $data = [];
 
         $data['Name'] = $this->getName();
-        $data['family_name'] = $this->getLastName();
-        $data['company_name'] = $this->getCompanyName();
-        $data['email_address'] = $this->getEmail();
 
         return $data;
-        // TODO: Implement getData() method.
+    }
+
+    public function sendData($data)
+    {
+        $response = parent::sendData($data);
+        $this->createResponse($response->getData(), $response->getHeaders());
     }
 
     public function getEndpoint()
     {
         return $this->endpoint . '/Contacts';
+    }
+
+    public function createResponse($data, $headers = [])
+    {
+        return $this->response = new CreateCustomerResponse($this, $data, $headers);
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-use PhpAccounting\Common\Message\RequestInterface;
+use PHPAccounting\Common\Message\RequestInterface;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,7 +9,7 @@ use PhpAccounting\Common\Message\RequestInterface;
  * Time: 3:33 PM
  */
 
-class Response extends \PhpAccounting\Common\Message\AbstractResponse
+class Response extends \PHPAccounting\Common\Message\AbstractResponse
 {
 
     /**
@@ -35,6 +35,10 @@ class Response extends \PhpAccounting\Common\Message\AbstractResponse
      */
     public function isSuccessful()
     {
-        // TODO: Implement isSuccessful() method.
+        return $this->data != null;
+    }
+
+    public function getHeaders(){
+        return $this->headers;
     }
 }
