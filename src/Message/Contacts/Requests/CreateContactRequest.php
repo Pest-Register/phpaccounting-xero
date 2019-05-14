@@ -40,10 +40,14 @@ class CreateContactRequest extends AbstractRequest
     {
         $data = [];
 
-        $data['Name'] = $this->getName();
+        $this->issetParam($data, 'Name', 'name');
+        $this->issetParam($data, 'FirstName', 'first_name');
+        $this->issetParam($data, 'LastName', 'first_name');
 
         return $data;
     }
+
+
 
     public function sendData($data)
     {

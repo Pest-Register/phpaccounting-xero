@@ -55,6 +55,18 @@ class AbstractRequest extends \PHPAccounting\Common\Message\AbstractRequest
     }
 
     /**
+     * Check if key exists in param bag and add it to array
+     * @param $dataArray
+     * @param $xeroKey
+     * @param $localkey
+     */
+    public function issetParam($dataArray, $xeroKey, $localkey){
+        if(array_key_exists($localkey, $this->getParameters())){
+            $dataArray[$xeroKey] = $this->getParameters()[$localkey];
+        }
+    }
+
+    /**
      * Get HTTP Method.
      *
      * This is nearly always POST but can be over-ridden in sub classes.
