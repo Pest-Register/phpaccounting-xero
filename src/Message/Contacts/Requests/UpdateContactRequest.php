@@ -10,7 +10,7 @@ namespace PHPAccounting\XERO\Message\Customers\Requests;
 
 
 use AbstractRequest;
-use PHPAccounting\XERO\Message\Contacts\Responses\UpdateCustomerResponse;
+use PHPAccounting\XERO\Message\Contacts\Responses\UpdateContactResponse;
 
 class UpdateContactRequest extends AbstractRequest
 {
@@ -68,7 +68,7 @@ class UpdateContactRequest extends AbstractRequest
 
     public function createResponse($data, $headers = [])
     {
-        return $this->response = new UpdateCustomerResponse($this, $data, $headers);
+        return $this->response = new UpdateContactResponse($this, $data, $headers);
     }
 
     public function getEndpoint()

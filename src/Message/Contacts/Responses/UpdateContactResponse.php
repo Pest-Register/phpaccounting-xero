@@ -10,10 +10,15 @@ namespace PHPAccounting\XERO\Message\Contacts\Responses;
 
 
 use PHPAccounting\Common\Message\AbstractResponse;
-use Response;
+use PHPAccounting\Common\Message\RequestInterface;
 
-class UpdateCustomerResponse extends  Response
+class UpdateContactResponse extends AbstractResponse
 {
+
+    public function __construct(RequestInterface $request, $data, $headers = [])
+    {
+        parent::__construct($request, json_decode($data, true), $headers);
+    }
 
     /**
      * Is the response successful?
@@ -22,6 +27,6 @@ class UpdateCustomerResponse extends  Response
      */
     public function isSuccessful()
     {
-        // TODO: Implement isSuccessful() method.
+        return $this->data != null;
     }
 }

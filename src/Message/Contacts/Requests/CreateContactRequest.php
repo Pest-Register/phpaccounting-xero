@@ -1,6 +1,6 @@
 <?php
 
-use PHPAccounting\XERO\Message\Customers\Responses\CreateCustomerResponse;
+use PHPAccounting\XERO\Message\Customers\Responses\CreateContactResponse;
 
 class CreateContactRequest extends AbstractRequest
 {
@@ -32,8 +32,6 @@ class CreateContactRequest extends AbstractRequest
         $this->issetParam($data, 'AccountsPayableTaxType', 'accounts_payable_tax_type');
         $this->issetParam($data, 'Addresses', 'addresses');
         $this->issetParam($data, 'Phones', 'phones');
-        $this->issetParam($data, 'IsSupplier', 'is_supplier');
-        $this->issetParam($data, 'IsCustomer', 'is_customer');
         $this->issetParam($data, 'DefaultCurrency', 'default_currency');
         $this->issetParam($data, 'XeroNetworkKey', 'xero_network_key');
         $this->issetParam($data, 'SalesDefaultAccountCode', 'sales_default_account_code');
@@ -44,6 +42,14 @@ class CreateContactRequest extends AbstractRequest
         $this->issetParam($data, 'TrackingCategoryOption', 'tracking_category_option');
         $this->issetParam($data, 'PaymentTerms', 'payment_terms');
 
+        if($this->getParameter('is_individual')) {
+            $data['IsSupplier'] = false;
+            $data['IsCustomer'] = true;
+        }
+        else {
+            $data['IsSupplier'] = true;
+            $data['IsCustomer'] = false;
+        }
 
         return $data;
     }
@@ -63,7 +69,7 @@ class CreateContactRequest extends AbstractRequest
 
     public function createResponse($data, $headers = [])
     {
-        return $this->response = new CreateCustomerResponse($this, $data, $headers);
+        return $this->response = new CreateContactResponse($this, $data, $headers);
     }
 
 

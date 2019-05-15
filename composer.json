@@ -29,7 +29,8 @@
     "minimum-stability": "dev",
     "require": {
         "php-http/guzzle6-adapter": "*",
-        "pest-register/php-accounting-common": "dev-master"
+        "pest-register/php-accounting-common": "dev-master",
+      "ext-json": "*"
     },
     "prefer-stable": true
 }
