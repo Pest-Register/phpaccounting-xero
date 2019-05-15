@@ -34,13 +34,14 @@ class CreateContactRequest extends AbstractRequest
         $this->issetParam($data, 'Phones', 'phones');
         $this->issetParam($data, 'DefaultCurrency', 'default_currency');
         $this->issetParam($data, 'XeroNetworkKey', 'xero_network_key');
-        $this->issetParam($data, 'SalesDefaultAccountCode', 'sales_default_account_code');
-        $this->issetParam($data, 'PurchasesDefaultAccountCode', 'purchase_default_account_code');
-        $this->issetParam($data, 'SalesTrackingCategories', 'sales_tracking_categories');
-        $this->issetParam($data, 'PurchasesTrackingCategories', 'purchase_tracking_categories');
-        $this->issetParam($data, 'TrackingCategoryName', 'tracking_category_name');
-        $this->issetParam($data, 'TrackingCategoryOption', 'tracking_category_option');
-        $this->issetParam($data, 'PaymentTerms', 'payment_terms');
+        $this->issetParam($data, 'ContactGroups', 'contact_groups');
+//        $this->issetParam($data, 'SalesDefaultAccountCode', 'sales_default_account_code');
+//        $this->issetParam($data, 'PurchasesDefaultAccountCode', 'purchase_default_account_code');
+//        $this->issetParam($data, 'SalesTrackingCategories', 'sales_tracking_categories');
+//        $this->issetParam($data, 'PurchasesTrackingCategories', 'purchase_tracking_categories');
+//        $this->issetParam($data, 'TrackingCategoryName', 'tracking_category_name');
+//        $this->issetParam($data, 'TrackingCategoryOption', 'tracking_category_option');
+//        $this->issetParam($data, 'PaymentTerms', 'payment_terms');
 
         if($this->getParameter('is_individual')) {
             $data['IsSupplier'] = false;
