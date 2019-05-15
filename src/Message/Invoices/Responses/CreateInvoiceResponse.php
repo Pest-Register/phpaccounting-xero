@@ -1,12 +1,12 @@
 <?php
 
-namespace PHPAccounting\XERO\Message\Customers\Responses;
+namespace PHPAccounting\XERO\Message\Invoices\Responses;
 
 
 use PHPAccounting\Common\Message\RequestInterface;
 use Response;
 
-class CreateCustomerResponse extends Response
+class CreateInvoiceResponse extends Response
 {
 
     public function __construct(RequestInterface $request, $data, array $headers = [])

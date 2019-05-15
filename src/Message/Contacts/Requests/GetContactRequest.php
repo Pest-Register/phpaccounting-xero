@@ -1,14 +1,6 @@
 <?php
 
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 13/05/2019
- * Time: 3:25 PM
- */
-
 class GetContactRequest extends AbstractRequest
 {
 

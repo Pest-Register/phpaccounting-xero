@@ -1,15 +1,38 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 14/05/2019
- * Time: 12:45 PM
- */
 
 namespace PHPAccounting\XERO\Message\Invoices\Requests;
 
+use PHPAccounting\XERO\Message\Invoices\Responses\CreateInvoiceResponse;
+use AbstractRequest;
 
-class CreateInvoiceRequest
+class CreateInvoiceRequest extends AbstractRequest
 {
+    public function getData()
+    {
+        $data = [];
 
+        $this->issetParam($data, 'Type', 'type');
+        $this->issetParam($data, 'Contact', 'client');
+        $this->issetParam($data, 'LineItems', 'invoice_data');
+        $this->issetParam($data, 'Date', 'invoice_date');
+        $this->issetParam($data, 'DueDate', 'invoice_due_date');
+
+        return $data;
+    }
+
+    public function sendData($data)
+    {
+        $response = parent::sendData($data);
+        $this->createResponse($response->getData(), $response->getHeaders());
+    }
+
+    public function getEndpoint()
+    {
+        return $this->endpoint . '/Invoices';
+    }
+
+    public function createResponse($data, $headers = [])
+    {
+        return $this->response = new CreateInvoiceResponse($this, $data, $headers);
+    }
 }

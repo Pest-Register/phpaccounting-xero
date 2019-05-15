@@ -2,14 +2,6 @@
 
 use PHPAccounting\XERO\Message\Customers\Responses\CreateCustomerResponse;
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 13/05/2019
- * Time: 3:24 PM
- */
-
 class CreateContactRequest extends AbstractRequest
 {
 
