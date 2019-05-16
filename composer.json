@@ -26,7 +26,6 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
     "require": {
         "php-http/guzzle6-adapter": "*",
         "pest-register/php-accounting-common": "1.0",
