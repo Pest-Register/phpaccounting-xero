@@ -5,6 +5,9 @@ use PHPAccounting\XERO\Message\Customers\Responses\CreateContactResponse;
 class CreateContactRequest extends AbstractRequest
 {
 
+    private function validateAddresses(){
+
+    }
 
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
