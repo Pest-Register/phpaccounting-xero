@@ -9,12 +9,6 @@
             "email": "dylan@pestregister.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/Pest-Register/PHPAccounting-common"
-        }
-    ],
     "require-dev": {
         "phpunit/phpunit": "~7.0"
     },
