@@ -28,7 +28,7 @@
     },
     "require": {
         "php-http/guzzle6-adapter": "*",
-        "pest-register/php-accounting-common": "^1.0",
+        "pest-register/php-accounting-common": "^1.1",
       "ext-json": "*"
     },
     "prefer-stable": true
