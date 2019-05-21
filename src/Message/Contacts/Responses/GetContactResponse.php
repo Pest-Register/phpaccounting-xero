@@ -9,8 +9,10 @@
 namespace PHPAccounting\XERO\Message\Contacts\Responses;
 
 
-use PhpAccounting\Common\Message\AbstractResponse;
-use PhpAccounting\Common\Message\RequestInterface;
+
+
+use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RequestInterface;
 
 class GetContactResponse extends AbstractResponse
 {

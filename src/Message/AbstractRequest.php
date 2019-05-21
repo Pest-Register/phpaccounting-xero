@@ -6,7 +6,8 @@
  * Time: 3:30 PM
  */
 
-class AbstractRequest extends \PHPAccounting\Common\Message\AbstractRequest
+
+class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
     /**

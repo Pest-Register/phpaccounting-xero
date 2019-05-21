@@ -2,8 +2,8 @@
 
 namespace PHPAccounting\XERO\Message\Customers\Responses;
 
-use PHPAccounting\Common\Message\AbstractResponse;
-use PHPAccounting\Common\Message\RequestInterface;
+use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RequestInterface;
 
 class CreateContactResponse extends AbstractResponse
 {

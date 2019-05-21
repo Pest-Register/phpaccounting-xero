@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Omnipay\Omnipay;
 use PHPAccounting\PHPAccounting;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +18,7 @@ class CreateContactTest extends TestCase
 {
 
     public function testHelp(){
-        $gateway = PHPAccounting::create('MYOB');
+        $gateway = Omnipay::create('myob');
         dd($gateway);
     }
 }
