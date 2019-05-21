@@ -1,13 +1,19 @@
 <?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: Dylan
+ * Date: 21/05/2019
+ * Time: 3:05 PM
+ */
 
-namespace PHPAccounting\XERO\Message\Customers\Responses;
+namespace PHPAccounting\XERO\Message\Contacts\Responses;
 
-use PHPAccounting\Common\Message\AbstractResponse;
-use PHPAccounting\Common\Message\RequestInterface;
 
-class CreateContactResponse extends AbstractResponse
+use PhpAccounting\Common\Message\AbstractResponse;
+use PhpAccounting\Common\Message\RequestInterface;
+
+class GetContactResponse extends AbstractResponse
 {
-
     protected $headers;
     public function __construct(RequestInterface $request, $data, $headers = [])
     {
@@ -28,6 +34,7 @@ class CreateContactResponse extends AbstractResponse
     public function getContacts(){
         return $this->data['Contacts'];
     }
+
     public function getHeaders(){
         return $this->headers;
     }

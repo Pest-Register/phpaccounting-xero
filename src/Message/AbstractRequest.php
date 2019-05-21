@@ -16,6 +16,7 @@ class AbstractRequest extends \PHPAccounting\Common\Message\AbstractRequest
      */
     protected $endpoint = 'https://api.xero.com/api.xro/2.0';
 
+    protected $data = [];
 
     /**
      * Get the gateway API Key.
@@ -56,13 +57,12 @@ class AbstractRequest extends \PHPAccounting\Common\Message\AbstractRequest
 
     /**
      * Check if key exists in param bag and add it to array
-     * @param $dataArray
      * @param $xeroKey
-     * @param $localkey
+     * @param $localKey
      */
-    public function issetParam($dataArray, $xeroKey, $localkey){
-        if(array_key_exists($localkey, $this->getParameters())){
-            $dataArray[$xeroKey] = $this->getParameter($localkey);
+    public function issetParam($xeroKey, $localKey){
+        if(array_key_exists($localKey, $this->getParameters())){
+            $this->data[$xeroKey] = $this->getParameter($localKey);
         }
     }
 

@@ -47,26 +47,26 @@ class CreateContactRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('name');
-        $data = [];
 
-        $this->issetParam($data, 'Name', 'name');
-        $this->issetParam($data, 'FirstName', 'first_name');
-        $this->issetParam($data, 'LastName', 'first_name');
-        $this->issetParam($data, 'EmailAddress', 'email_address');
 
-        $data['Phones'] = $this->getPhoneData($this->getParameter('phones'));
-        $data['Addresses'] = $this->getAddressData($this->getParameter('addresses'));
+        $this->issetParam('Name', 'name');
+        $this->issetParam('FirstName', 'first_name');
+        $this->issetParam('LastName', 'first_name');
+        $this->issetParam('EmailAddress', 'email_address');
+
+        $this->data['Phones'] = $this->getPhoneData($this->getParameter('phones'));
+        $this->data['Addresses'] = $this->getAddressData($this->getParameter('addresses'));
 
         if($this->getParameter('is_individual')) {
-            $data['IsSupplier'] = false;
-            $data['IsCustomer'] = true;
+            $this->data['IsSupplier'] = false;
+            $this->data['IsCustomer'] = true;
         }
         else {
-            $data['IsSupplier'] = true;
-            $data['IsCustomer'] = false;
+            $this->data['IsSupplier'] = true;
+            $this->data['IsCustomer'] = false;
         }
 
-        return $data;
+        return $this->data;
     }
 
 
