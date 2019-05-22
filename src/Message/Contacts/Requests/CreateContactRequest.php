@@ -6,6 +6,25 @@ use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
 
 class CreateContactRequest extends AbstractRequest
 {
+    public function setName($value){
+        return $this->setParameter('name', $value);
+    }
+
+    public function setPhones($value){
+        return $this->setParameter('phones', $value);
+    }
+
+    public function setAddresses($value){
+        return $this->setParameter('addresses', $value);
+    }
+
+    public function getPhones(){
+        return $this->getParameter('phones');
+    }
+
+    public function getAddresses(){
+        return $this->getParameter('addresses');
+    }
     /**
      * @param $data
      * @return array
@@ -58,8 +77,8 @@ class CreateContactRequest extends AbstractRequest
         $this->issetParam('LastName', 'first_name');
         $this->issetParam('EmailAddress', 'email_address');
 
-        $this->data['Phones'] = $this->getPhoneData($this->getParameter('phones'));
-        $this->data['Addresses'] = $this->getAddressData($this->getParameter('addresses'));
+        $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
+        $this->data['Addresses'] = ($this->getPhones() != null ? $this->getAddressData($this->getAddresses()) : null);
 
         if($this->getParameter('is_individual')) {
             $this->data['IsSupplier'] = false;
