@@ -38,6 +38,22 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Access Token getters and setters
+     * @return mixed
+     */
+
+    public function getAccessToken()
+    {
+        return $this->getParameter('accessToken');
+    }
+
+    public function setAccessToken($value)
+    {
+        return $this->setParameter('accessToken', $value);
+    }
+
+
+    /**
      * Customer Requests
      * @param array $parameters
      * @return \Omnipay\Common\Message\AbstractRequest

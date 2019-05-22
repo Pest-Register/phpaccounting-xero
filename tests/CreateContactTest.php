@@ -19,9 +19,8 @@ class CreateContactTest extends TestCase
     public function testHelp(){
         try{
             $gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
-            $response = $gateway->createContact([
-                'name' => 'dolan'
-            ])->send()->isSuccessful();
+            $gateway->setAccessToken('GDM0FMI4FA8NEQGVBGGHBD9FEUDIHY');
+            $response = $gateway->getContact()->send()->getContacts();
             var_dump($response);
         }catch (\Exception $exception){
             var_dump($exception);

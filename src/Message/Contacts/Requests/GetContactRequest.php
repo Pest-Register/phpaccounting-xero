@@ -46,4 +46,16 @@ class GetContactRequest extends AbstractRequest
         return $this->response = new GetContactResponse($this, $data, $headers);
     }
 
+    /**
+     * Get HTTP Method.
+     *
+     * This is nearly always POST but can be over-ridden in sub classes.
+     *
+     * @return string
+     */
+    public function getHttpMethod()
+    {
+        return 'GET';
+    }
+
 }

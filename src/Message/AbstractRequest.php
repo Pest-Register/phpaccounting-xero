@@ -86,6 +86,8 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         $headers = array();
 
+        $headers['oauth_consumer_key'] = 'LEFVEZ26CAJQXOBLKNZGE5KDAY2HP3';
+        $headers['oauth_token'] = $this->getAccessToken();
         return $headers;
     }
     /**
