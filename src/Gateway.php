@@ -44,11 +44,11 @@ class Gateway extends AbstractGateway
      */
 
     public function createContact(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\CreateCustomerRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\CreateContactRequest', $parameters);
     }
 
-    public function updateCustomer(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\UpdateCustomerRequest', $parameters);
+    public function updateContact(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\UpdateContactRequest', $parameters);
     }
 
     public function getContact(array $parameters = []){

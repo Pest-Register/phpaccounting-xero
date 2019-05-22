@@ -3,7 +3,6 @@
 namespace Tests;
 
 use Omnipay\Omnipay;
-use PHPAccounting\PHPAccounting;
 use PHPUnit\Framework\TestCase;
 
 
