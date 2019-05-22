@@ -1,6 +1,8 @@
 <?php
+namespace PHPAccounting\Xero;
 
-use PHPAccounting\Common\AbstractGateway;
+use Omnipay\Common\AbstractGateway;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +34,7 @@ class Gateway extends AbstractGateway
      */
     public function getName()
     {
-        return 'MYOB';
+        return 'Xero';
     }
 
     /**
@@ -50,26 +52,26 @@ class Gateway extends AbstractGateway
     }
 
     public function getContact(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\XERO\Message\Customers\Requests\GetContactRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Customers\Requests\GetContactRequest', $parameters);
     }
 
     public function deleteContact(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\XERO\Message\Customers\Requests\DeleteContactRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Customers\Requests\DeleteContactRequest', $parameters);
     }
 
     public function createInvoice(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\XERO\Message\Invoices\Requests\CreateInvoiceRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\CreateInvoiceRequest', $parameters);
     }
 
     public function updateInvoice(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\XERO\Message\Invoices\Requests\UpdateInvoiceRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\UpdateInvoiceRequest', $parameters);
     }
 
     public function getInvoice(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\XERO\Message\Invoices\Requests\GetInvoiceRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\GetInvoiceRequest', $parameters);
     }
 
     public function deleteInvoice(array $parameters = []){
-        return $this->createRequest('\PhpAccounting\XERO\Message\Invoices\Requests\DeleteInvoiceRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\DeleteInvoiceRequest', $parameters);
     }
 }

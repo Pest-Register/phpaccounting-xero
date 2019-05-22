@@ -1,4 +1,5 @@
 <?php
+namespace PHPAccounting\Xero\Message;
 
 use Omnipay\Common\Message\RequestInterface;
 

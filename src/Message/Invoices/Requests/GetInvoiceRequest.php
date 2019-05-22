@@ -6,7 +6,7 @@
  * Time: 12:46 PM
  */
 
-namespace PHPAccounting\XERO\Message\Invoices\Requests;
+namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
 
 class GetInvoiceRequest

@@ -6,7 +6,7 @@
  * Time: 4:40 PM
  */
 
-namespace PHPAccounting\XERO\Message\Contacts\Requests;
+namespace PHPAccounting\Xero\Message\Contacts\Requests;
 
 
 use AbstractRequest;

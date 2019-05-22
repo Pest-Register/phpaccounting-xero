@@ -1,7 +1,6 @@
 <?php
 
-namespace PHPAccounting\XERO\Message\Customers\Responses;
-
+namespace PHPAccounting\Xero\Message\Contacts\Responses;
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 

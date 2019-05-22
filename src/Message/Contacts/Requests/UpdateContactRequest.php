@@ -6,11 +6,10 @@
  * Time: 4:36 PM
  */
 
-namespace PHPAccounting\XERO\Message\Customers\Requests;
-
+namespace PHPAccounting\Xero\Message\Contacts\Requests;
 
 use AbstractRequest;
-use PHPAccounting\XERO\Message\Contacts\Responses\UpdateContactResponse;
+use PHPAccounting\Xero\Message\Contacts\Responses\UpdateContactResponse;
 
 class UpdateContactRequest extends AbstractRequest
 {
@@ -46,7 +45,7 @@ class UpdateContactRequest extends AbstractRequest
         $this->issetParam($data, 'IsSupplier', 'is_supplier');
         $this->issetParam($data, 'IsCustomer', 'is_customer');
         $this->issetParam($data, 'DefaultCurrency', 'default_currency');
-        $this->issetParam($data, 'XeroNetworkKey', 'xero_network_key');
+        $this->issetParam($data, 'XeroNetworkKey', 'Xero_network_key');
         $this->issetParam($data, 'SalesDefaultAccountCode', 'sales_default_account_code');
         $this->issetParam($data, 'PurchasesDefaultAccountCode', 'purchase_default_account_code');
         $this->issetParam($data, 'SalesTrackingCategories', 'sales_tracking_categories');

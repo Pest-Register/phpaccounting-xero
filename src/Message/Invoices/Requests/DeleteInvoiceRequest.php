@@ -6,7 +6,7 @@
  * Time: 12:45 PM
  */
 
-namespace PHPAccounting\XERO\Message\Invoices\Requests;
+namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
 
 class DeleteInvoiceRequest

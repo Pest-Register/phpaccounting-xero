@@ -6,6 +6,7 @@
  * Time: 3:30 PM
  */
 
+namespace PHPAccounting\Xero\Message;
 
 class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -15,7 +16,7 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      *
      * @var string URL
      */
-    protected $endpoint = 'https://api.xero.com/api.xro/2.0';
+    protected $endpoint = 'https://api.Xero.com/api.xro/2.0';
 
     protected $data = [];
 
@@ -58,12 +59,12 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * Check if key exists in param bag and add it to array
-     * @param $xeroKey
+     * @param $XeroKey
      * @param $localKey
      */
-    public function issetParam($xeroKey, $localKey){
+    public function issetParam($XeroKey, $localKey){
         if(array_key_exists($localKey, $this->getParameters())){
-            $this->data[$xeroKey] = $this->getParameter($localKey);
+            $this->data[$XeroKey] = $this->getParameter($localKey);
         }
     }
 

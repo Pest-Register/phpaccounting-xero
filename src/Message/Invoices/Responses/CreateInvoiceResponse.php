@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPAccounting\XERO\Message\Invoices\Responses;
+namespace PHPAccounting\Xero\Message\Invoices\Responses;
 
 
 

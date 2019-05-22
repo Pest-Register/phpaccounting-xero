@@ -1,6 +1,6 @@
 {
     "name": "pest-register/php-accounting-xero",
-    "description": "XERO package for PHP Accounting",
+    "description": "Xero package for PHP Accounting",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,7 @@
         "phpunit/phpunit": "~7.0"
     },
     "autoload": {
-        "psr-4": { "PHPAccounting\\XERO\\" : "src/" }
+        "psr-4": { "PHPAccounting\\Xero\\" : "src/" }
     },
     "autoload-dev": {
         "psr-4": {

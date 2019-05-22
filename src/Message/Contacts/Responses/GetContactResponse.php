@@ -6,7 +6,7 @@
  * Time: 3:05 PM
  */
 
-namespace PHPAccounting\XERO\Message\Contacts\Responses;
+namespace PHPAccounting\Xero\Message\Contacts\Responses;
 
 
 

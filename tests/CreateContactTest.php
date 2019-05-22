@@ -18,7 +18,7 @@ class CreateContactTest extends TestCase
 {
 
     public function testHelp(){
-        $gateway = Omnipay::create('myob');
-        dd($gateway);
+        $gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
+        var_dump($gateway);
     }
 }
