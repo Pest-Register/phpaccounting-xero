@@ -40,7 +40,6 @@ class Gateway extends AbstractGateway
         return 'Xero';
     }
 
-
     /**
      * Access Token getters and setters
      * @return mixed
@@ -64,15 +63,7 @@ class Gateway extends AbstractGateway
 
     }
 
-    public function setConsumerKey($value) {
-
-    }
-
     public function getConsumerSecret() {
-
-    }
-
-    public function setConsumerSecret() {
 
     }
 
@@ -81,11 +72,7 @@ class Gateway extends AbstractGateway
      * @return mixed
      */
     public function getTokenSecret() {
-
-    }
-
-    public function setTokenSecret($value) {
-
+        return $this->getParameter('tokenSecret');
     }
 
     /**
@@ -96,15 +83,7 @@ class Gateway extends AbstractGateway
 
     }
 
-    public function setSignatureMethod($value) {
-
-    }
-
     public function getSignature() {
-
-    }
-
-    public function setSignature($value) {
 
     }
 
@@ -112,15 +91,7 @@ class Gateway extends AbstractGateway
 
     }
 
-    public function setSignatureSecret($value) {
-
-    }
-
     public function getSignatureBaseString() {
-
-    }
-
-    public function setSignatureBaseString($value) {
 
     }
 
@@ -132,16 +103,16 @@ class Gateway extends AbstractGateway
 
     }
 
-    public function setOauthVerifier($value) {
-
-    }
-
-    public function getOauthParameters() {
-
-    }
-
-    public function setOauthParameters($value) {
-
+    public function setOauthParameters() {
+        $this->setParameter('oauth_consumer_key', $this->getConsumerKey());
+        $this->setParameter('oauth_signature_method', $this->getSignatureMethod());
+        $this->setParameter('oauth_timestamp', time());
+        $this->setParameter('oauth_nonce', $this->getNonce());
+        $this->setParameter('oauth_callback', $this->getCallbackURL());
+        $this->setParameter('oauth_version', 1.0);
+        $this->setParameter('oauth_token', $this->getAccessToken());
+        $this->setParameter('oauth_verifier', $this->getOauthVerifier());
+        $this->setParameter('oauth_signature', $this->getSignature());
     }
 
     /** Callback getters and setters
@@ -151,15 +122,7 @@ class Gateway extends AbstractGateway
 
     }
 
-    public function setCallbackURL($value) {
-
-    }
-
     public function getNonce() {
-
-    }
-
-    public function setNonce($value) {
 
     }
 
