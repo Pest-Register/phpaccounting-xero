@@ -25,7 +25,10 @@ use Omnipay\Common\AbstractGateway;
 
 class Gateway extends AbstractGateway
 {
-
+    const OAUTH_SIGNATURE_RSA_SHA1 = 'RSA-SHA1';
+    const OAUTH_SIGNATURE_HMAC_SHA1 = 'HMAC-SHA1';
+    const OAUTH_SIGNATURE_PLAINTEXT = 'PLAINTEXT';
+    
     /**
      * Get gateway display name
      *
@@ -36,6 +39,7 @@ class Gateway extends AbstractGateway
     {
         return 'Xero';
     }
+
 
     /**
      * Access Token getters and setters
@@ -52,6 +56,112 @@ class Gateway extends AbstractGateway
         return $this->setParameter('accessToken', $value);
     }
 
+    /**
+     * Consumer Key getters and setters
+     * @return mixed
+     */
+    public function getConsumerKey() {
+
+    }
+
+    public function setConsumerKey($value) {
+
+    }
+
+    public function getConsumerSecret() {
+
+    }
+
+    public function setConsumerSecret() {
+
+    }
+
+    /**
+     * Token Secret getters and setters
+     * @return mixed
+     */
+    public function getTokenSecret() {
+
+    }
+
+    public function setTokenSecret($value) {
+
+    }
+
+    /**
+     * Signature Methods getters and setters
+     * @return mixed
+     */
+    public function getSignatureMethod() {
+
+    }
+
+    public function setSignatureMethod($value) {
+
+    }
+
+    public function getSignature() {
+
+    }
+
+    public function setSignature($value) {
+
+    }
+
+    public function getSignatureSecret() {
+
+    }
+
+    public function setSignatureSecret($value) {
+
+    }
+
+    public function getSignatureBaseString() {
+
+    }
+
+    public function setSignatureBaseString($value) {
+
+    }
+
+    /**
+     * OAuth Verifier and Params getters and setters
+     * @return mixed
+     */
+    public function getOauthVerifier() {
+
+    }
+
+    public function setOauthVerifier($value) {
+
+    }
+
+    public function getOauthParameters() {
+
+    }
+
+    public function setOauthParameters($value) {
+
+    }
+
+    /** Callback getters and setters
+     * @return mixed
+     */
+    public function getCallbackURL() {
+
+    }
+
+    public function setCallbackURL($value) {
+
+    }
+
+    public function getNonce() {
+
+    }
+
+    public function setNonce($value) {
+
+    }
 
     /**
      * Customer Requests
