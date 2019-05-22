@@ -2,8 +2,9 @@
 
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
+use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\CreateInvoiceResponse;
-use AbstractRequest;
+
 
 class CreateInvoiceRequest extends AbstractRequest
 {

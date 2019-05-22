@@ -40,23 +40,23 @@ class Gateway extends AbstractGateway
     /**
      * Customer Requests
      * @param array $parameters
-     * @return \PhpAccounting\Common\Message\AbstractRequest
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
 
-    public function createCustomer(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\MYOB\Message\Customers\Requests\CreateCustomerRequest', $parameters);
+    public function createContact(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\CreateCustomerRequest', $parameters);
     }
 
     public function updateCustomer(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\MYOB\Message\Customers\Requests\CreateCustomerRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\UpdateCustomerRequest', $parameters);
     }
 
     public function getContact(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\Xero\Message\Customers\Requests\GetContactRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\GetContactRequest', $parameters);
     }
 
     public function deleteContact(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\Xero\Message\Customers\Requests\DeleteContactRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\DeleteContactRequest', $parameters);
     }
 
     public function createInvoice(array $parameters = []){

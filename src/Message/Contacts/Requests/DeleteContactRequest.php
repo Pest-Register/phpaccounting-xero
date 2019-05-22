@@ -8,8 +8,7 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 
-
-use AbstractRequest;
+use PHPAccounting\Xero\Message\AbstractRequest;
 
 class DeleteContactRequest extends AbstractRequest
 {

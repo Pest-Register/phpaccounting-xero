@@ -8,7 +8,7 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 
-use AbstractRequest;
+use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\UpdateContactResponse;
 
 class UpdateContactRequest extends AbstractRequest

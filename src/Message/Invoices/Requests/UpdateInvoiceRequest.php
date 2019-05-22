@@ -9,8 +9,9 @@
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
 
-use PHPAccounting\Common\Message\AbstractRequest;
-use PHPAccounting\Common\Message\ResponseInterface;
+
+
+use PHPAccounting\Xero\Message\AbstractRequest;
 
 class UpdateInvoiceRequest extends AbstractRequest
 {

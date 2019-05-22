@@ -1,7 +1,8 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
-use PHPAccounting\Xero\Message\Customers\Responses\CreateContactResponse;
+use PHPAccounting\Xero\Message\AbstractRequest;
+use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
 
 class CreateContactRequest extends AbstractRequest
 {
