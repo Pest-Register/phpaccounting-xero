@@ -17,7 +17,7 @@ class GetContactRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->issetParam('ContactID', 'contact_id');
+        $this->issetParam('ContactID', 'accounting_id');
         return $this->data;
     }
 

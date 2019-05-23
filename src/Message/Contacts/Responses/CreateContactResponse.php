@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
 use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
+
 
 class CreateContactResponse extends AbstractResponse
 {
