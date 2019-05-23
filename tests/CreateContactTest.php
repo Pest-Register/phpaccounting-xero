@@ -20,6 +20,9 @@ class CreateContactTest extends TestCase
         try{
             $gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
             $gateway->setAccessToken('GDM0FMI4FA8NEQGVBGGHBD9FEUDIHY');
+            $gateway->setOauthParameters([
+
+            ]);
             $response = $gateway->getContact()->send()->getContacts();
             var_dump($response);
         }catch (\Exception $exception){

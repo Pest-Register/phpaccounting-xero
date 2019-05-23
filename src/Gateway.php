@@ -59,6 +59,12 @@ class Gateway extends AbstractGateway
      * Consumer Key getters and setters
      * @return mixed
      */
+
+
+
+    public function setConsumerKey($value){
+        return $this->setParameter('');
+    }
     public function getConsumerKey() {
 
     }
@@ -103,7 +109,7 @@ class Gateway extends AbstractGateway
 
     }
 
-    public function setOauthParameters() {
+    public function setOauthParameters($data) {
         $this->setParameter('oauth_consumer_key', $this->getConsumerKey());
         $this->setParameter('oauth_signature_method', $this->getSignatureMethod());
         $this->setParameter('oauth_timestamp', time());

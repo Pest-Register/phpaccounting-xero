@@ -95,6 +95,10 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function sendData($data)
     {
+        //Sign request
+
+        
+
         $headers = array_merge(
             $this->getHeaders(),
             array('Authorization' => 'Basic ' . base64_encode($this->getAccessToken() . ':'))
