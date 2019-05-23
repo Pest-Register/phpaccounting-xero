@@ -96,6 +96,15 @@ class CreateContactRequest extends AbstractRequest
 
     public function sendData($data)
     {
+        $xero = new \XeroPHP\Application\PartnerApplication($config);
+
+        $contact = new Contact($xero);
+
+        $contact->setName('Test Contact')
+            ->setFirstName('Test')
+            ->setLastName('Contact')
+            ->setEmailAddress('test@example.com');
+
         $response = parent::sendData($data);
         $this->createResponse($response->getData(), $response->getHeaders());
     }

@@ -23,7 +23,8 @@
     "require": {
         "php-http/guzzle6-adapter": "*",
         "ext-json": "*",
-        "omnipay/common": "^3.0"
+        "omnipay/common": "^3.0",
+        "calcinai/xero-php": "^1.8"
     },
     "prefer-stable": true
 }

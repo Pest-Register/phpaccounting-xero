@@ -8,6 +8,9 @@
 
 namespace PHPAccounting\Xero\Message;
 
+use Omnipay\Common\Http\ClientInterface;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
+
 class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
@@ -16,9 +19,16 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      *
      * @var string URL
      */
-    protected $endpoint = 'https://api.Xero.com/api.xro/2.0';
+    protected $xeroInstance;
 
     protected $data = [];
+
+
+    public function __construct(ClientInterface $httpClient, HttpRequest $httpRequest)
+    {
+
+        parent::__construct($httpClient, $httpRequest);
+    }
 
     /**
      * Get the gateway API Key.
@@ -97,7 +107,7 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         //Sign request
 
-        
+
 
         $headers = array_merge(
             $this->getHeaders(),
