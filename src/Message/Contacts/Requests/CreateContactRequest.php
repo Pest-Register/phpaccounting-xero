@@ -3,6 +3,8 @@
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
+use XeroPHP\Models\Accounting\Address;
+use XeroPHP\Models\Accounting\Contact;
 
 class CreateContactRequest extends AbstractRequest
 {
@@ -96,27 +98,29 @@ class CreateContactRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        $xero = new \XeroPHP\Application\PartnerApplication($config);
+        try {
+            $xero = $this->createXeroApplication();
+            $contact = new Contact($xero);
+            foreach ($data as $key => $value){
+                $methodName = 'set'. $key;
+                $contact->$methodName($value);
+            }
+            $response = $contact->save();
 
-        $contact = new Contact($xero);
+        } catch (\Exception $exception){
+            $response = [
+                'status' => 'error',
+                'detail' => 'Exception when creating transaction: ', $exception->getMessage()
+            ];
+        }
 
-        $contact->setName('Test Contact')
-            ->setFirstName('Test')
-            ->setLastName('Contact')
-            ->setEmailAddress('test@example.com');
+        $this->createResponse($response);
 
-        $response = parent::sendData($data);
-        $this->createResponse($response->getData(), $response->getHeaders());
     }
 
-    public function getEndpoint()
+    public function createResponse($data)
     {
-        return $this->endpoint . '/Contacts';
-    }
-
-    public function createResponse($data, $headers = [])
-    {
-        return $this->response = new CreateContactResponse($this, $data, $headers);
+        return $this->response = new CreateContactResponse($this, $data);
     }
 
 

@@ -3,6 +3,8 @@
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
+use XeroPHP\Models\Accounting\Contact;
+use XeroPHP\Remote\Request;
 
 class GetContactRequest extends AbstractRequest
 {
@@ -23,39 +25,34 @@ class GetContactRequest extends AbstractRequest
      * Send the request with specified data
      *
      * @param  mixed $data The data to send
-     * @return void
+     * @return GetContactResponse
      */
 
     public function sendData($data)
     {
-        $response = parent::sendData($data);
-        $this->createResponse($response->getData(), $response->getHeaders());
-    }
+        try {
+            $xero = $this->createXeroApplication();
+            $xero->getOAuthClient()->setToken($this->getAccessToken());
+            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
 
-    public function getEndpoint()
-    {
-        //check if they are singling out a user or returning all of them
-        if(array_key_exists('ContactID', $this->data)){
-            return $this->endpoint. '/Contacts/'. $this->data['ContactID'];
+            $contacts = $xero->load(Contact::class)
+                ->where('ContactStatus', Contact::CONTACT_STATUS_ACTIVE)
+                ->execute();
+            $response = $contacts;
+
+        } catch (\Exception $exception){
+            $response = [
+                'status' => 'error',
+                'detail' => 'Exception when creating transaction: ', $exception->getMessage()
+            ];
         }
-        return $this->endpoint . '/Contacts';
+
+        return $this->createResponse($response);
     }
 
-    public function createResponse($data, $headers = [])
+    public function createResponse($data)
     {
-        return $this->response = new GetContactResponse($this, $data, $headers);
-    }
-
-    /**
-     * Get HTTP Method.
-     *
-     * This is nearly always POST but can be over-ridden in sub classes.
-     *
-     * @return string
-     */
-    public function getHttpMethod()
-    {
-        return 'GET';
+        return $this->response = new GetContactResponse($this, $data);
     }
 
 }

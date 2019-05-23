@@ -60,77 +60,24 @@ class Gateway extends AbstractGateway
      * @return mixed
      */
 
-
-
-    public function setConsumerKey($value){
-        return $this->setParameter('');
-    }
-    public function getConsumerKey() {
-
-    }
-
-    public function getConsumerSecret() {
-
+    public function setXeroConfig($value){
+        return $this->setParameter('xeroConfig', $value);
     }
 
     /**
      * Token Secret getters and setters
      * @return mixed
      */
-    public function getTokenSecret() {
-        return $this->getParameter('tokenSecret');
+
+    public function setAccessTokenSecret($value)
+    {
+        return $this->setParameter('accessTokenSecret', $value);
     }
 
-    /**
-     * Signature Methods getters and setters
-     * @return mixed
-     */
-    public function getSignatureMethod() {
-
+    public function getAccessTokenSecret() {
+        return $this->getParameter('accessTokenSecret');
     }
 
-    public function getSignature() {
-
-    }
-
-    public function getSignatureSecret() {
-
-    }
-
-    public function getSignatureBaseString() {
-
-    }
-
-    /**
-     * OAuth Verifier and Params getters and setters
-     * @return mixed
-     */
-    public function getOauthVerifier() {
-
-    }
-
-    public function setOauthParameters($data) {
-        $this->setParameter('oauth_consumer_key', $this->getConsumerKey());
-        $this->setParameter('oauth_signature_method', $this->getSignatureMethod());
-        $this->setParameter('oauth_timestamp', time());
-        $this->setParameter('oauth_nonce', $this->getNonce());
-        $this->setParameter('oauth_callback', $this->getCallbackURL());
-        $this->setParameter('oauth_version', 1.0);
-        $this->setParameter('oauth_token', $this->getAccessToken());
-        $this->setParameter('oauth_verifier', $this->getOauthVerifier());
-        $this->setParameter('oauth_signature', $this->getSignature());
-    }
-
-    /** Callback getters and setters
-     * @return mixed
-     */
-    public function getCallbackURL() {
-
-    }
-
-    public function getNonce() {
-
-    }
 
     /**
      * Customer Requests

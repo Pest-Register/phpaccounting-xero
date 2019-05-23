@@ -8,8 +8,7 @@
 
 namespace PHPAccounting\Xero\Message;
 
-use Omnipay\Common\Http\ClientInterface;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Omnipay\Common\Message\ResponseInterface;
 
 class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -23,38 +22,51 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     protected $data = [];
 
-
-    public function __construct(ClientInterface $httpClient, HttpRequest $httpRequest)
-    {
-
-        parent::__construct($httpClient, $httpRequest);
-    }
-
-    /**
-     * Get the gateway API Key.
-     *
-     * @return string
-     */
-    public function getApiKey()
-    {
-        return $this->getParameter('apiKey');
-    }
-    /**
-     * Set the gateway API Key.
-     *
-     * @return AbstractRequest provides a fluent interface.
-     */
-    public function setApiKey($value)
-    {
-        return $this->setParameter('apiKey', $value);
-    }
-
     /**
      * Get Access Token
      */
 
     public function getAccessToken(){
         return $this->getParameter('accessToken');
+    }
+
+    public function setXeroConfig($value){
+        return $this->setParameter('xeroConfig', $value);
+    }
+
+    public function getXeroConfig(){
+        return $this->getParameter('xeroConfig');
+    }
+
+    public function getAccessTokenSecret() {
+        return $this->getParameter('accessTokenSecret');
+    }
+
+    public function setAccessTokenSecret($value) {
+        return $this->setParameter('accessTokenSecret', $value);
+    }
+
+    protected function createXeroApplication(){
+        $value  = $this->getXeroConfig();
+        $type = $value['type'];
+        switch ($type) {
+            case "private":
+                $this->xeroInstance = new \XeroPHP\Application\PrivateApplication($value['config']);
+                break;
+            case "public":
+                $this->xeroInstance = new \XeroPHP\Application\PublicApplication($value['config']);
+                break;
+            case "partner":
+                $this->xeroInstance = new \XeroPHP\Application\PartnerApplication($value['config']);
+                break;
+            default:
+                throw new \Exception('Application type must be set');
+        }
+        return $this->xeroInstance;
+    }
+
+    public function getXeroInstance(){
+        return $this->xeroInstance;
     }
 
     /**
@@ -92,36 +104,6 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * @return array
      */
-    public function getHeaders()
-    {
-        $headers = array();
-
-        $headers['oauth_consumer_key'] = 'LEFVEZ26CAJQXOBLKNZGE5KDAY2HP3';
-        $headers['oauth_token'] = $this->getAccessToken();
-        return $headers;
-    }
-    /**
-     * {@inheritdoc}
-     */
-    public function sendData($data)
-    {
-        //Sign request
-
-
-
-        $headers = array_merge(
-            $this->getHeaders(),
-            array('Authorization' => 'Basic ' . base64_encode($this->getAccessToken() . ':'))
-        );
-        $body = $data ? http_build_query($data, '', '&') : null;
-        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
-        return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
-    }
-
-    protected function createResponse($data, $headers = [])
-    {
-        return $this->response = new Response($this, $data, $headers);
-    }
 
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
@@ -132,5 +114,17 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function getData()
     {
         // TODO: Implement getData() method.
+    }
+
+    /**
+     * Send the request with specified data
+     *
+     * @param  mixed $data The data to send
+     * @return ResponseInterface
+     */
+    public function sendData($data)
+    {
+        parent::sendData($data);
+        // TODO: Implement sendData() method.
     }
 }
