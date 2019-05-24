@@ -25,10 +25,6 @@ use Omnipay\Common\AbstractGateway;
 
 class Gateway extends AbstractGateway
 {
-    const OAUTH_SIGNATURE_RSA_SHA1 = 'RSA-SHA1';
-    const OAUTH_SIGNATURE_HMAC_SHA1 = 'HMAC-SHA1';
-    const OAUTH_SIGNATURE_PLAINTEXT = 'PLAINTEXT';
-    
     /**
      * Get gateway display name
      *
@@ -93,6 +89,14 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\UpdateContactRequest', $parameters);
     }
 
+    /**
+     * Get One or Multiple Contacts
+     * @param array $parameters
+     * @bodyParam array $parameters
+     * @bodyParam parameters.page int optional Page Index for Pagination
+     * @bodyParam parameters.accountingIDs array optional Array of GUIDs for Contact Retrieval / Filtration
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
     public function getContact(array $parameters = []){
         return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\GetContactRequest', $parameters);
     }

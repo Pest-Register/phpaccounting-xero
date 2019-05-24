@@ -6,6 +6,14 @@ use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Remote\Request;
 
+/**
+ * Get One or Multiple Contacts
+ * @param array $parameters
+ * @bodyParam array $parameters
+ * @bodyParam parameters.page int optional Page Index for Pagination
+ * @bodyParam parameters.accountingIDs array optional Array of GUIDs for Contact Retrieval / Filtration
+ * @return \Omnipay\Common\Message\AbstractRequest
+ */
 class GetContactRequest extends AbstractRequest
 {
 
@@ -15,10 +23,32 @@ class GetContactRequest extends AbstractRequest
      *
      * @return mixed
      */
-    public function getData()
-    {
-        $this->issetParam('ContactID', 'accounting_id');
-        return $this->data;
+
+    /**
+     * @param $value
+     * @return GetContactRequest
+     */
+    public function setAccountingIDs($value) {
+        return $this->setParameter('accountingIDs', $value);
+    }
+
+    public function setPage($value) {
+        return $this->setParameter('page', $value);
+    }
+
+    /**
+     * Return comma delimited string of accounting IDs
+     * @return mixed
+     */
+    public function getAccountingIDs() {
+        return  implode(', ',$this->getParameter('accountingIDs'));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPage() {
+        return $this->getParameter('page');
     }
 
     /**
@@ -35,9 +65,11 @@ class GetContactRequest extends AbstractRequest
             $xero->getOAuthClient()->setToken($this->getAccessToken());
             $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
 
-            $contacts = $xero->load(Contact::class)
-                ->where('ContactStatus', Contact::CONTACT_STATUS_ACTIVE)
-                ->execute();
+            if ($this->getAccountingIDs()) {
+                $contacts = $xero->loadByGUIDs(Contact::class, $this->getAccountingIDs());
+            } else {
+                $contacts = $xero->load(Contact::class)->execute();
+            }
             $response = $contacts;
 
         } catch (\Exception $exception){

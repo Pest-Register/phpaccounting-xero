@@ -2,6 +2,7 @@
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
+use XeroPHP\Models\Accounting\Phone;
 
 /**
  * Class GetContactResponse
@@ -76,7 +77,7 @@ class GetContactResponse extends AbstractResponse
     private function parsePhones($data, $contact) {
         if ($data) {
             foreach($data as $phone) {
-                $phoneNumber = $phone->getPhoneAreaCode().$phone->getPhoneNumber();
+                $phoneNumber = $phone->getPhoneCountryCode().$phone->getPhoneAreaCode().$phone->getPhoneNumber();
                 switch($phone->getPhoneType()){
                     case 'DEFAULT':
                         $contact['business_hours_phone'] = $phoneNumber;
@@ -108,7 +109,7 @@ class GetContactResponse extends AbstractResponse
             $newContact['email_address'] = $contact->getEmailAddress();
             $newContact['website'] = $contact->getWebsite();
             $newContact['type'] = ($contact->getIsSupplier() ? 'SUPPLIER' : 'CUSTOMER');
-            $newContact['is_individual'] = $contact->getIsCustomer();
+            $newContact['is_individual'] = !$contact->getIsSupplier();
             $newContact['bank_account_details'] = $contact->getBankAccountDetails();
             $newContact['tax_number'] = $contact->getTaxNumber();
             $newContact['accounts_receivable_tax_type'] = $contact->getAccountsReceivableTaxType();
