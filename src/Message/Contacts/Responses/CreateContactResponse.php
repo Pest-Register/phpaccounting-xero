@@ -18,6 +18,6 @@ class CreateContactResponse extends AbstractResponse
     }
 
     public function getContacts(){
-        return $this->data['Contacts'];
+        return $this->data;
     }
 }

@@ -1,23 +1,18 @@
 <?php
-
-namespace Tests;
-
-use Omnipay\Omnipay;
-use PHPUnit\Framework\TestCase;
-use XeroPHP\Remote\Collection;
-
-
 /**
  * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 14/05/2019
- * Time: 9:54 AM
+ * User: MaxYendall
+ * Date: 24/05/2019
+ * Time: 3:31 PM
  */
 
-class GetContactTest extends TestCase
-{
+namespace Tests;
+use Omnipay\Omnipay;
+use PHPUnit\Framework\TestCase;
 
-    public function testGetContacts()
+class CreateContactTest extends TestCase
+{
+    public function testCreateContacts()
     {
         try {
             $gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
@@ -27,21 +22,24 @@ class GetContactTest extends TestCase
                     'oauth' => [
                         'callback' => 'localhost',
                         'signature_method' => \XeroPHP\Remote\OAuth\Client::SIGNATURE_HMAC_SHA1,
-                        'consumer_key' => 'LEFVEZ26CAJQXOBLKNZGE5KDAY2HP3',
-                        'consumer_secret' => 'LIYZTFSOCIIZUWEYIQBVPHJS8VG39D',
+                        'consumer_key' => '',
+                        'consumer_secret' => '',
                         'signature_location' => \XeroPHP\Remote\OAuth\Client::SIGN_LOCATION_QUERY
                     ]
                 ]
             ];
             $gateway->setXeroConfig($config);
-            $gateway->setAccessToken('3XO4ECQIGEGLACV4UPPAXSTJ0UQ1AO');
-            $gateway->setAccessTokenSecret('7JTQX9IDKUQIEV3ODSPPQLEVHIG1Q0');
+            $gateway->setAccessToken('');
+            $gateway->setAccessTokenSecret('');
             $params = [
-                'accountingIDs' => ["50a40408-2e0b-4337-bbf8-de749be9fc9d"],
-                'page' => 1
+                'name' => 'Test Account',
+                'first_name' => 'Test',
+                'last_name' => 'Account',
+                'email_address' => 'test@pestregister.com',
+                'is_individual' => true
             ];
 
-            $response = $gateway->getContact($params)->send();
+            $response = $gateway->createContact($params)->send();
             if ($response->isSuccessful()) {
                 var_dump($response->getContacts());
             }

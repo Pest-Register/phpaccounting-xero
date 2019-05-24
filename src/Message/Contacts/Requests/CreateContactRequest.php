@@ -2,8 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
-use XeroPHP\Models\Accounting\Address;
+use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use XeroPHP\Models\Accounting\Contact;
 
 class CreateContactRequest extends AbstractRequest
@@ -73,14 +72,13 @@ class CreateContactRequest extends AbstractRequest
     {
         $this->validate('name');
 
-
         $this->issetParam('Name', 'name');
         $this->issetParam('FirstName', 'first_name');
-        $this->issetParam('LastName', 'first_name');
+        $this->issetParam('LastName', 'last_name');
         $this->issetParam('EmailAddress', 'email_address');
 
-        $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
-        $this->data['Addresses'] = ($this->getPhones() != null ? $this->getAddressData($this->getAddresses()) : null);
+//        $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
+//        $this->data['Addresses'] = ($this->getPhones() != null ? $this->getAddressData($this->getAddresses()) : null);
 
         if($this->getParameter('is_individual')) {
             $this->data['IsSupplier'] = false;
@@ -100,6 +98,9 @@ class CreateContactRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
+            $xero->getOAuthClient()->setToken($this->getAccessToken());
+            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
+
             $contact = new Contact($xero);
             foreach ($data as $key => $value){
                 $methodName = 'set'. $key;
@@ -113,14 +114,14 @@ class CreateContactRequest extends AbstractRequest
                 'detail' => 'Exception when creating transaction: ', $exception->getMessage()
             ];
         }
-
+        var_dump($response);
         $this->createResponse($response);
 
     }
 
     public function createResponse($data)
     {
-        return $this->response = new CreateContactResponse($this, $data);
+        return $this->response = new GetContactResponse($this, $data);
     }
 
 
