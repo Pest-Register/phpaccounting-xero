@@ -78,7 +78,6 @@ class GetContactRequest extends AbstractRequest
                 'detail' => 'Exception when creating transaction: ', $exception->getMessage()
             ];
         }
-
         return $this->createResponse($response);
     }
 

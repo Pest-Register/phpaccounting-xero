@@ -2,23 +2,13 @@
 
 namespace Tests;
 
+use Faker;
 use Omnipay\Omnipay;
-use PHPUnit\Framework\TestCase;
-use XeroPHP\Remote\Collection;
-
-
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 14/05/2019
- * Time: 9:54 AM
- */
-
-class GetContactTest extends TestCase
+class UpdateContactTest
 {
-
-    public function testGetContacts()
+    public function testUpdateContact()
     {
+        $faker = Faker\Factory::create();
         try {
             $gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
             $config = [
@@ -37,13 +27,16 @@ class GetContactTest extends TestCase
             $gateway->setAccessToken('JQZCT8GJ2HC1JZJVD1BBHE1MS9CLYU');
             $gateway->setAccessTokenSecret('PTO5J7KJH4NBVQE5KMZZQIHTEHHQEZ');
             $params = [
-                'accountingIDs' => [""],
-                'page' => 1
+                'name' => $faker->name,
+                'first_name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                'email_address' => $faker->email,
+                'is_individual' => true
             ];
 
-            $response = $gateway->getContact($params)->send();
+            $response = $gateway->createContact($params)->send();
             if ($response->isSuccessful()) {
-//                var_dump($response->getContacts());
+                var_dump($response->getContacts());
             }
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());

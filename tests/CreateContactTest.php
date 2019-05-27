@@ -1,19 +1,14 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: MaxYendall
- * Date: 24/05/2019
- * Time: 3:31 PM
- */
 
 namespace Tests;
 use Omnipay\Omnipay;
 use PHPUnit\Framework\TestCase;
-
+use Faker;
 class CreateContactTest extends TestCase
 {
     public function testCreateContacts()
     {
+        $faker = Faker\Factory::create();
         try {
             $gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
             $config = [
@@ -22,21 +17,25 @@ class CreateContactTest extends TestCase
                     'oauth' => [
                         'callback' => 'localhost',
                         'signature_method' => \XeroPHP\Remote\OAuth\Client::SIGNATURE_HMAC_SHA1,
-                        'consumer_key' => '',
-                        'consumer_secret' => '',
+                        'consumer_key' => 'LEFVEZ26CAJQXOBLKNZGE5KDAY2HP3',
+                        'consumer_secret' => 'LIYZTFSOCIIZUWEYIQBVPHJS8VG39D',
                         'signature_location' => \XeroPHP\Remote\OAuth\Client::SIGN_LOCATION_QUERY
                     ]
                 ]
             ];
             $gateway->setXeroConfig($config);
-            $gateway->setAccessToken('');
-            $gateway->setAccessTokenSecret('');
+            $gateway->setAccessToken('XKQNI18WR193CCGF90X1MCUVU0WRSM');
+            $gateway->setAccessTokenSecret('PLM7QB44QLSHXFCSKVL60PSI9MPKF9');
             $params = [
-                'name' => 'Test Account',
-                'first_name' => 'Test',
-                'last_name' => 'Account',
-                'email_address' => 'test@pestregister.com',
-                'is_individual' => true
+                'name' => $faker->name,
+                'first_name' => $faker->firstName,
+                'last_name' => $faker->lastName,
+                'email_address' => $faker->email,
+                'phones' => [
+                    'business_hours_phone' => $faker->phoneNumber,
+                    'after_hours_phone' => $faker->phoneNumber,
+                    'mobile_phone' => $faker->phoneNumber
+                ]
             ];
 
             $response = $gateway->createContact($params)->send();

@@ -2,8 +2,10 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
+use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use XeroPHP\Models\Accounting\Contact;
+use XeroPHP\Models\Accounting\Phone;
 
 class CreateContactRequest extends AbstractRequest
 {
@@ -11,16 +13,32 @@ class CreateContactRequest extends AbstractRequest
         return $this->setParameter('name', $value);
     }
 
+    public function setFirstName($value) {
+        return $this->setParameter('first_name', $value);
+    }
+
+    public function setLastName($value) {
+        return $this->setParameter('last_name', $value);
+    }
+
+    public function setIsIndividual($value) {
+        return $this->setParameter('is_individual', $value);
+    }
+
+    public function setEmailAddress($value){
+        return $this->setParameter('email_address', $value);
+    }
+
     public function setPhones($value){
         return $this->setParameter('phones', $value);
     }
 
-    public function setAddresses($value){
-        return $this->setParameter('addresses', $value);
-    }
-
     public function getPhones(){
         return $this->getParameter('phones');
+    }
+
+    public function setAddresses($value){
+        return $this->setParameter('addresses', $value);
     }
 
     public function getAddresses(){
@@ -46,15 +64,36 @@ class CreateContactRequest extends AbstractRequest
     }
 
     /**
+     * @param $contact
+     * @param $phones
+     */
+    private function addPhonesToContact($contact, $phones) {
+        foreach($phones as $phone) {
+            $contact->addPhone($phone);
+        }
+    }
+
+    /**
      * @param $data
      * @return array
      */
     public function getPhoneData($data) {
         $phones = [];
-        foreach($data as $phone) {
-            $newPhone = [];
-            $newPhone['PhoneType'] = $phone->phone_type;
-            $newPhone['PhoneNumber'] = $phone->phone_number;
+        foreach($data as $phoneType => $phoneNumber) {
+            $newPhone = new Phone();
+            $newPhone->setPhoneNumber($phoneNumber);
+            switch ($phoneType) {
+                case 'after_hours_phone':
+                    $newPhone->setPhoneType('DDI');
+                    break;
+                case 'business_hours_phone':
+                    $newPhone->setPhoneType('Business');
+                    break;
+                case 'mobile_phone':
+                    $newPhone->setPhoneType('Mobile');
+                    break;
+            }
+            array_push($phones, $newPhone);
         }
 
         return $phones;
@@ -76,18 +115,8 @@ class CreateContactRequest extends AbstractRequest
         $this->issetParam('FirstName', 'first_name');
         $this->issetParam('LastName', 'last_name');
         $this->issetParam('EmailAddress', 'email_address');
-
-//        $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
+        $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
 //        $this->data['Addresses'] = ($this->getPhones() != null ? $this->getAddressData($this->getAddresses()) : null);
-
-        if($this->getParameter('is_individual')) {
-            $this->data['IsSupplier'] = false;
-            $this->data['IsCustomer'] = true;
-        }
-        else {
-            $this->data['IsSupplier'] = true;
-            $this->data['IsCustomer'] = false;
-        }
 
         return $this->data;
     }
@@ -103,8 +132,12 @@ class CreateContactRequest extends AbstractRequest
 
             $contact = new Contact($xero);
             foreach ($data as $key => $value){
-                $methodName = 'set'. $key;
-                $contact->$methodName($value);
+                if ($key === 'Phones') {
+                    $this->addPhonesToContact($contact, $value);
+                } else {
+                    $methodName = 'set'. $key;
+                    $contact->$methodName($value);
+                }
             }
             $response = $contact->save();
 
@@ -114,15 +147,12 @@ class CreateContactRequest extends AbstractRequest
                 'detail' => 'Exception when creating transaction: ', $exception->getMessage()
             ];
         }
-        var_dump($response);
-        $this->createResponse($response);
-
+        return $this->createResponse($response->getElements());
     }
 
     public function createResponse($data)
     {
-        return $this->response = new GetContactResponse($this, $data);
+        return $this->response = new CreateContactResponse($this, $data);
     }
-
 
 }

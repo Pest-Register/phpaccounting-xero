@@ -120,6 +120,7 @@ class GetContactResponse extends AbstractResponse
             $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
             array_push($contacts, $newContact);
         }
+
         return $contacts;
     }
 }
