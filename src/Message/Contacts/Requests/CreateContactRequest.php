@@ -6,6 +6,7 @@ use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
 use XeroPHP\Models\Accounting\Address;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Phone;
+use PHPAccounting\XERO\Helpers\IndexSanityCheckHelper;
 
 class CreateContactRequest extends AbstractRequest
 {
@@ -94,11 +95,12 @@ class CreateContactRequest extends AbstractRequest
      */
     public function getPhoneData($data) {
         $phones = [];
+        var_dump($data);
         foreach($data as $phone) {
             $newPhone = new Phone();
-            $newPhone->setPhoneCountryCode($phone->country_code);
-            $newPhone->setPhoneAreaCode($phone->area_code);
-            $newPhone->setPhoneNumber($phone->phone_number);
+            $newPhone->setPhoneCountryCode(IndexSanityCheckHelper::indexSanityCheck('country_code', $phone));
+            $newPhone->setPhoneAreaCode(IndexSanityCheckHelper::indexSanityCheck('area_code', $phone));
+            $newPhone->setPhoneNumber(IndexSanityCheckHelper::indexSanityCheck('phone_number', $phone));
             switch ($phone->type) {
                 case 'BUSINESS':
                     $newPhone->setPhoneType('BUSINESS');

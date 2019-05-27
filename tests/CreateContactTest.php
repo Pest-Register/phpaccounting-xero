@@ -24,8 +24,8 @@ class CreateContactTest extends TestCase
                 ]
             ];
             $gateway->setXeroConfig($config);
-            $gateway->setAccessToken('XKQNI18WR193CCGF90X1MCUVU0WRSM');
-            $gateway->setAccessTokenSecret('PLM7QB44QLSHXFCSKVL60PSI9MPKF9');
+            $gateway->setAccessToken('0N7KSWOGKPNUPLYPKG1JPMNKPK2LQY');
+            $gateway->setAccessTokenSecret('GPA8H7JIWSQTZDRHYCNKAMRSWIYOX5');
             $params = [
                 'name' => $faker->name,
                 'first_name' => $faker->firstName,
@@ -34,6 +34,7 @@ class CreateContactTest extends TestCase
                 'phones' => [
                     [
                         'type' => 'MOBILE',
+                        'area_code' => '',
                         'country_code' => '61',
                         'phone_number' => '545346432'
                     ]

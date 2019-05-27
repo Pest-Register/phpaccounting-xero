@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
 use Omnipay\Common\Message\AbstractResponse;
-
+use PHPAccounting\XERO\Helpers\IndexSanityCheckHelper;
 
 class CreateContactResponse extends AbstractResponse
 {
@@ -61,7 +61,7 @@ class CreateContactResponse extends AbstractResponse
             $addresses = [];
             foreach($data as $address) {
                 $newAddress = [];
-                $newAddress['address_type'] = $address->getAddressType();
+                $newAddress['address_type'] =  $address->getAddressType();
                 $newAddress['address_line_1'] = $address->getAddressLine1();
                 $newAddress['city'] = $address->getCity();
                 $newAddress['postal_code'] = $address->getPostalCode();
@@ -101,13 +101,7 @@ class CreateContactResponse extends AbstractResponse
 
         return $contact;
     }
-    private function indexSanityCheck ($key, $array) {
-        $value = '';
-        if (array_key_exists($key, $array)) {
-            return $array[$key];
-        }
-        return $value;
-    }
+
     /**
      * Return all Contacts with Generic Schema Variable Assignment
      * @return array
@@ -116,18 +110,18 @@ class CreateContactResponse extends AbstractResponse
         $contacts = [];
         foreach ($this->data as $contact) {
             $newContact = [];
-            $newContact['accounting_id'] = $this->indexSanityCheck('ContactID', $contact);
-            $newContact['display_name'] = $this->indexSanityCheck('FirstName', $contact);;
-            $newContact['last_name'] = $this->indexSanityCheck('LastName', $contact);
-            $newContact['email_address'] =$this->indexSanityCheck('EmailAddress', $contact);;
-            $newContact['website'] = $this->indexSanityCheck('Website', $contact);;
-            $newContact['type'] = ($this->indexSanityCheck('IsSupplier', $contact) === 'true' ? 'SUPPLIER' : 'CUSTOMER');
-            $newContact['is_individual'] = ($this->indexSanityCheck('IsSupplier', $contact) === 'true' ? true : false);
-            $newContact['bank_account_details'] = $this->indexSanityCheck('BankAccountDetails', $contact);;
-            $newContact['tax_number'] = $this->indexSanityCheck('TaxNumber', $contact);;
-            $newContact['accounts_receivable_tax_type'] = $this->indexSanityCheck('ReceivableTaxType', $contact);;
-            $newContact['accounts_payable_tax_type'] = $this->indexSanityCheck('AccountsPayableTaxType', $contact);;
-            $newContact['default_currency'] = $this->indexSanityCheck('DefaultCurrency', $contact);
+            $newContact['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('ContactID', $contact);
+            $newContact['display_name'] = IndexSanityCheckHelper::indexSanityCheck('FirstName', $contact);;
+            $newContact['last_name'] = IndexSanityCheckHelper::indexSanityCheck('LastName', $contact);
+            $newContact['email_address'] =IndexSanityCheckHelper::indexSanityCheck('EmailAddress', $contact);;
+            $newContact['website'] = IndexSanityCheckHelper::indexSanityCheck('Website', $contact);;
+            $newContact['type'] = (IndexSanityCheckHelper::indexSanityCheck('IsSupplier', $contact) === 'true' ? 'SUPPLIER' : 'CUSTOMER');
+            $newContact['is_individual'] = (IndexSanityCheckHelper::indexSanityCheck('IsSupplier', $contact) === 'true' ? true : false);
+            $newContact['bank_account_details'] = IndexSanityCheckHelper::indexSanityCheck('BankAccountDetails', $contact);;
+            $newContact['tax_number'] = IndexSanityCheckHelper::indexSanityCheck('TaxNumber', $contact);;
+            $newContact['accounts_receivable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('ReceivableTaxType', $contact);;
+            $newContact['accounts_payable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('AccountsPayableTaxType', $contact);;
+            $newContact['default_currency'] = IndexSanityCheckHelper::indexSanityCheck('DefaultCurrency', $contact);
 //            $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
             $newContact = $this->parsePhones($contact['Phones'], $newContact);
 //            $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
