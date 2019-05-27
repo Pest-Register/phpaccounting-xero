@@ -32,9 +32,11 @@ class CreateContactTest extends TestCase
                 'last_name' => $faker->lastName,
                 'email_address' => $faker->email,
                 'phones' => [
-                    'business_hours_phone' => $faker->phoneNumber,
-                    'after_hours_phone' => $faker->phoneNumber,
-                    'mobile_phone' => $faker->phoneNumber
+                    [
+                        'type' => 'MOBILE',
+                        'country_code' => '61',
+                        'phone_number' => '545346432'
+                    ]
                 ]
             ];
 
