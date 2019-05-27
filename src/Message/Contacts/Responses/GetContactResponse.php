@@ -18,11 +18,14 @@ class GetContactResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-      return  $this->data['status'] != 'error';
+        if(array_key_exists('status', $this->data)){
+            return !$this->data['status'] == 'error';
+        }
+        return true;
     }
 
     public function getErrorMessage(){
-        if($this->data['status'] == 'error'){
+        if(array_key_exists('status', $this->data)){
             return $this->data[0];
         }
         return null;
