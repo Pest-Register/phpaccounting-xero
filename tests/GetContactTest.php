@@ -43,7 +43,9 @@ class GetContactTest extends TestCase
 
             $response = $gateway->getContact($params)->send();
             if ($response->isSuccessful()) {
-//                var_dump($response->getContacts());
+                var_dump($response->getContacts());
+            } else {
+                var_dump($response->getErrorMessage());
             }
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());

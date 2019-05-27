@@ -14,7 +14,14 @@ class CreateContactResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return $this->data != null;
+        return  $this->data['status'] != 'error';
+    }
+
+    public function getErrorMessage(){
+        if($this->data['status'] == 'error'){
+            return $this->data[0];
+        }
+        return null;
     }
 
     /**
