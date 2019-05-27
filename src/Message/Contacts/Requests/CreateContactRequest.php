@@ -3,12 +3,17 @@
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
-use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
+use XeroPHP\Models\Accounting\Address;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Phone;
 
 class CreateContactRequest extends AbstractRequest
 {
+    /**
+     * Getters and Setters for Parameter Bag
+     * @param $value
+     * @return CreateContactRequest
+     */
     public function setName($value){
         return $this->setParameter('name', $value);
     }
@@ -51,16 +56,26 @@ class CreateContactRequest extends AbstractRequest
     public function getAddressData($data) {
         $addresses = [];
         foreach($data as $address) {
-            $newAddress = [];
-            $newAddress['AddressType'] = $address->address_type;
-            $newAddress['AddressLine1'] = $address->address_line_1;
-            $newAddress['City'] = $address->city;
-            $newAddress['PostalCode'] = $address->postal_code;
-            $newAddress['Country'] = $address->country;
+            $newAddress = new Address();
+            $newAddress->setAddressType($address->type);
+            $newAddress->setAddressLine1($address->address_line_1);
+            $newAddress->setCity($address->city);
+            $newAddress->setPostalCode($address->postal_code);
+            $newAddress->setCountry($address->country);
             array_push($addresses, $newAddress);
         }
 
         return $addresses;
+    }
+
+    /**
+     * @param $contact
+     * @param $addresses
+     */
+    private function addAddressesToContact($contact, $addresses) {
+        foreach($addresses as $address) {
+            $contact->addAddress($address);
+        }
     }
 
     /**
@@ -79,18 +94,23 @@ class CreateContactRequest extends AbstractRequest
      */
     public function getPhoneData($data) {
         $phones = [];
-        foreach($data as $phoneType => $phoneNumber) {
+        foreach($data as $phone) {
             $newPhone = new Phone();
-            $newPhone->setPhoneNumber($phoneNumber);
-            switch ($phoneType) {
-                case 'after_hours_phone':
+            $newPhone->setPhoneCountryCode($phone->country_code);
+            $newPhone->setPhoneAreaCode($phone->area_code);
+            $newPhone->setPhoneNumber($phone->phone_number);
+            switch ($phone->type) {
+                case 'BUSINESS':
+                    $newPhone->setPhoneType('BUSINESS');
+                    break;
+                case 'MOBILE':
+                    $newPhone->setPhoneType('MOBILE');
+                    break;
+                case 'DDI':
                     $newPhone->setPhoneType('DDI');
                     break;
-                case 'business_hours_phone':
-                    $newPhone->setPhoneType('Business');
-                    break;
-                case 'mobile_phone':
-                    $newPhone->setPhoneType('Mobile');
+                default:
+                    $newPhone->setPhoneType('DEFAULT');
                     break;
             }
             array_push($phones, $newPhone);
@@ -116,7 +136,7 @@ class CreateContactRequest extends AbstractRequest
         $this->issetParam('LastName', 'last_name');
         $this->issetParam('EmailAddress', 'email_address');
         $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
-//        $this->data['Addresses'] = ($this->getPhones() != null ? $this->getAddressData($this->getAddresses()) : null);
+        $this->data['Addresses'] = ($this->getAddresses() != null ? $this->getAddressData($this->getAddresses()) : null);
 
         return $this->data;
     }
@@ -134,6 +154,8 @@ class CreateContactRequest extends AbstractRequest
             foreach ($data as $key => $value){
                 if ($key === 'Phones') {
                     $this->addPhonesToContact($contact, $value);
+                } elseif ($key === 'Addresses') {
+                    $this->addAddressesToContact($contact, $value);
                 } else {
                     $methodName = 'set'. $key;
                     $contact->$methodName($value);
