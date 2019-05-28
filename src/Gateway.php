@@ -105,6 +105,34 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\DeleteContactRequest', $parameters);
     }
 
+
+    /**
+     * @param array $parameters
+     */
+
+    public function createContactGroup(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\ContactGroups\Requests\CreateContactGroupRequest', $parameters);
+    }
+
+    public function updateContactGroup(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\ContactGroups\Requests\UpdateContactGroupRequest', $parameters);
+    }
+
+    public function getContactGroup(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\ContactGroups\Requests\GetContactGroupRequest', $parameters);
+    }
+
+    public function deleteContactGroup(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\ContactGroups\Requests\DeleteContactGroupRequest', $parameters);
+    }
+
+
+    /**
+     * Invoice Requests
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+
     public function createInvoice(array $parameters = []){
         return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\CreateInvoiceRequest', $parameters);
     }
@@ -120,4 +148,6 @@ class Gateway extends AbstractGateway
     public function deleteInvoice(array $parameters = []){
         return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\DeleteInvoiceRequest', $parameters);
     }
+
+
 }

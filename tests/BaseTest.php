@@ -9,6 +9,7 @@
 namespace Tests;
 
 
+use Dotenv\Dotenv;
 use Omnipay\Omnipay;
 use PHPUnit\Framework\TestCase;
 use XeroPHP\Remote\OAuth\Client;
@@ -20,23 +21,24 @@ class BaseTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        $dotenv = Dotenv::create(__DIR__);
+        $dotenv->load();
         $this->gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
         $config = [
             'type' => 'public',
             'config' => [
                 'oauth' => [
-                    'callback' => 'localhost',
-                    'signature_method' => Client::SIGNATURE_HMAC_SHA1,
-                    'consumer_key' => 'LEFVEZ26CAJQXOBLKNZGE5KDAY2HP3',
-                    'consumer_secret' => 'LIYZTFSOCIIZUWEYIQBVPHJS8VG39D',
-                    'signature_location' => Client::SIGN_LOCATION_QUERY
+                    'callback' => getenv('CALLBACK_URL'),
+                    'signature_method' => getenv('SIGNATURE_METHOD'),
+                    'consumer_key' => getenv('CONSUMER_KEY'),
+                    'consumer_secret' => getenv('CONSUMER_SECRET'),
+                    'signature_location' => getenv('SIGNATURE_LOCATION')
                 ]
             ]
         ];
         $this->gateway->setXeroConfig($config);
-        $this->gateway->setAccessToken('0N7KSWOGKPNUPLYPKG1JPMNKPK2LQY');
-        $this->gateway->setAccessTokenSecret('GPA8H7JIWSQTZDRHYCNKAMRSWIYOX5');
-
+        $this->gateway->setAccessToken(getenv('ACCESS_TOKEN'));
+        $this->gateway->setAccessTokenSecret(getenv('ACCESS_TOKEN_SECRET'));
     }
 
 }
