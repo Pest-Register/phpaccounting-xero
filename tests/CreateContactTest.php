@@ -4,28 +4,14 @@ namespace Tests;
 use Omnipay\Omnipay;
 use PHPUnit\Framework\TestCase;
 use Faker;
-class CreateContactTest extends TestCase
+class CreateContactTest extends BaseTest
 {
     public function testCreateContacts()
     {
+        $this->setUp();
         $faker = Faker\Factory::create();
         try {
-            $gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
-            $config = [
-                'type' => 'public',
-                'config' => [
-                    'oauth' => [
-                        'callback' => 'localhost',
-                        'signature_method' => \XeroPHP\Remote\OAuth\Client::SIGNATURE_HMAC_SHA1,
-                        'consumer_key' => 'LEFVEZ26CAJQXOBLKNZGE5KDAY2HP3',
-                        'consumer_secret' => 'LIYZTFSOCIIZUWEYIQBVPHJS8VG39D',
-                        'signature_location' => \XeroPHP\Remote\OAuth\Client::SIGN_LOCATION_QUERY
-                    ]
-                ]
-            ];
-            $gateway->setXeroConfig($config);
-            $gateway->setAccessToken('DVKK06JSREGZPNGDLFL1UGBWH4T4MC');
-            $gateway->setAccessTokenSecret('UJC6FQXNSIAJSKAUEBLVWTLAOZAXFQ');
+
             $params = [
                 'name' => $faker->name,
                 'first_name' => $faker->firstName,
@@ -41,7 +27,7 @@ class CreateContactTest extends TestCase
                 ]
             ];
 
-            $response = $gateway->createContact($params)->send();
+            $response = $this->gateway->createContact($params)->send();
             if ($response->isSuccessful()) {
                 var_dump($response->getContacts());
             }

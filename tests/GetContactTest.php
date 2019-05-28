@@ -14,34 +14,19 @@ use XeroPHP\Remote\Collection;
  * Time: 9:54 AM
  */
 
-class GetContactTest extends TestCase
+class GetContactTest extends BaseTest
 {
 
     public function testGetContacts()
     {
+        $this->setUp();
         try {
-            $gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
-            $config = [
-                'type' => 'public',
-                'config' => [
-                    'oauth' => [
-                        'callback' => 'localhost',
-                        'signature_method' => \XeroPHP\Remote\OAuth\Client::SIGNATURE_HMAC_SHA1,
-                        'consumer_key' => 'LEFVEZ26CAJQXOBLKNZGE5KDAY2HP3',
-                        'consumer_secret' => 'LIYZTFSOCIIZUWEYIQBVPHJS8VG39D',
-                        'signature_location' => \XeroPHP\Remote\OAuth\Client::SIGN_LOCATION_QUERY
-                    ]
-                ]
-            ];
-            $gateway->setXeroConfig($config);
-            $gateway->setAccessToken('JQZCT8GJ2HC1JZJVD1BBHE1MS9CLYU');
-            $gateway->setAccessTokenSecret('PTO5J7KJH4NBVQE5KMZZQIHTEHHQEZ');
             $params = [
                 'accountingIDs' => [""],
                 'page' => 1
             ];
 
-            $response = $gateway->getContact($params)->send();
+            $response = $this->gateway->getContact($params)->send();
             if ($response->isSuccessful()) {
                 var_dump($response->getContacts());
             } else {
