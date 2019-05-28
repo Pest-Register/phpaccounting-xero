@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPAccounting\XERO\Helpers;
+namespace PHPAccounting\Xero\Helpers;
 
 /**
  * Class IndexSanityCheckHelper

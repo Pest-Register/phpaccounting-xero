@@ -24,8 +24,8 @@ class CreateContactTest extends TestCase
                 ]
             ];
             $gateway->setXeroConfig($config);
-            $gateway->setAccessToken('0N7KSWOGKPNUPLYPKG1JPMNKPK2LQY');
-            $gateway->setAccessTokenSecret('GPA8H7JIWSQTZDRHYCNKAMRSWIYOX5');
+            $gateway->setAccessToken('DVKK06JSREGZPNGDLFL1UGBWH4T4MC');
+            $gateway->setAccessTokenSecret('UJC6FQXNSIAJSKAUEBLVWTLAOZAXFQ');
             $params = [
                 'name' => $faker->name,
                 'first_name' => $faker->firstName,

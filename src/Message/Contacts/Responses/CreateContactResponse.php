@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
 use Omnipay\Common\Message\AbstractResponse;
-use PHPAccounting\XERO\Helpers\IndexSanityCheckHelper;
+use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
 class CreateContactResponse extends AbstractResponse
 {
@@ -61,11 +61,11 @@ class CreateContactResponse extends AbstractResponse
             $addresses = [];
             foreach($data as $address) {
                 $newAddress = [];
-                $newAddress['address_type'] =  $address->getAddressType();
-                $newAddress['address_line_1'] = $address->getAddressLine1();
-                $newAddress['city'] = $address->getCity();
-                $newAddress['postal_code'] = $address->getPostalCode();
-                $newAddress['country'] = $address->getCountry();
+                $newAddress['address_type'] =  IndexSanityCheckHelper::indexSanityCheck('AddressType',$address);
+                $newAddress['address_line_1'] = IndexSanityCheckHelper::indexSanityCheck('AddressLine1',$address);;
+                $newAddress['city'] = IndexSanityCheckHelper::indexSanityCheck('City',$address);
+                $newAddress['postal_code'] = IndexSanityCheckHelper::indexSanityCheck('PostalCode',$address);
+                $newAddress['country'] = IndexSanityCheckHelper::indexSanityCheck('Country',$address);
                 array_push($addresses, $newAddress);
             }
             $contact['addresses'] = $addresses;
@@ -82,21 +82,24 @@ class CreateContactResponse extends AbstractResponse
      */
     private function parsePhones($data, $contact) {
         if ($data) {
-            var_dump($data);
-//            foreach($data as $phone) {
-//                $phoneNumber = $phone->getPhoneCountryCode().$phone->getPhoneAreaCode().$phone->getPhoneNumber();
-//                switch($phone->getPhoneType()){
-//                    case 'DEFAULT':
-//                        $contact['business_hours_phone'] = $phoneNumber;
-//                        break;
-//                    case 'DDI':
-//                        $contact['after_hours_phone'] = $phoneNumber;
-//                        break;
-//                    case 'MOBILE':
-//                        $contact['mobile_phone'] = $phoneNumber;
-//                        break;
-//                }
-//            }
+            $phones = [];
+            foreach($data as $phone) {
+                $phoneType = IndexSanityCheckHelper::indexSanityCheck('PhoneType',$phone);
+                $phoneCountryCode = IndexSanityCheckHelper::indexSanityCheck('PhoneCountryCode',$phone);
+                $phoneAreaCode = IndexSanityCheckHelper::indexSanityCheck('PhoneAreaCode', $phone);
+                $phoneNumberRaw = IndexSanityCheckHelper::indexSanityCheck('PhoneNumber', $phone);
+                $phoneNumber = $phoneCountryCode.$phoneAreaCode.$phoneNumberRaw;
+                if ($phoneNumber !== '') {
+                    $newPhone = [];
+                    $newPhone['type'] = $phoneType;
+                    $newPhone['phone_number'] = $phoneNumberRaw;
+                    $newPhone['area_code'] = $phoneAreaCode;
+                    $newPhone['country_code'] = $phoneCountryCode;
+                    array_push($phones, $newPhone);
+                }
+
+            }
+            $contact['phones'] = $phones;
         }
 
         return $contact;
@@ -124,7 +127,7 @@ class CreateContactResponse extends AbstractResponse
             $newContact['default_currency'] = IndexSanityCheckHelper::indexSanityCheck('DefaultCurrency', $contact);
 //            $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
             $newContact = $this->parsePhones($contact['Phones'], $newContact);
-//            $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
+            $newContact = $this->parseAddresses($contact['Addresses'], $newContact);
             array_push($contacts, $newContact);
         }
 
