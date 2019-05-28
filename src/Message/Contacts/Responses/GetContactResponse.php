@@ -85,21 +85,26 @@ class GetContactResponse extends AbstractResponse
      * @return mixed
      */
     private function parsePhones($data, $contact) {
+        $contact['phones'] = [];
         if ($data) {
+            $phones = [];
             foreach($data as $phone) {
-                $phoneNumber = $phone->getPhoneCountryCode().$phone->getPhoneAreaCode().$phone->getPhoneNumber();
-                switch($phone->getPhoneType()){
-                    case 'DEFAULT':
-                        $contact['business_hours_phone'] = $phoneNumber;
-                        break;
-                    case 'DDI':
-                        $contact['after_hours_phone'] = $phoneNumber;
-                        break;
-                    case 'MOBILE':
-                        $contact['mobile_phone'] = $phoneNumber;
-                        break;
+                $phoneType = $phone->getPhoneType();
+                $phoneCountryCode = $phone->getPhoneCountryCode();
+                $phoneAreaCode = $phone->getPhoneAreaCode();
+                $phoneNumberRaw = $phone->getPhoneNumber();
+                $phoneNumber = $phoneCountryCode.$phoneAreaCode.$phoneNumberRaw;
+                if ($phoneNumber !== '') {
+                    $newPhone = [];
+                    $newPhone['type'] = $phoneType;
+                    $newPhone['phone_number'] = $phoneNumberRaw;
+                    $newPhone['area_code'] = $phoneAreaCode;
+                    $newPhone['country_code'] = $phoneCountryCode;
+                    array_push($phones, $newPhone);
                 }
+
             }
+            $contact['phones'] = $phones;
         }
 
         return $contact;

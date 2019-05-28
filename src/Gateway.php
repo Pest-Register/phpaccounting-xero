@@ -108,6 +108,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
 
     public function createContactGroup(array $parameters = []){

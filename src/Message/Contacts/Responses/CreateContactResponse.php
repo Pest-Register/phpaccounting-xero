@@ -39,9 +39,9 @@ class CreateContactResponse extends AbstractResponse
             $contactGroups = [];
             foreach($data as $contactGroup) {
                 $newContactGroup = [];
-                $newContactGroup['accounting_id'] = $contactGroup->getContactGroupID();
-                $newContactGroup['name'] = $contactGroup->getName();
-                $newContactGroup['status'] = $contactGroup->getStatus();
+                $newContactGroup['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('ContactGroupID',$contactGroup);
+                $newContactGroup['name'] = IndexSanityCheckHelper::indexSanityCheck('Name',$contactGroup);
+                $newContactGroup['status'] = IndexSanityCheckHelper::indexSanityCheck('Status',$contactGroup);
                 array_push($contactGroups, $newContactGroup);
             }
             $contact['contact_groups'] = $contactGroups;
@@ -125,9 +125,16 @@ class CreateContactResponse extends AbstractResponse
             $newContact['accounts_receivable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('ReceivableTaxType', $contact);;
             $newContact['accounts_payable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('AccountsPayableTaxType', $contact);;
             $newContact['default_currency'] = IndexSanityCheckHelper::indexSanityCheck('DefaultCurrency', $contact);
-//            $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
-            $newContact = $this->parsePhones($contact['Phones'], $newContact);
-            $newContact = $this->parseAddresses($contact['Addresses'], $newContact);
+            if (IndexSanityCheckHelper::indexSanityCheck('ContactGroups', $contact)) {
+                $newContact = $this->parseContactGroups($contact['ContactGroups'], $newContact);
+            }
+            if (IndexSanityCheckHelper::indexSanityCheck('Phones', $contact)) {
+                $newContact = $this->parsePhones($contact['Phones'], $newContact);
+            }
+            if (IndexSanityCheckHelper::indexSanityCheck('Addresses', $contact)) {
+                $newContact = $this->parseAddresses($contact['Addresses'], $newContact);
+            }
+
             array_push($contacts, $newContact);
         }
 

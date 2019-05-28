@@ -5,6 +5,7 @@ use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
 use XeroPHP\Models\Accounting\Address;
 use XeroPHP\Models\Accounting\Contact;
+use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Models\Accounting\Phone;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
@@ -47,6 +48,14 @@ class CreateContactRequest extends AbstractRequest
         return $this->setParameter('addresses', $value);
     }
 
+    public function setContactGroups($value) {
+        return $this->setParameter('contact_groups', $value);
+    }
+
+    public function getContactGroups() {
+        return $this->getParameter('contact_groups');
+    }
+
     public function getAddresses(){
         return $this->getParameter('addresses');
     }
@@ -58,15 +67,23 @@ class CreateContactRequest extends AbstractRequest
         $addresses = [];
         foreach($data as $address) {
             $newAddress = new Address();
-            $newAddress->setAddressType($address->type);
-            $newAddress->setAddressLine1($address->address_line_1);
-            $newAddress->setCity($address->city);
-            $newAddress->setPostalCode($address->postal_code);
-            $newAddress->setCountry($address->country);
+            $newAddress->setAddressType(IndexSanityCheckHelper::indexSanityCheck('type', $address));
+            $newAddress->setAddressLine1(IndexSanityCheckHelper::indexSanityCheck('address_line_1', $address));
+            $newAddress->setCity(IndexSanityCheckHelper::indexSanityCheck('city', $address));
+            $newAddress->setPostalCode(IndexSanityCheckHelper::indexSanityCheck('postal_code', $address));
+            $newAddress->setCountry(IndexSanityCheckHelper::indexSanityCheck('country', $address));
             array_push($addresses, $newAddress);
         }
 
         return $addresses;
+    }
+
+    private function addGroupsToContact($contact, $groups) {
+        if ($groups) {
+            foreach($groups as $group) {
+                $contact->addContactGroup($group);
+            }
+        }
     }
 
     /**
@@ -92,7 +109,17 @@ class CreateContactRequest extends AbstractRequest
             }
         }
     }
+    private function getContactGroupData($data) {
+        $groups = [];
+        foreach($data as $group) {
+                $newGroup = new ContactGroup();
+                $newGroup->setName(IndexSanityCheckHelper::indexSanityCheck('name', $group));
+                $newGroup->setContactGroupID(IndexSanityCheckHelper::indexSanityCheck('accounting_id', $group));
+                array_push($groups, $newGroup);
+        }
 
+        return $groups;
+    }
     /**
      * @param $data
      * @return array
@@ -148,10 +175,9 @@ class CreateContactRequest extends AbstractRequest
         $this->issetParam('AccountsPayableTaxType', 'accounts_payable_tax_type');
         $this->issetParam('DefaultCurrency', 'default_currency');
 
-        // TODO: Contact Groups
         $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
         $this->data['Addresses'] = ($this->getAddresses() != null ? $this->getAddressData($this->getAddresses()) : null);
-
+        $this->data['ContactGroups'] = ($this->getContactGroups() != null ? $this->getContactGroupData($this->getContactGroups()) : null);
         return $this->data;
     }
 
@@ -170,11 +196,14 @@ class CreateContactRequest extends AbstractRequest
                     $this->addPhonesToContact($contact, $value);
                 } elseif ($key === 'Addresses') {
                     $this->addAddressesToContact($contact, $value);
+                } elseif ($key === 'ContactGroups') {
+                    $this->addGroupsToContact($contact, $value);
                 } else {
                     $methodName = 'set'. $key;
                     $contact->$methodName($value);
                 }
             }
+
             $response = $contact->save();
 
         } catch (\Exception $exception){
