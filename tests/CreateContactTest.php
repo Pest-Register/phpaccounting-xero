@@ -43,6 +43,7 @@ class CreateContactTest extends BaseTest
             $response = $this->gateway->createContact($params)->send();
             if ($response->isSuccessful()) {
                 $contacts = $response->getContacts();
+                var_dump($contacts);
                 $this->assertIsArray($contacts);
             }
         } catch (\Exception $exception) {

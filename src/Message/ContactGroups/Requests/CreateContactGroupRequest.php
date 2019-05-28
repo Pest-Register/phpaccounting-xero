@@ -54,10 +54,11 @@ class CreateContactGroupRequest extends AbstractRequest
         return $contacts;
     }
 
-    private function addContactsToGroup($contactGroup, $contacts) {
+    private function addContactsToGroup($contactGroup, $contacts, $xero) {
         if ($contacts) {
             foreach($contacts as $contact) {
-                $contactGroup->addContact($contact);
+                $xeroContact = $xero->loadByGUID(Contact::class, $contact['ContactID']);
+                $contactGroup->addContact($xeroContact);
             }
         }
     }
@@ -92,12 +93,13 @@ class CreateContactGroupRequest extends AbstractRequest
             $contactGroup = new ContactGroup($xero);
             foreach ($data as $key => $value){
                 if ($key === 'Contacts') {
-                    $this->addContactsToGroup($contactGroup, $value);
+                    $this->addContactsToGroup($contactGroup, $value, $xero);
                 } else {
                     $methodName = 'set'. $key;
                     $contactGroup->$methodName($value);
                 }
             }
+
             $response = $contactGroup->save();
 
         } catch (\Exception $exception){
@@ -106,7 +108,7 @@ class CreateContactGroupRequest extends AbstractRequest
                 'detail' => 'Exception when creating transaction: ', $exception->getMessage()
             ];
         }
-
+        var_dump($response);
         return $this->createResponse($response->getElements());
     }
 

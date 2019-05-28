@@ -12,14 +12,14 @@ class CreateContactGroupsTest extends BaseTest
         try {
 
             $params = [
-//                'accounting_id' => '55e32cd9-d7a0-4129-aa40-5746bf27bb6d',
-                'name' => $faker->word,
-                'status' => 'ACTIVE'
-//                'contacts' => [
-//                    [
-//                        'accounting_id' => '3567ace4-1dc9-40b3-b364-9b55d5841b22'
-//                    ]
-//                ]
+                'accounting_id' => '3567ace4-1dc9-40b3-b364-9b55d5841b22',
+//                'name' => 'Contractors',
+//                'status' => 'ACTIVE',
+                'contacts' => [
+                    [
+                        'accounting_id' => '39acded4-3c5d-48b1-8acf-4df92abb56a7'
+                    ]
+                ]
             ];
 
             $response = $this->gateway->createContactGroup($params)->send();
