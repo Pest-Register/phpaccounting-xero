@@ -27,7 +27,8 @@
         "ext-json": "*",
         "omnipay/common": "^3.0",
         "calcinai/xero-php": "^1.8",
-        "fzaninotto/faker": "^1.8"
+        "fzaninotto/faker": "^1.8",
+        "mpociot/laravel-apidoc-generator": "^3.8"
     },
     "prefer-stable": true
 }
