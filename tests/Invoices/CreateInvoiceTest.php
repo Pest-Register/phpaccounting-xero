@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 29/05/2019
- * Time: 10:47 AM
- */
 
 namespace Tests\Invoices;
 
