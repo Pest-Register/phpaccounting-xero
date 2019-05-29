@@ -21,7 +21,7 @@ class BaseTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $dotenv = Dotenv::create(__DIR__);
+        $dotenv = Dotenv::create(__DIR__ . '/..');
         $dotenv->load();
         $this->gateway = Omnipay::create('\PHPAccounting\Xero\Gateway');
         $config = [

@@ -25,6 +25,7 @@ class UpdateContactRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('name');
+        $this->validate('accounting_id');
         $data = [];
 
         $this->issetParam($data, 'Name', 'name');

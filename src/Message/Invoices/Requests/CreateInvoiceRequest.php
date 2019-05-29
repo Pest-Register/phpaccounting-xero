@@ -5,6 +5,7 @@ namespace PHPAccounting\Xero\Message\Invoices\Requests;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\CreateInvoiceResponse;
+use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Invoice\LineItem;
 
@@ -20,14 +21,43 @@ class CreateInvoiceRequest extends AbstractRequest
         return $this->setParameter('type', $value);
     }
 
+    public function getInvoiceData(){
+        return $this->getParameter('invoice_data');
+    }
+
+    public function setInvoiceData($value){
+        return $this->setParameter('invoice_data', $value);
+    }
+
+    public function getDate(){
+        return $this->getParameter('date');
+    }
+    public function setDate($value){
+        return $this->setParameter('date', $value);
+    }
+    public function getDueDate(){
+        return $this->getParameter('due_date');
+    }
+    public function setDueDate($value){
+        return $this->setParameter('due_date', $value);
+    }
+    public function getContact(){
+        return $this->getParameter('contact');
+    }
+    public function setContact($value){
+        return $this->setParameter('contact', $value);
+    }
+
 
     public function getData()
     {
+        $this->validate('type', 'contact', 'invoice_data');
 
         $this->issetParam('Type', 'type');
-        $this->issetParam('Date', 'invoice_date');
-        $this->issetParam('DueDate', 'invoice_due_date');
-
+        $this->issetParam('Date', 'date');
+        $this->issetParam('DueDate', 'due_date');
+        $this->issetParam('Contact', 'contact');
+        $this->issetParam('LineItems', 'invoice_data');
         return $this->data;
     }
 
@@ -49,24 +79,28 @@ class CreateInvoiceRequest extends AbstractRequest
                     $invoice->$methodName($value);
                 }
             }
+            var_dump($invoice->validate());
             $response = $invoice->save();
-
         } catch (\Exception $exception){
+            var_dump($exception->getMessage());
             $response = [
                 'status' => 'error',
-                'detail' => 'Exception when creating transaction: ', $exception->getMessage()
+                'detail' => $exception->getMessage()
             ];
+            return $this->createResponse($response);
         }
         return $this->createResponse($response->getElements());
     }
 
-    public function createResponse($data, $headers = [])
+    public function createResponse($data)
     {
-        return $this->response = new CreateInvoiceResponse($this, $data, $headers);
+        return $this->response = new CreateInvoiceResponse($this, $data);
     }
 
     private function addContactToInvoice(Invoice $invoice, $data){
-
+        $contact = new Contact();
+        $contact->setContactID($data);
+        $invoice->setContact($contact);
     }
 
     private function addLineItemsToInvoice(Invoice $invoice, $data){
@@ -76,7 +110,7 @@ class CreateInvoiceRequest extends AbstractRequest
             $lineItem->setDescription(IndexSanityCheckHelper::indexSanityCheck('description', $lineData));
             $lineItem->setDiscountRate(IndexSanityCheckHelper::indexSanityCheck('discount', $lineData));
             $lineItem->setItemCode(IndexSanityCheckHelper::indexSanityCheck('item_code', $lineData));
-            $lineItem->setLineItemID(IndexSanityCheckHelper::indexSanityCheck('item_id', $lineData));
+            $lineItem->setLineItemID(IndexSanityCheckHelper::indexSanityCheck('accounting_id', $lineData));
             $lineItem->setLineAmount(IndexSanityCheckHelper::indexSanityCheck('amount', $lineData));
             $lineItem->setQuantity(IndexSanityCheckHelper::indexSanityCheck('quantity', $lineData));
             $lineItem->setUnitAmount(IndexSanityCheckHelper::indexSanityCheck('unit_amount', $lineData));
