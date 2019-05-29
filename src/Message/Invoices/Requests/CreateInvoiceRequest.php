@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
-use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
+use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\CreateInvoiceResponse;
 use XeroPHP\Models\Accounting\Contact;
@@ -48,6 +48,29 @@ class CreateInvoiceRequest extends AbstractRequest
         return $this->setParameter('contact', $value);
     }
 
+    private function addContactToInvoice(Invoice $invoice, $data){
+        $contact = new Contact();
+        $contact->setContactID($data);
+        $invoice->setContact($contact);
+    }
+
+    private function addLineItemsToInvoice(Invoice $invoice, $data){
+        foreach($data as $lineData) {
+            $lineItem = new LineItem();
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('account_code', $lineData, $lineItem, 'setAccountCode');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('description', $lineData, $lineItem, 'setDescription');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('discount', $lineData, $lineItem, 'setDiscountRate');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('item_code', $lineData, $lineItem, 'setItemCode');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('accounting_id', $lineData, $lineItem, 'setLineItemID');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('amount', $lineData, $lineItem, 'setAmount');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('quantity', $lineData, $lineItem, 'setQuantity');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('unit_amount', $lineData, $lineItem, 'setUnitAmount');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('tax_amount', $lineData, $lineItem, 'setTaxAmount');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('tax_type', $lineData, $lineItem, 'setTaxType');
+            $invoice->addLineItem($lineItem);
+        }
+    }
+
 
     public function getData()
     {
@@ -79,10 +102,8 @@ class CreateInvoiceRequest extends AbstractRequest
                     $invoice->$methodName($value);
                 }
             }
-            var_dump($invoice->validate());
             $response = $invoice->save();
         } catch (\Exception $exception){
-            var_dump($exception->getMessage());
             $response = [
                 'status' => 'error',
                 'detail' => $exception->getMessage()
@@ -97,26 +118,5 @@ class CreateInvoiceRequest extends AbstractRequest
         return $this->response = new CreateInvoiceResponse($this, $data);
     }
 
-    private function addContactToInvoice(Invoice $invoice, $data){
-        $contact = new Contact();
-        $contact->setContactID($data);
-        $invoice->setContact($contact);
-    }
 
-    private function addLineItemsToInvoice(Invoice $invoice, $data){
-        foreach($data as $lineData) {
-            $lineItem = new LineItem();
-            $lineItem->setAccountCode(IndexSanityCheckHelper::indexSanityCheck('account_code', $lineData));
-            $lineItem->setDescription(IndexSanityCheckHelper::indexSanityCheck('description', $lineData));
-            $lineItem->setDiscountRate(IndexSanityCheckHelper::indexSanityCheck('discount', $lineData));
-            $lineItem->setItemCode(IndexSanityCheckHelper::indexSanityCheck('item_code', $lineData));
-            $lineItem->setLineItemID(IndexSanityCheckHelper::indexSanityCheck('accounting_id', $lineData));
-            $lineItem->setLineAmount(IndexSanityCheckHelper::indexSanityCheck('amount', $lineData));
-            $lineItem->setQuantity(IndexSanityCheckHelper::indexSanityCheck('quantity', $lineData));
-            $lineItem->setUnitAmount(IndexSanityCheckHelper::indexSanityCheck('unit_amount', $lineData));
-            $lineItem->setTaxAmount(IndexSanityCheckHelper::indexSanityCheck('tax_amount', $lineData));
-            $lineItem->setTaxType(IndexSanityCheckHelper::indexSanityCheck('tax_type', $lineData));
-            $invoice->addLineItem($lineItem);
-        }
-    }
 }
