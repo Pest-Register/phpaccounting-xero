@@ -12,8 +12,7 @@ class CreateContactGroupsTest extends BaseTest
         try {
 
             $params = [
-//                'accounting_id' => '3567ace4-1dc9-40b3-b364-9b55d5841b22',
-                'name' => 'Maxs Contacts 2',
+                'name' => $faker->company,
                 'status' => 'ACTIVE',
                 'contacts' => [
                     [

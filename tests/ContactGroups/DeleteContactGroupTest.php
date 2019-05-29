@@ -21,7 +21,7 @@ class DeleteContactGroupTest extends BaseTest
         try {
 
             $params = [
-                'accounting_id' => 'dd3cae1f-6949-435a-802b-ab6d24f62f12',
+                'accounting_id' => '488d74bf-65a9-448c-ac06-cdb9288761ca',
                 'status' => 'DELETED'
             ];
 
