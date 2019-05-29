@@ -16,11 +16,6 @@ use Omnipay\Common\Message\RequestInterface;
 class UpdateContactResponse extends AbstractResponse
 {
 
-    public function __construct(RequestInterface $request, $data, $headers = [])
-    {
-        parent::__construct($request, json_decode($data, true));
-    }
-
     /**
      * Is the response successful?
      *
@@ -28,6 +23,16 @@ class UpdateContactResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return $this->data != null;
+        if(array_key_exists('status', $this->data)){
+            return !$this->data['status'] == 'error';
+        }
+        return true;
+    }
+
+    public function getErrorMessage(){
+        if(array_key_exists('status', $this->data)){
+            return $this->data['detail'];
+        }
+        return null;
     }
 }

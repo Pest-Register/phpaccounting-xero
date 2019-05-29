@@ -75,7 +75,7 @@ class GetContactRequest extends AbstractRequest
         } catch (\Exception $exception){
             $response = [
                 'status' => 'error',
-                'detail' => 'Exception when creating transaction: ', $exception->getMessage()
+                'detail' => $exception->getMessage()
             ];
         }
         return $this->createResponse($response);

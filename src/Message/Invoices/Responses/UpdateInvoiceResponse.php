@@ -21,6 +21,16 @@ class UpdateInvoiceResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        // TODO: Implement isSuccessful() method.
+        if(array_key_exists('status', $this->data)){
+            return !$this->data['status'] == 'error';
+        }
+        return true;
+    }
+
+    public function getErrorMessage(){
+        if(array_key_exists('status', $this->data)){
+            return $this->data['detail'];
+        }
+        return null;
     }
 }

@@ -22,7 +22,7 @@ class CreateContactResponse extends AbstractResponse
 
     public function getErrorMessage(){
         if(array_key_exists('status', $this->data)){
-            return $this->data[0];
+            return $this->data['detail'];
         }
         return null;
     }
