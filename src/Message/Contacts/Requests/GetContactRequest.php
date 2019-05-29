@@ -29,7 +29,7 @@ class GetContactRequest extends AbstractRequest
      * @return GetContactRequest
      */
     public function setAccountingIDs($value) {
-        return $this->setParameter('accountingIDs', $value);
+        return $this->setParameter('accounting_ids', $value);
     }
 
     public function setPage($value) {
@@ -41,7 +41,7 @@ class GetContactRequest extends AbstractRequest
      * @return mixed
      */
     public function getAccountingIDs() {
-        return  implode(', ',$this->getParameter('accountingIDs'));
+        return implode(', ',$this->getParameter('accounting_ids'));
     }
 
     /**

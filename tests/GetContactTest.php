@@ -22,7 +22,7 @@ class GetContactTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-                'accountingIDs' => [""],
+                'accounting_ids' => [""],
                 'page' => 1
             ];
 

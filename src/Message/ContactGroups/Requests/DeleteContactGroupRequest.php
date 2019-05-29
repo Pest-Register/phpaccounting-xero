@@ -135,9 +135,11 @@ class DeleteContactGroupRequest extends AbstractRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
+        $this->validate('accounting_id');
         $this->issetParam('ContactGroupID', 'accounting_id');
         $this->issetParam('Status', 'status');
         $this->data['Contacts'] = ($this->getContacts() != null ? $this->getContactData($this->getContacts()) : null);

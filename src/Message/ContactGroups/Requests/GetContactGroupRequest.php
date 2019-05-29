@@ -27,7 +27,7 @@ class GetContactGroupRequest extends AbstractRequest
      * @return GetContactGroupRequest
      */
     public function setAccountingIDs($value) {
-        return $this->setParameter('accountingIDs', $value);
+        return $this->setParameter('accounting_ids', $value);
     }
 
     public function setPage($value) {
@@ -39,7 +39,7 @@ class GetContactGroupRequest extends AbstractRequest
      * @return mixed
      */
     public function getAccountingIDs() {
-        return  implode(', ',$this->getParameter('accountingIDs'));
+        return  implode(', ',$this->getParameter('accounting_ids'));
     }
 
     /**
