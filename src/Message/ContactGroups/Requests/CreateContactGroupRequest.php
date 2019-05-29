@@ -27,14 +27,6 @@ class CreateContactGroupRequest extends AbstractRequest
         return $this->getParameter('status');
     }
 
-    public function setAccountingID($value) {
-        return $this->setParameter('accounting_id', $value);
-    }
-
-    public function getAccountingID() {
-        return  $this->getParameter('accounting_id');
-    }
-
     public function setContacts($value) {
         return $this->setParameter('contacts', $value);
     }
@@ -54,11 +46,12 @@ class CreateContactGroupRequest extends AbstractRequest
         return $contacts;
     }
 
-    private function addContactsToGroup($contactGroup, $contacts, $xero) {
+    private function addContactsToGroup($contactGroup, $contacts) {
         if ($contacts) {
             foreach($contacts as $contact) {
-                $xeroContact = $xero->loadByGUID(Contact::class, $contact['ContactID']);
-                $contactGroup->addContact($xeroContact);
+                $newContact = new Contact();
+                $newContact->setContactID($contact['ContactID']);
+                $contactGroup->addContact($newContact);
             }
         }
     }
@@ -68,11 +61,9 @@ class CreateContactGroupRequest extends AbstractRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
-        $this->issetParam('ContactGroupID', 'accounting_id');
         $this->issetParam('Name', 'name');
         $this->issetParam('Status', 'status');
         $this->data['Contacts'] = ($this->getContacts() != null ? $this->getContactData($this->getContacts()) : null);
@@ -92,9 +83,7 @@ class CreateContactGroupRequest extends AbstractRequest
 
             $contactGroup = new ContactGroup($xero);
             foreach ($data as $key => $value){
-                if ($key === 'Contacts') {
-                    $this->addContactsToGroup($contactGroup, $value, $xero);
-                } else {
+                if ($key !== 'Contacts') {
                     $methodName = 'set'. $key;
                     $contactGroup->$methodName($value);
                 }
@@ -102,13 +91,23 @@ class CreateContactGroupRequest extends AbstractRequest
 
             $response = $contactGroup->save();
 
+            if ($this->data['Contacts']) {
+                $responseData = $response->getElements()[0];
+                if (array_key_exists('ContactGroupID', $response->getElements()[0])) {
+                    $contactGroup = new ContactGroup($xero);
+                    $contactGroup->setContactGroupID($responseData['ContactGroupID']);
+                    $this->addContactsToGroup($contactGroup, $this->data['Contacts']);
+                    $response = $contactGroup->save();
+                }
+            }
+
         } catch (\Exception $exception){
             $response = [
                 'status' => 'error',
                 'detail' => 'Exception when creating transaction: ', $exception->getMessage()
             ];
         }
-        var_dump($response);
+
         return $this->createResponse($response->getElements());
     }
 

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: Max
+ * Date: 5/29/2019
+ * Time: 12:31 PM
+ */
 
 namespace PHPAccounting\XERO\Message\ContactGroups\Responses;
 
@@ -6,7 +12,7 @@ namespace PHPAccounting\XERO\Message\ContactGroups\Responses;
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
-class CreateContactGroupResponse extends AbstractResponse
+class DeleteContactGroupResponse extends AbstractResponse
 {
     /**
      * Is the response successful?
@@ -27,27 +33,6 @@ class CreateContactGroupResponse extends AbstractResponse
         }
         return null;
     }
-    /**
-     * Create Generic Contact Groups if Valid
-     * @param $data
-     * @param $contact
-     * @return mixed
-     */
-    private function parseContacts($data, $contactGroup) {
-        $contactGroup['contacts'] = [];
-        if ($data) {
-            $contacts = [];
-            foreach($data as $contact) {
-                $newContact = [];
-                $newContact['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('ContactID',$contact);
-                $newContact['name'] = IndexSanityCheckHelper::indexSanityCheck('Name',$contact);
-                array_push($contacts, $newContact);
-            }
-            $contactGroup['contacts'] = $contacts;
-        }
-
-        return $contactGroup;
-    }
 
     /**
      * Return all Contacts with Generic Schema Variable Assignment
@@ -60,9 +45,6 @@ class CreateContactGroupResponse extends AbstractResponse
             $newContactGroup['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('ContactGroupID', $contactGroup);
             $newContactGroup['name'] = IndexSanityCheckHelper::indexSanityCheck('Name', $contactGroup);
             $newContactGroup['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $contactGroup);
-            if (IndexSanityCheckHelper::indexSanityCheck('Contacts', $contactGroup)) {
-                $newContactGroup = $this->parseContacts($contactGroup['Contacts'], $newContactGroup);
-            }
             array_push($contactGroups, $newContactGroup);
         }
 

@@ -45,6 +45,7 @@ class GetContactGroupResponse extends AbstractResponse
             $newContactGroup = [];
             $newContactGroup['accounting_id'] = $contactGroup->getContactGroupID();
             $newContactGroup['name'] = $contactGroup->getName();
+            $newContactGroup['status'] = $contactGroup->getStatus();
             array_push($contactGroups, $newContactGroup);
         }
 

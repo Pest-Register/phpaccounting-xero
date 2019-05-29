@@ -3,26 +3,29 @@
 namespace Tests;
 use Faker;
 
-class CreateContactGroupsTest extends BaseTest
+class UpdateContactGroupTest extends BaseTest
 {
-    public function testCreateContactGroups()
+    public function testUpdateContactGroups()
     {
         $this->setUp();
         $faker = Faker\Factory::create();
         try {
 
             $params = [
-//                'accounting_id' => '3567ace4-1dc9-40b3-b364-9b55d5841b22',
-                'name' => 'Maxs Contacts 2',
-                'status' => 'ACTIVE',
+                'accounting_id' => '690d0004-ccd8-4267-aaf0-e65e40ec1bc7',
+//                'name' => $faker->name,
+//                'status' => 'ACTIVE',
                 'contacts' => [
                     [
                         'accounting_id' => '540fcb05-f136-4658-a5b9-81265f8ad459'
+                    ],
+                    [
+                        'accounting_id' => 'c1a96084-abba-4b9a-846c-acaa64e3d95b'
                     ]
                 ]
             ];
 
-            $response = $this->gateway->createContactGroup($params)->send();
+            $response = $this->gateway->updateContactGroup($params)->send();
             if ($response->isSuccessful()) {
                 $contactGroups = $response->getContactGroups();
                 var_dump($contactGroups);
