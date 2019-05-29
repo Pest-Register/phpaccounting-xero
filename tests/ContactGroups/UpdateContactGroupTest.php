@@ -13,8 +13,6 @@ class UpdateContactGroupTest extends BaseTest
 
             $params = [
                 'accounting_id' => '690d0004-ccd8-4267-aaf0-e65e40ec1bc7',
-//                'name' => $faker->name,
-//                'status' => 'ACTIVE',
                 'contacts' => [
                     [
                         'accounting_id' => '540fcb05-f136-4658-a5b9-81265f8ad459'
