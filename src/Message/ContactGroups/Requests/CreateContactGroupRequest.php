@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPAccounting\XERO\Message\ContactGroups\Requests;
+namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
