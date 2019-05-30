@@ -9,50 +9,107 @@ use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Invoice\LineItem;
 
+/**
+ * Class CreateInvoiceRequest
+ * @package PHPAccounting\Xero\Message\Invoices\Requests
+ */
 
 class CreateInvoiceRequest extends AbstractRequest
 {
 
+    /**
+     * @return mixed
+     */
     public function getType(){
         return $this->getParameter('type');
     }
 
+    /**
+     * @param $value
+     * @return CreateInvoiceRequest
+     */
     public function setType($value){
         return $this->setParameter('type', $value);
     }
+
+    /**
+     * @return mixed
+     */
 
     public function getInvoiceData(){
         return $this->getParameter('invoice_data');
     }
 
+    /**
+     * @param $value
+     * @return CreateInvoiceRequest
+     */
+
     public function setInvoiceData($value){
         return $this->setParameter('invoice_data', $value);
     }
 
+    /**
+     * @return mixed
+     */
+
     public function getDate(){
         return $this->getParameter('date');
     }
+
+    /**
+     * @param $value
+     * @return CreateInvoiceRequest
+     */
+
     public function setDate($value){
         return $this->setParameter('date', $value);
     }
+
+    /**
+     * @return mixed
+     */
     public function getDueDate(){
         return $this->getParameter('due_date');
     }
+
+    /**
+     * @param $value
+     * @return CreateInvoiceRequest
+     */
     public function setDueDate($value){
         return $this->setParameter('due_date', $value);
     }
+
+    /**
+     * @return mixed
+     */
     public function getContact(){
         return $this->getParameter('contact');
     }
+
+    /**
+     * @param $value
+     * @return CreateInvoiceRequest
+     */
     public function setContact($value){
         return $this->setParameter('contact', $value);
     }
 
+    /**
+     * @param Invoice $invoice
+     * @param $data
+     */
     private function addContactToInvoice(Invoice $invoice, $data){
         $contact = new Contact();
         $contact->setContactID($data);
         $invoice->setContact($contact);
     }
+
+    /**
+     * @param Invoice $invoice
+     * @param $data
+     */
 
     private function addLineItemsToInvoice(Invoice $invoice, $data){
         foreach($data as $lineData) {
@@ -71,7 +128,10 @@ class CreateInvoiceRequest extends AbstractRequest
         }
     }
 
-
+    /**
+     * @return array|mixed
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
     public function getData()
     {
         $this->validate('type', 'contact', 'invoice_data');
@@ -84,6 +144,10 @@ class CreateInvoiceRequest extends AbstractRequest
         return $this->data;
     }
 
+    /**
+     * @param mixed $data
+     * @return \Omnipay\Common\Message\ResponseInterface|CreateInvoiceResponse
+     */
     public function sendData($data)
     {
         try {
@@ -113,6 +177,10 @@ class CreateInvoiceRequest extends AbstractRequest
         return $this->createResponse($response->getElements());
     }
 
+    /**
+     * @param $data
+     * @return CreateInvoiceResponse
+     */
     public function createResponse($data)
     {
         return $this->response = new CreateInvoiceResponse($this, $data);
