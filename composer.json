@@ -12,7 +12,8 @@
     "require-dev": {
         "phpunit/phpunit": "~7.0",
         "vlucas/phpdotenv": "^3.3",
-        "nesbot/carbon": "^2.18"
+        "nesbot/carbon": "^2.18",
+        "phpdocumentor/phpdocumentor": "2.*"
     },
     "autoload": {
         "psr-4": { "PHPAccounting\\Xero\\" : "src/" }
@@ -27,8 +28,7 @@
         "ext-json": "*",
         "omnipay/common": "^3.0",
         "calcinai/xero-php": "^1.8",
-        "fzaninotto/faker": "^1.8",
-        "mpociot/laravel-apidoc-generator": "^3.8"
+        "fzaninotto/faker": "^1.8"
     },
     "prefer-stable": true
 }
