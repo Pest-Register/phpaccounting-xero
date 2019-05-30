@@ -6,7 +6,7 @@
  * Time: 12:31 PM
  */
 
-namespace PHPAccounting\XERO\Message\ContactGroups\Responses;
+namespace PHPAccounting\Xero\Message\ContactGroups\Responses;
 
 
 use Omnipay\Common\Message\AbstractResponse;

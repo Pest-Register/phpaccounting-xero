@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPAccounting\XERO\Message\ContactGroups\Responses;
+namespace PHPAccounting\Xero\Message\ContactGroups\Responses;
 
 
 use Omnipay\Common\Message\AbstractResponse;

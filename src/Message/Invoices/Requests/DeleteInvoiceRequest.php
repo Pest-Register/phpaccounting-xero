@@ -6,7 +6,7 @@
  * Time: 6:17 PM
  */
 
-namespace PHPAccounting\XERO\Message\Invoices\Requests;
+namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
 
 use PHPAccounting\Xero\Message\AbstractRequest;
