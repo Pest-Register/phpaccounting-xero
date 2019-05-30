@@ -9,58 +9,123 @@ use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Models\Accounting\Phone;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
+/**
+ * Create Contact(s)
+ * @package PHPAccounting\XERO\Message\Contacts\Requests
+ */
 class CreateContactRequest extends AbstractRequest
 {
     /**
-     * Getters and Setters for Parameter Bag
-     * @param $value
+     * Set Name Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param string $value Contact Name
      * @return CreateContactRequest
      */
     public function setName($value){
         return $this->setParameter('name', $value);
     }
 
+    /**
+     * Set First Name Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param string $value Contact First Name
+     * @return CreateContactRequest
+     */
     public function setFirstName($value) {
         return $this->setParameter('first_name', $value);
     }
 
+    /**
+     * Set Last Name Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param string $value Contact Last Name
+     * @return CreateContactRequest
+     */
     public function setLastName($value) {
         return $this->setParameter('last_name', $value);
     }
 
+    /**
+     * Set Is Individual Boolean Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param string $value Contact Individual Status
+     * @return CreateContactRequest
+     */
     public function setIsIndividual($value) {
         return $this->setParameter('is_individual', $value);
     }
 
+    /**
+     * Set Email Address Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param string $value Contact Email Address
+     * @return CreateContactRequest
+     */
     public function setEmailAddress($value){
         return $this->setParameter('email_address', $value);
     }
 
+    /**
+     * Set Phones Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param array $value Array of Contact Phone Numbers
+     * @return CreateContactRequest
+     */
     public function setPhones($value){
         return $this->setParameter('phones', $value);
     }
 
+    /**
+     * Get Phones Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @return mixed
+     */
     public function getPhones(){
         return $this->getParameter('phones');
     }
 
+    /**
+     * Set Addresses Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param array $value Array of Contact Addresses
+     * @return CreateContactRequest
+     */
     public function setAddresses($value){
         return $this->setParameter('addresses', $value);
     }
 
+    /**
+     * Set Contact Groups Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param array $value Array of Contact Groups
+     * @return CreateContactRequest
+     */
     public function setContactGroups($value) {
         return $this->setParameter('contact_groups', $value);
     }
 
+    /**
+     * Get ContactGroups Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @return mixed
+     */
     public function getContactGroups() {
         return $this->getParameter('contact_groups');
     }
 
+    /**
+     * Get Addresses Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @return mixed
+     */
     public function getAddresses(){
         return $this->getParameter('addresses');
     }
+
     /**
-     * @param $data
+     * Get Address Array with Address Details for Contact
+     * @access public
+     * @param array $data Array of Xero Addresses
      * @return array
      */
     public function getAddressData($data) {
@@ -78,7 +143,12 @@ class CreateContactRequest extends AbstractRequest
         return $addresses;
     }
 
-    private function addGroupsToContact($contact, $groups) {
+    /**
+     * Add Contact Groups to Contact
+     * @param Contact $contact Xero Contact Object
+     * @param array $groups Array of Contact Group Objects
+     */
+    private function addGroupsToContact(Contact $contact, $groups) {
         if ($groups) {
             foreach($groups as $group) {
                 $contact->addContactGroup($group);
@@ -87,10 +157,11 @@ class CreateContactRequest extends AbstractRequest
     }
 
     /**
-     * @param $contact
-     * @param $addresses
+     * Add Addresses to Contact
+     * @param Contact $contact Xero Contact Object
+     * @param array $addresses Array of Address Objects
      */
-    private function addAddressesToContact($contact, $addresses) {
+    private function addAddressesToContact(Contact $contact, $addresses) {
         if ($addresses) {
             foreach($addresses as $address) {
                 $contact->addAddress($address);
@@ -99,16 +170,24 @@ class CreateContactRequest extends AbstractRequest
     }
 
     /**
-     * @param $contact
-     * @param $phones
+     * Add Phones to Contact
+     * @param Contact $contact Xero Contact Object
+     * @param array $phones Array of Phone Objects
      */
-    private function addPhonesToContact($contact, $phones) {
+    private function addPhonesToContact(Contact $contact, $phones) {
         if ($phones) {
             foreach($phones as $phone) {
                 $contact->addPhone($phone);
             }
         }
     }
+
+    /**
+     * Get Contact Group Array with Contact Group Details for Contact
+     * @access public
+     * @param array $data Array of Xero Contact Groups
+     * @return array
+     */
     private function getContactGroupData($data) {
         $groups = [];
         foreach($data as $group) {
@@ -120,8 +199,11 @@ class CreateContactRequest extends AbstractRequest
 
         return $groups;
     }
+
     /**
-     * @param $data
+     * Get Phones Array with Phone Details for Contact
+     * @access public
+     * @param array $data Array of Xero Phones
      * @return array
      */
     public function getPhoneData($data) {
@@ -156,7 +238,6 @@ class CreateContactRequest extends AbstractRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \PHPAccounting\Common\Exception\InvalidRequestException
      * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
@@ -181,8 +262,11 @@ class CreateContactRequest extends AbstractRequest
         return $this->data;
     }
 
-
-
+    /**
+     * Send Data to Xero Endpoint and Retrieve Response via Response Interface
+     * @param mixed $data Parameter Bag Variables After Validation
+     * @return \Omnipay\Common\Message\ResponseInterface|CreateContactResponse
+     */
     public function sendData($data)
     {
         try {
@@ -215,6 +299,11 @@ class CreateContactRequest extends AbstractRequest
         return $this->createResponse($response->getElements());
     }
 
+    /**
+     * Create Generic Response from Xero Endpoint
+     * @param mixed $data Array Elements or Xero Collection from Response
+     * @return CreateContactResponse
+     */
     public function createResponse($data)
     {
         return $this->response = new CreateContactResponse($this, $data);

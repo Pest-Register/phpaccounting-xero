@@ -1,50 +1,86 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 28/05/2019
- * Time: 11:18 AM
- */
 
 namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
-
 
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\DeleteContactGroupResponse;
+use XeroPHP\Application;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Remote\Exception;
 use XeroPHP\Remote\Request;
 use XeroPHP\Remote\URL;
 
+/**
+ * Delete Contact Group(s)
+ * @package PHPAccounting\XERO\Message\ContactGroups\Requests
+ */
 class DeleteContactGroupRequest extends AbstractRequest
 {
+    /**
+     * Set Status Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @param string $value Contact Name
+     * @return DeleteContactGroupRequest
+     */
     public function setStatus($value){
         return $this->setParameter('status', $value);
     }
 
+    /**
+     * Get Status Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @return mixed
+     */
     public function getStatus($value){
         return $this->setParameter('status', $value);
     }
 
+    /**
+     * Set Contacts Array from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @param $value
+     * @return DeleteContactGroupRequest
+     */
     public function setContacts($value) {
         return $this->setParameter('contacts', $value);
     }
 
+    /**
+     * Get Contacts Array from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @return mixed
+     */
     public function getContacts() {
         return $this->getParameter('contacts');
     }
 
+    /**
+     * Set AccountingID from Parameter Bag (ContactGroupID generic interface)
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @param $value
+     * @return DeleteContactGroupRequest
+     */
     public function setAccountingID($value) {
         return $this->setParameter('accounting_id', $value);
     }
 
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (ContactGroupID generic interface)
+     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @return mixed
+     */
     public function getAccountingID() {
         return  $this->getParameter('accounting_id');
     }
 
-
+    /**
+     * Get Contact Array with Contact ID References
+     * @access public
+     * @param array $data Array of Xero Contacts
+     * @return array
+     */
     private function getContactData($data) {
         $contacts = [];
         foreach($data as $contact) {
@@ -57,11 +93,12 @@ class DeleteContactGroupRequest extends AbstractRequest
     }
 
     /**
-     * @param $contactGroup
-     * @param $xero
+     * Delete All Contacts from Contact Group
+     * @param ContactGroup $contactGroup Xero Contact Group Object
+     * @param Application $xero Xero Endpoint Application Instance
      * @return array
      */
-    private function deleteAllContactsFromGroup($contactGroup, $xero) {
+    private function deleteAllContactsFromGroup(ContactGroup $contactGroup, $xero) {
         try {
             $url = new URL($xero, sprintf('%s/%s/%s/',
                     ContactGroup::getResourceURI(), $contactGroup->getGUID(),
@@ -90,12 +127,13 @@ class DeleteContactGroupRequest extends AbstractRequest
     }
 
     /**
-     * @param $contactGroup
-     * @param $contacts
-     * @param $xero
+     * Delete Specific Contacts from Contact Group
+     * @param ContactGroup $contactGroup Xero Contact Group Object
+     * @param array $contacts Array of Contact IDs as strings
+     * @param Application $xero Xero Endpoint Application Instance
      * @return array
      */
-    private function deleteContactsFromGroup($contactGroup, $contacts, $xero) {
+    private function deleteContactsFromGroup(ContactGroup $contactGroup, $contacts, $xero) {
         if ($contacts) {
             foreach($contacts as $contact) {
                 $newContact = new Contact();
@@ -147,8 +185,9 @@ class DeleteContactGroupRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
-     * @return \Omnipay\Common\Message\ResponseInterface|CreateContactGroupResponse
+     * Send Data to Xero Endpoint and Retrieve Response via Response Interface
+     * @param mixed $data Parameter Bag Variables After Validation
+     * @return \Omnipay\Common\Message\ResponseInterface|DeleteContactGroupResponse
      */
     public function sendData($data)
     {
@@ -186,6 +225,11 @@ class DeleteContactGroupRequest extends AbstractRequest
         return $this->createResponse($response->getElements());
     }
 
+    /**
+     * Create Generic Response from Xero Endpoint
+     * @param mixed $data Array Elements or Xero Collection from Response
+     * @return DeleteContactGroupResponse
+     */
     public function createResponse($data)
     {
         return $this->response = new DeleteContactGroupResponse($this, $data);

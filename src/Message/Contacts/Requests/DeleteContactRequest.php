@@ -2,22 +2,42 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 
-
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\DeleteContactResponse;
 use XeroPHP\Models\Accounting\Contact;
 
+/**
+ * Delete Contact(s)
+ * @package PHPAccounting\XERO\Message\Contacts\Requests
+ */
 class DeleteContactRequest extends AbstractRequest
 {
 
+    /**
+     * Set AccountingID from Parameter Bag (ContactID generic interface)
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param $value
+     * @return DeleteContactRequest
+     */
     public function setAccountingID($value) {
         return $this->setParameter('accounting_id', $value);
     }
 
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (ContactID generic interface)
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @return mixed
+     */
     public function getAccountingID() {
         return  $this->getParameter('accounting_id');
     }
 
+    /**
+     * Set Status Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param string $value Contact Name
+     * @return DeleteContactRequest
+     */
     public function setStatus($value) {
         return  $this->setParameter('status', $value);
     }
@@ -39,8 +59,9 @@ class DeleteContactRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
-     * @return DeleteContactResponse
+     * Send Data to Xero Endpoint and Retrieve Response via Response Interface
+     * @param mixed $data Parameter Bag Variables After Validation
+     * @return \Omnipay\Common\Message\ResponseInterface|DeleteContactResponse
      */
     public function sendData($data)
     {
@@ -67,8 +88,12 @@ class DeleteContactRequest extends AbstractRequest
         return $this->createResponse($response->getElements());
     }
 
+    /**
+     * Create Generic Response from Xero Endpoint
+     * @param mixed $data Array Elements or Xero Collection from Response
+     * @return DeleteContactResponse
+     */
     public function createResponse($data)
-
     {
         return $this->response = new DeleteContactResponse($this, $data);
     }

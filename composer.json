@@ -29,5 +29,8 @@
         "calcinai/xero-php": "^1.8",
         "fzaninotto/faker": "^1.8"
     },
+    "scripts": {
+        "docs": "swagger src/"
+    },
     "prefer-stable": true
 }

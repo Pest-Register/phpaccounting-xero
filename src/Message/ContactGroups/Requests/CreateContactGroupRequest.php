@@ -8,16 +8,17 @@ use PHPAccounting\Xero\Message\ContactGroups\Responses\CreateContactGroupRespons
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\ContactGroup;
 
+
 /**
- * Create Contact Groups
- * Class CreateContactGroupRequest
+ * Create Contact Group(s)
  * @package PHPAccounting\XERO\Message\ContactGroups\Requests
  */
 class CreateContactGroupRequest extends AbstractRequest
 {
+
     /**
      * Set Name Parameter from Parameter Bag
-     * @refer https://developer.xero.com/documentation/api/contactgroups
+     * @see https://developer.xero.com/documentation/api/contactgroups
      * @param string $value Contact Name
      * @return CreateContactGroupRequest
      */
@@ -27,7 +28,7 @@ class CreateContactGroupRequest extends AbstractRequest
 
     /**
      * Set Status from Parameter Bag
-     * @refer https://developer.xero.com/documentation/api/contactgroups
+     * @see https://developer.xero.com/documentation/api/contactgroups
      * @param $value
      * @return CreateContactGroupRequest
      */
@@ -37,7 +38,7 @@ class CreateContactGroupRequest extends AbstractRequest
 
     /**
      * Get Name Parameter from Parameter Bag
-     * @refer https://developer.xero.com/documentation/api/contactgroups
+     * @see https://developer.xero.com/documentation/api/contactgroups
      * @return mixed
      */
     public function getName() {
@@ -46,7 +47,7 @@ class CreateContactGroupRequest extends AbstractRequest
 
     /**
      * Get Status Parameter from Parameter Bag
-     * @refer https://developer.xero.com/documentation/api/contactgroups
+     * @see https://developer.xero.com/documentation/api/contactgroups
      * @return mixed
      */
     public function getStatus() {
@@ -55,7 +56,7 @@ class CreateContactGroupRequest extends AbstractRequest
 
     /**
      * Set Contacts Array from Parameter Bag
-     * @refer https://developer.xero.com/documentation/api/contactgroups
+     * @see https://developer.xero.com/documentation/api/contactgroups
      * @param $value
      * @return CreateContactGroupRequest
      */
@@ -65,7 +66,7 @@ class CreateContactGroupRequest extends AbstractRequest
 
     /**
      * Get Contacts Array from Parameter Bag
-     * @refer https://developer.xero.com/documentation/api/contactgroups
+     * @see https://developer.xero.com/documentation/api/contactgroups
      * @return mixed
      */
     public function getContacts() {
@@ -74,6 +75,7 @@ class CreateContactGroupRequest extends AbstractRequest
 
     /**
      * Get Contact Array with Contact ID References
+     * @access public
      * @param array $data Array of Xero Contacts
      * @return array
      */

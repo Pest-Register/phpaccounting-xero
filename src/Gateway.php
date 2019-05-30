@@ -3,7 +3,6 @@ namespace PHPAccounting\Xero;
 
 use Omnipay\Common\AbstractGateway;
 
-
 /**
  * Created by IntelliJ IDEA.
  * User: Dylan
