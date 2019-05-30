@@ -9,7 +9,6 @@ class IndexSanityInsertionHelper
         if($value !== '') {
             $model->$method($value);
         }
-
         return $model;
     }
 }
