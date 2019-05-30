@@ -83,7 +83,6 @@ class UpdateContactRequest extends AbstractRequest
         return $this->getParameter('phones');
     }
 
-
     /**
      * Set AccountingID from Parameter Bag (ContactID generic interface)
      * @see https://developer.xero.com/documentation/api/contacts

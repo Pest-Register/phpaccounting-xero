@@ -1,28 +1,42 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Max
- * Date: 5/29/2019
- * Time: 6:17 PM
- */
 
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
-
 
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\DeleteInvoiceResponse;
 use XeroPHP\Models\Accounting\Invoice;
 
+/**
+ * Delete Invoice
+ * @package PHPAccounting\XERO\Message\Invoices\Requests
+ */
 class DeleteInvoiceRequest extends AbstractRequest
 {
+    /**
+     * Set AccountingID from Parameter Bag (InvoiceID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param $value
+     * @return DeleteInvoiceRequest
+     */
     public function setAccountingID($value) {
         return $this->setParameter('accounting_id', $value);
     }
 
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (InvoiceID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
     public function getAccountingID() {
         return  $this->getParameter('accounting_id');
     }
 
+    /**
+     * Set Status Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param string $value Contact Name
+     * @return DeleteInvoiceRequest
+     */
     public function setStatus($value) {
         return  $this->setParameter('status', $value);
     }
@@ -44,8 +58,9 @@ class DeleteInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
-     * @return DeleteInvoiceResponse
+     * Send Data to Xero Endpoint and Retrieve Response via Response Interface
+     * @param mixed $data Parameter Bag Variables After Validation
+     * @return \Omnipay\Common\Message\ResponseInterface|DeleteContactResponse
      */
     public function sendData($data)
     {
@@ -72,8 +87,12 @@ class DeleteInvoiceRequest extends AbstractRequest
         return $this->createResponse($response->getElements());
     }
 
+    /**
+     * Create Generic Response from Xero Endpoint
+     * @param mixed $data Array Elements or Xero Collection from Response
+     * @return DeleteInvoiceResponse
+     */
     public function createResponse($data)
-
     {
         return $this->response = new DeleteInvoiceResponse($this, $data);
     }

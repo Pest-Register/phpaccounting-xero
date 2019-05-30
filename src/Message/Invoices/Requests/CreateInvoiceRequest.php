@@ -10,14 +10,15 @@ use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Invoice\LineItem;
 
 /**
- * Class CreateInvoiceRequest
- * @package PHPAccounting\Xero\Message\Invoices\Requests
+ * Create Invoice
+ * @package PHPAccounting\XERO\Message\Invoices\Requests
  */
-
 class CreateInvoiceRequest extends AbstractRequest
 {
 
     /**
+     * Get Type Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
      */
     public function getType(){
@@ -25,7 +26,9 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @param $value
+     * Set Type Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param string $value Invoice Type
      * @return CreateInvoiceRequest
      */
     public function setType($value){
@@ -33,40 +36,46 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
+     * Get Invoice Data Parameter from Parameter Bag (LineItems generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
      */
-
     public function getInvoiceData(){
         return $this->getParameter('invoice_data');
     }
 
     /**
-     * @param $value
+     * Set Invoice Data Parameter from Parameter Bag (LineItems)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param array $value Invoice Item Lines
      * @return CreateInvoiceRequest
      */
-
     public function setInvoiceData($value){
         return $this->setParameter('invoice_data', $value);
     }
 
     /**
+     * Get Date Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
      */
-
     public function getDate(){
         return $this->getParameter('date');
     }
 
     /**
-     * @param $value
+     * Set Date Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param string $value Invoice date
      * @return CreateInvoiceRequest
      */
-
     public function setDate($value){
         return $this->setParameter('date', $value);
     }
 
     /**
+     * Get Due Date Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
      */
     public function getDueDate(){
@@ -74,7 +83,9 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @param $value
+     * Set Due Date Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param string $value Invoice Due Date
      * @return CreateInvoiceRequest
      */
     public function setDueDate($value){
@@ -82,6 +93,8 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
+     * Get Contact Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
      */
     public function getContact(){
@@ -89,7 +102,9 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @param $value
+     * Set Contact Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param Contact $value Contact
      * @return CreateInvoiceRequest
      */
     public function setContact($value){
@@ -97,8 +112,9 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @param Invoice $invoice
-     * @param $data
+     * Add Contact to Invoice
+     * @param Invoice $invoice Xero Invoice Object
+     * @param string $data Contact ID
      */
     private function addContactToInvoice(Invoice $invoice, $data){
         $contact = new Contact();
@@ -107,10 +123,10 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @param Invoice $invoice
-     * @param $data
+     * Add Line Items to Invoice
+     * @param Invoice $invoice Xero Invoice Object
+     * @param array $data Array of Line Items
      */
-
     private function addLineItemsToInvoice(Invoice $invoice, $data){
         foreach($data as $lineData) {
             $lineItem = new LineItem();
@@ -129,7 +145,10 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @return array|mixed
+     * Get the raw data array for this message. The format of this varies from gateway to
+     * gateway, but will usually be either an associative array, or a SimpleXMLElement.
+     *
+     * @return mixed
      * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
@@ -145,8 +164,9 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
-     * @return \Omnipay\Common\Message\ResponseInterface|CreateInvoiceResponse
+     * Send Data to Xero Endpoint and Retrieve Response via Response Interface
+     * @param mixed $data Parameter Bag Variables After Validation
+     * @return \Omnipay\Common\Message\ResponseInterface|CreateContactResponse
      */
     public function sendData($data)
     {
@@ -178,7 +198,8 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @param $data
+     * Create Generic Response from Xero Endpoint
+     * @param mixed $data Array Elements or Xero Collection from Response
      * @return CreateInvoiceResponse
      */
     public function createResponse($data)

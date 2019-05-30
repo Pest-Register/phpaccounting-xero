@@ -4,37 +4,38 @@ namespace PHPAccounting\Xero\Message\Invoices\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use PHPAccounting\Xero\Message\Invoices\Responses\GetInvoiceResponse;
-use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Invoice;
-use XeroPHP\Remote\Request;
 
+/**
+ * Get Invoice(s)
+ * @package PHPAccounting\XERO\Message\Invoices\Requests
+ */
 class GetInvoiceRequest extends AbstractRequest
 {
 
     /**
-     * Get the raw data array for this message. The format of this varies from gateway to
-     * gateway, but will usually be either an associative array, or a SimpleXMLElement.
-     *
-     * @return mixed
-     */
-
-    /**
+     * Set AccountingID from Parameter Bag (InvoiceID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
      * @param $value
      * @return GetInvoiceRequest
      */
-    public function setAccountingIDs($value)
-    {
+    public function setAccountingIDs($value) {
         return $this->setParameter('accounting_ids', $value);
     }
 
-    public function setPage($value)
-    {
+    /**
+     * Set Page Value for Pagination from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param $value
+     * @return GetInvoiceRequest
+     */
+    public function setPage($value) {
         return $this->setParameter('page', $value);
     }
 
     /**
-     * Return comma delimited string of accounting IDs
-     * @return mixed
+     * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
+     * @return mixed comma-delimited-string
      */
     public function getAccountingIDs()
     {
@@ -42,7 +43,8 @@ class GetInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * @return mixed
+     * Return Page Value for Pagination
+     * @return integer
      */
     public function getPage()
     {
@@ -50,12 +52,10 @@ class GetInvoiceRequest extends AbstractRequest
     }
 
     /**
-     * Send the request with specified data
-     *
-     * @param  mixed $data The data to send
-     * @return GetContactResponse
+     * Send Data to Xero Endpoint and Retrieve Response via Response Interface
+     * @param mixed $data Parameter Bag Variables After Validation
+     * @return \Omnipay\Common\Message\ResponseInterface|GetContactResponse
      */
-
     public function sendData($data)
     {
         try {
@@ -84,6 +84,11 @@ class GetInvoiceRequest extends AbstractRequest
         return $this->createResponse($response);
     }
 
+    /**
+     * Create Generic Response from Xero Endpoint
+     * @param mixed $data Array Elements or Xero Collection from Response
+     * @return GetInvoiceResponse
+     */
     public function createResponse($data)
     {
         return $this->response = new GetInvoiceResponse($this, $data);
