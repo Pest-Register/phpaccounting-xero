@@ -60,8 +60,9 @@ class DeleteContactRequest extends AbstractRequest
         } catch (\Exception $exception){
             $response = [
                 'status' => 'error',
-                'detail' => 'Exception when creating transaction: ', $exception->getMessage()
+                'detail' => $exception->getMessage()
             ];
+            return $this->createResponse($response);
         }
 
         return $this->createResponse($response->getElements());

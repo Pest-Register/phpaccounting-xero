@@ -77,6 +77,7 @@ class GetContactRequest extends AbstractRequest
                 'status' => 'error',
                 'detail' => $exception->getMessage()
             ];
+            return $this->createResponse($response);
         }
         return $this->createResponse($response);
     }
