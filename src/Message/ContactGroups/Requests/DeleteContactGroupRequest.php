@@ -107,7 +107,7 @@ class DeleteContactGroupRequest extends AbstractRequest
         } catch (Exception $exception) {
             $response = [
                 'status' => 'error',
-                'detail' => 'Exception when creating transaction: ', $exception->getMessage()
+                'detail' => $exception->getMessage()
             ];
 
             return $response;
@@ -147,7 +147,7 @@ class DeleteContactGroupRequest extends AbstractRequest
                 } catch (Exception $exception) {
                     $response = [
                         'status' => 'error',
-                        'detail' => 'Exception when creating transaction: ', $exception->getMessage()
+                        'detail' => $exception->getMessage()
                     ];
 
                     return $response;
@@ -218,7 +218,7 @@ class DeleteContactGroupRequest extends AbstractRequest
         } catch (\Exception $exception){
             $response = [
                 'status' => 'error',
-                'detail' => 'Exception when creating transaction: ', $exception->getMessage()
+                'detail' =>  $exception->getMessage()
             ];
         }
 
