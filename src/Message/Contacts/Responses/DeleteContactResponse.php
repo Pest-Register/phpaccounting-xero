@@ -2,15 +2,17 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
 
-
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
+/**
+ * Delete Contact(s) Response
+ * @package PHPAccounting\XERO\Message\Contacts\Responses
+ */
 class DeleteContactResponse extends AbstractResponse
 {
     /**
-     * Is the response successful?
-     *
+     * Check Response for Error or Success
      * @return boolean
      */
     public function isSuccessful()
@@ -21,6 +23,10 @@ class DeleteContactResponse extends AbstractResponse
         return true;
     }
 
+    /**
+     * Fetch Error Message from Response
+     * @return string
+     */
     public function getErrorMessage(){
         if(array_key_exists('status', $this->data)){
             return $this->data['detail'];

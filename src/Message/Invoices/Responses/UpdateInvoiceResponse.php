@@ -1,23 +1,19 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 29/05/2019
- * Time: 1:07 PM
- */
 
 namespace PHPAccounting\Xero\Message\Invoices\Responses;
-
 
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
+/**
+ * Update Invoice(s) Response
+ * @package PHPAccounting\XERO\Message\Invoices\Responses
+ */
 class UpdateInvoiceResponse extends AbstractResponse
 {
 
     /**
-     * Is the response successful?
-     *
+     * Check Response for Error or Success
      * @return boolean
      */
     public function isSuccessful()
@@ -28,6 +24,10 @@ class UpdateInvoiceResponse extends AbstractResponse
         return true;
     }
 
+    /**
+     * Fetch Error Message from Response
+     * @return string
+     */
     public function getErrorMessage(){
         if(array_key_exists('status', $this->data)){
             return $this->data['detail'];
@@ -36,9 +36,9 @@ class UpdateInvoiceResponse extends AbstractResponse
     }
 
     /**
-     * Create Generic Phones if Valid
-     * @param $data
-     * @param $invoice
+     * Add LineItems to Invoice
+     * @param $data Array of LineItems
+     * @param array $invoice Xero Invoice Object Mapping
      * @return mixed
      */
     private function parseLineItems($data, $invoice) {
@@ -62,10 +62,11 @@ class UpdateInvoiceResponse extends AbstractResponse
 
         return $invoice;
     }
+
     /**
-     * Create Generic Phones if Valid
-     * @param $data
-     * @param $invoice
+     * Add Contact to Invoice
+     * @param $data Array of single Contact
+     * @param array $invoice Xero Invoice Object Mapping
      * @return mixed
      */
     private function parseContact($data, $invoice) {
@@ -80,7 +81,7 @@ class UpdateInvoiceResponse extends AbstractResponse
     }
 
     /**
-     * Return all Contacts with Generic Schema Variable Assignment
+     * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
     public function getInvoice(){

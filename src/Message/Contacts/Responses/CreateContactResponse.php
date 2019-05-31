@@ -4,12 +4,15 @@ namespace PHPAccounting\Xero\Message\Contacts\Responses;
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
+/**
+ * Create Contact(s) Response
+ * @package PHPAccounting\XERO\Message\Contacts\Responses
+ */
 class CreateContactResponse extends AbstractResponse
 {
 
     /**
-     * Is the response successful?
-     *
+     * Check Response for Error or Success
      * @return boolean
      */
     public function isSuccessful()
@@ -20,6 +23,10 @@ class CreateContactResponse extends AbstractResponse
         return true;
     }
 
+    /**
+     * Fetch Error Message from Response
+     * @return string
+     */
     public function getErrorMessage(){
         if(array_key_exists('status', $this->data)){
             return $this->data['detail'];
@@ -28,9 +35,9 @@ class CreateContactResponse extends AbstractResponse
     }
 
     /**
-     * Create Generic Contact Groups if Valid
-     * @param $data
-     * @param $contact
+     * Add ContactGroups to Contact
+     * @param $data Array of ContactGroups
+     * @param array $contact Xero Contact Object Mapping
      * @return mixed
      */
     private function parseContactGroups($data, $contact) {
@@ -49,10 +56,11 @@ class CreateContactResponse extends AbstractResponse
 
         return $contact;
     }
+
     /**
-     * Create Generic Addresses if Valid
-     * @param $data
-     * @param $contact
+     * Add Addresses to Contact
+     * @param $data Array of Addresses
+     * @param array $contact Xero Contact Object Mapping
      * @return mixed
      */
     private function parseAddresses($data, $contact) {
@@ -75,9 +83,9 @@ class CreateContactResponse extends AbstractResponse
     }
 
     /**
-     * Create Generic Phones if Valid
-     * @param $data
-     * @param $contact
+     * Add Phones to Contact
+     * @param $data Array of Phones
+     * @param array $contact Xero Contact Object Mapping
      * @return mixed
      */
     private function parsePhones($data, $contact) {

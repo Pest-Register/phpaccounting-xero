@@ -1,22 +1,18 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Max
- * Date: 5/29/2019
- * Time: 6:18 PM
- */
 
 namespace PHPAccounting\Xero\Message\Invoices\Responses;
-
 
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
+/**
+ * Delete Invoice(s) Response
+ * @package PHPAccounting\XERO\Message\Invoices\Responses
+ */
 class DeleteInvoiceResponse extends AbstractResponse
 {
     /**
-     * Is the response successful?
-     *
+     * Check Response for Error or Success
      * @return boolean
      */
     public function isSuccessful()
@@ -27,6 +23,10 @@ class DeleteInvoiceResponse extends AbstractResponse
         return true;
     }
 
+    /**
+     * Fetch Error Message from Response
+     * @return string
+     */
     public function getErrorMessage(){
         if(array_key_exists('status', $this->data)){
             return $this->data['detail'];
@@ -35,7 +35,7 @@ class DeleteInvoiceResponse extends AbstractResponse
     }
 
     /**
-     * Return all Contacts with Generic Schema Variable Assignment
+     * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
     public function getInvoices(){

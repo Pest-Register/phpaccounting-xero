@@ -1,23 +1,18 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Max
- * Date: 5/28/2019
- * Time: 1:36 PM
- */
 
 namespace PHPAccounting\Xero\Message\ContactGroups\Responses;
 
-
 use Omnipay\Common\Message\AbstractResponse;
-use XeroPHP\Models\Accounting\ContactGroup;
 
+/**
+ * Get ContactGroup(s) Response
+ * @package PHPAccounting\XERO\Message\ContactGroups\Responses
+ */
 class GetContactGroupResponse extends AbstractResponse
 {
 
     /**
-     * Is the response successful?
-     *
+     * Check Response for Error or Success
      * @return boolean
      */
     public function isSuccessful()
@@ -28,6 +23,10 @@ class GetContactGroupResponse extends AbstractResponse
         return true;
     }
 
+    /**
+     * Fetch Error Message from Response
+     * @return string
+     */
     public function getErrorMessage(){
         if(array_key_exists('status', $this->data)){
             return $this->data['detail'];
@@ -36,7 +35,7 @@ class GetContactGroupResponse extends AbstractResponse
     }
 
     /**
-     * Return all Contacts with Generic Schema Variable Assignment
+     * Return all Contact Groups with Generic Schema Variable Assignment
      * @return array
      */
     public function getContactGroups(){

@@ -2,15 +2,17 @@
 
 namespace PHPAccounting\Xero\Message\ContactGroups\Responses;
 
-
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 
+/**
+ * Create ContactGroup(s) Response
+ * @package PHPAccounting\XERO\Message\ContactGroups\Responses
+ */
 class CreateContactGroupResponse extends AbstractResponse
 {
     /**
-     * Is the response successful?
-     *
+     * Check Response for Error or Success
      * @return boolean
      */
     public function isSuccessful()
@@ -21,16 +23,21 @@ class CreateContactGroupResponse extends AbstractResponse
         return true;
     }
 
+    /**
+     * Fetch Error Message from Response
+     * @return string
+     */
     public function getErrorMessage(){
         if(array_key_exists('status', $this->data)){
             return $this->data['detail'];
         }
         return null;
     }
+
     /**
-     * Create Generic Contact Groups if Valid
-     * @param $data
-     * @param $contact
+     * Add Contacts to Contact Group
+     * @param $data Array of Contacts
+     * @param array $contactGroup Xero Contact Group Mapped Array
      * @return mixed
      */
     private function parseContacts($data, $contactGroup) {
@@ -50,8 +57,8 @@ class CreateContactGroupResponse extends AbstractResponse
     }
 
     /**
-     * Return all Contacts with Generic Schema Variable Assignment
-     * @return array
+     * Fetch Contact Groups from Response
+     * @return mixed
      */
     public function getContactGroups(){
         $contactGroups = [];
