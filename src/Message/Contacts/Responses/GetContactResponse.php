@@ -122,7 +122,8 @@ class GetContactResponse extends AbstractResponse
         foreach ($this->data as $contact) {
             $newContact = [];
             $newContact['accounting_id'] = $contact->getContactID();
-            $newContact['display_name'] = $contact->getFirstName();
+            $newContact['display_name'] = $contact->getName();
+            $newContact['first_name'] = $contact->getFirstName();
             $newContact['last_name'] = $contact->getLastName();
             $newContact['email_address'] = $contact->getEmailAddress();
             $newContact['website'] = $contact->getWebsite();
