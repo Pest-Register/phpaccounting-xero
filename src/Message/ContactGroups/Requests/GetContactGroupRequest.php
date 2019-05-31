@@ -36,7 +36,10 @@ class GetContactGroupRequest extends AbstractRequest
      * @return mixed comma-delimited-string
      */
     public function getAccountingIDs() {
-        return  implode(', ',$this->getParameter('accounting_ids'));
+        if ($this->getParameter('accounting_ids')) {
+            return implode(', ',$this->getParameter('accounting_ids'));
+        }
+        return null;
     }
 
     /**

@@ -37,9 +37,11 @@ class GetInvoiceRequest extends AbstractRequest
      * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
      * @return mixed comma-delimited-string
      */
-    public function getAccountingIDs()
-    {
-        return implode(', ', $this->getParameter('accounting_ids'));
+    public function getAccountingIDs() {
+        if ($this->getParameter('accounting_ids')) {
+            return implode(', ',$this->getParameter('accounting_ids'));
+        }
+        return null;
     }
 
     /**
