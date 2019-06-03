@@ -3,6 +3,7 @@
 namespace PHPAccounting\Xero\Message\ContactGroups\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
+use XeroPHP\Models\Accounting\ContactGroup;
 
 /**
  * Get ContactGroup(s) Response
@@ -40,12 +41,22 @@ class GetContactGroupResponse extends AbstractResponse
      */
     public function getContactGroups(){
         $contactGroups = [];
-        foreach ($this->data as $contactGroup) {
+        if ($this->data instanceof ContactGroup){
+            $contactGroup = $this->data;
             $newContactGroup = [];
             $newContactGroup['accounting_id'] = $contactGroup->getContactGroupID();
             $newContactGroup['name'] = $contactGroup->getName();
             $newContactGroup['status'] = $contactGroup->getStatus();
             array_push($contactGroups, $newContactGroup);
+        }
+        else {
+            foreach ($this->data as $contactGroup) {
+                $newContactGroup = [];
+                $newContactGroup['accounting_id'] = $contactGroup->getContactGroupID();
+                $newContactGroup['name'] = $contactGroup->getName();
+                $newContactGroup['status'] = $contactGroup->getStatus();
+                array_push($contactGroups, $newContactGroup);
+            }
         }
 
         return $contactGroups;

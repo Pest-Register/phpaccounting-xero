@@ -2,6 +2,7 @@
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
+use XeroPHP\Models\Accounting\Contact;
 
 /**
  * Get Contact(s) Response
@@ -119,7 +120,8 @@ class GetContactResponse extends AbstractResponse
      */
     public function getContacts(){
         $contacts = [];
-        foreach ($this->data as $contact) {
+        if ($this->data instanceof Contact) {
+            $contact = $this->data;
             $newContact = [];
             $newContact['accounting_id'] = $contact->getContactID();
             $newContact['display_name'] = $contact->getName();
@@ -138,6 +140,27 @@ class GetContactResponse extends AbstractResponse
             $newContact = $this->parsePhones($contact->getPhones(), $newContact);
             $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
             array_push($contacts, $newContact);
+        } else {
+            foreach ($this->data as $contact) {
+                $newContact = [];
+                $newContact['accounting_id'] = $contact->getContactID();
+                $newContact['display_name'] = $contact->getName();
+                $newContact['first_name'] = $contact->getFirstName();
+                $newContact['last_name'] = $contact->getLastName();
+                $newContact['email_address'] = $contact->getEmailAddress();
+                $newContact['website'] = $contact->getWebsite();
+                $newContact['type'] = ($contact->getIsSupplier() ? 'SUPPLIER' : 'CUSTOMER');
+                $newContact['is_individual'] = !$contact->getIsSupplier();
+                $newContact['bank_account_details'] = $contact->getBankAccountDetails();
+                $newContact['tax_number'] = $contact->getTaxNumber();
+                $newContact['accounts_receivable_tax_type'] = $contact->getAccountsReceivableTaxType();
+                $newContact['accounts_payable_tax_type'] = $contact->getAccountsPayableTaxType();
+                $newContact['default_currency'] = $contact->getDefaultCurrency();
+                $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
+                $newContact = $this->parsePhones($contact->getPhones(), $newContact);
+                $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
+                array_push($contacts, $newContact);
+            }
         }
 
         return $contacts;

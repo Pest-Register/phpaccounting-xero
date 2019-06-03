@@ -63,11 +63,16 @@ class GetContactGroupRequest extends AbstractRequest
             $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
 
             if ($this->getAccountingIDs()) {
-                $contacts = $xero->loadByGUIDs(ContactGroup::class, $this->getAccountingIDs());
+                if(strpos($this->getAccountingIDs(), ',') === false) {
+                    $contactGroups = $xero->loadByGUID(ContactGroup::class, $this->getAccountingIDs());
+                }
+                else {
+                    $contactGroups = $xero->loadByGUIDs(ContactGroup::class, $this->getAccountingIDs());
+                }
             } else {
-                $contacts = $xero->load(ContactGroup::class)->execute();
+                $contactGroups = $xero->load(ContactGroup::class)->execute();
             }
-            $response = $contacts;
+            $response = $contactGroups;
 
         } catch (\Exception $exception){
             $response = [

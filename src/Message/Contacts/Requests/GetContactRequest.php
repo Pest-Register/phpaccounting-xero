@@ -64,7 +64,11 @@ class GetContactRequest extends AbstractRequest
             $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
 
             if ($this->getAccountingIDs()) {
-                $contacts = $xero->loadByGUIDs(Contact::class, $this->getAccountingIDs());
+                if(strpos($this->getAccountingIDs(), ',') === false) {
+                    $contacts = $xero->loadByGUID(Contact::class, $this->getAccountingIDs());
+                } else {
+                    $contacts = $xero->loadByGUIDs(Contact::class, $this->getAccountingIDs());
+                }
             } else {
                 $contacts = $xero->load(Contact::class)->execute();
             }
