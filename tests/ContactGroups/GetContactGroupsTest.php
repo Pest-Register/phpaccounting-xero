@@ -11,7 +11,7 @@ class GetContactGroupsTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-                'accountingIDs' => ["fe1ff7bb-a2bf-46c9-b2d8-b82245cf7b3c"],
+                'accountingIDs' => [""],
                 'page' => 1
             ];
 

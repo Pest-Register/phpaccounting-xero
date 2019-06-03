@@ -48,7 +48,11 @@ class GetContactRequest extends AbstractRequest
      * @return integer
      */
     public function getPage() {
-        return $this->getParameter('page');
+        if ($this->getParameter('page')) {
+            return $this->getParameter('page');
+        }
+
+        return 1;
     }
 
     /**
@@ -70,7 +74,7 @@ class GetContactRequest extends AbstractRequest
                     $contacts = $xero->loadByGUIDs(Contact::class, $this->getAccountingIDs());
                 }
             } else {
-                $contacts = $xero->load(Contact::class)->execute();
+                $contacts = $xero->load(Contact::class)->page($this->getPage())->execute();
             }
             $response = $contacts;
 

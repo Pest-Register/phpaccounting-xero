@@ -48,9 +48,12 @@ class GetInvoiceRequest extends AbstractRequest
      * Return Page Value for Pagination
      * @return integer
      */
-    public function getPage()
-    {
-        return $this->getParameter('page');
+    public function getPage() {
+        if ($this->getParameter('page')) {
+            return $this->getParameter('page');
+        }
+
+        return 1;
     }
 
     /**
@@ -73,7 +76,7 @@ class GetInvoiceRequest extends AbstractRequest
                      $invoices = $xero->loadByGUIDs(Invoice::class, $this->getAccountingIDs());
                  }
             } else {
-                $invoices = $xero->load(Invoice::class)->execute();
+                $invoices = $xero->load(Invoice::class)->page($this->getPage())->execute();
             }
             $response = $invoices;
 
