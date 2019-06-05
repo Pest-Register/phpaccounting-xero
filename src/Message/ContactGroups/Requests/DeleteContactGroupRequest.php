@@ -131,7 +131,6 @@ class DeleteContactGroupRequest extends AbstractRequest
      * @param ContactGroup $contactGroup Xero Contact Group Object
      * @param array $contacts Array of Contact IDs as strings
      * @param Application $xero Xero Endpoint Application Instance
-     * @return array
      */
     private function deleteContactsFromGroup(ContactGroup $contactGroup, $contacts, $xero) {
         if ($contacts) {
@@ -155,7 +154,7 @@ class DeleteContactGroupRequest extends AbstractRequest
 
                 try {
                     $request = new Request($xero, $url, Request::METHOD_DELETE);
-                    $request->send();
+                    $response = $request->send();
                 } catch (Exception $exception) {
                     $response = [
                         'status' => 'error',
@@ -164,6 +163,8 @@ class DeleteContactGroupRequest extends AbstractRequest
 
                     return $response;
                 }
+
+                return $response;
             }
         }
     }
@@ -220,8 +221,8 @@ class DeleteContactGroupRequest extends AbstractRequest
                 'status' => 'error',
                 'detail' =>  $exception->getMessage()
             ];
+            return $this->createResponse($response);
         }
-
         return $this->createResponse($response->getElements());
     }
 

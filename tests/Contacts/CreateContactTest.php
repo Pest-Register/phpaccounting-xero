@@ -15,14 +15,6 @@ class CreateContactTest extends BaseTest
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'email_address' => $faker->email,
-                'phones' => [
-                    [
-                        'type' => 'MOBILE',
-                        'area_code' => '',
-                        'country_code' => '61',
-                        'phone_number' => '545346432'
-                    ]
-                ],
                 'addresses' => [
                     [
                         'type' => 'STREET',
@@ -30,12 +22,6 @@ class CreateContactTest extends BaseTest
                         'city' => $faker->city,
                         'postal_code' => $faker->postcode,
                         'country' => $faker->country
-                    ]
-                ],
-                'contact_groups' => [
-                    [
-                        'accounting_id' => '3567ace4-1dc9-40b3-b364-9b55d5841b22',
-                        'name' => 'Contractors'
                     ]
                 ]
             ];

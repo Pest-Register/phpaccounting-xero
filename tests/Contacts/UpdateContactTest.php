@@ -14,19 +14,7 @@ class UpdateContactTest extends BaseTest
         try {
 
             $params = [
-                'accounting_id' => 'c40f872d-9b22-40e0-b2dc-9e1e7a6cbb01',
-                'name' => $faker->name,
-                'first_name' => $faker->firstName,
-                'last_name' => $faker->lastName,
-                'email_address' => $faker->email,
-                'phones' => [
-                    [
-                        'type' => 'MOBILE',
-                        'area_code' => '',
-                        'country_code' => '61',
-                        'phone_number' => '545346432'
-                    ]
-                ],
+                'accounting_id' => '565acaa9-e7f3-4fbf-80c3-16b081ddae10',
                 'addresses' => [
                     [
                         'type' => 'STREET',
