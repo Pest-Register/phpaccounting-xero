@@ -84,7 +84,7 @@ class UpdateInvoiceResponse extends AbstractResponse
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
-    public function getInvoice(){
+    public function getInvoices(){
         $invoices = [];
         foreach ($this->data as $invoice) {
             $newInvoice = [];
