@@ -19,7 +19,8 @@ class CreateInvoiceTest extends BaseTest
                         'description' => 'Consulting services as agreed (20% off standard rate)',
                         'quantity' => '10',
                         'unit_amount' => '100.00',
-                        'discount' => '20'
+                        'discount' => '20',
+                        'amount' => 800
                     ]
                 ]
             ];
@@ -27,7 +28,7 @@ class CreateInvoiceTest extends BaseTest
             $response = $this->gateway->createInvoice($params)->send();
             if ($response->isSuccessful()) {
                 $this->assertIsArray($response->getData());
-                var_dump($response->getInvoice());
+                var_dump($response->getInvoices());
             }
             var_dump($response->getErrorMessage());
         } catch (\Exception $exception) {

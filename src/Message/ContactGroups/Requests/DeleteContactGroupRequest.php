@@ -223,6 +223,7 @@ class DeleteContactGroupRequest extends AbstractRequest
             ];
             return $this->createResponse($response);
         }
+
         return $this->createResponse($response->getElements());
     }
 
