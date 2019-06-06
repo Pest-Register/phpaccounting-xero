@@ -46,11 +46,11 @@ class DeleteContactGroupTest extends BaseTest
             try {
 
                 $params = [
-                    'accounting_id' => 'dd3cae1f-6949-435a-802b-ab6d24f62f12',
+                    'accounting_id' => 'a04d495e-bd39-4fb1-a0af-a9b3cdf82c86',
                     'status' => 'ACTIVE',
                     'contacts' => [
                         [
-                            'accounting_id' => '540fcb05-f136-4658-a5b9-81265f8ad459'
+                            'accounting_id' => 'f20f1d23-a10f-4746-b7df-b48d87a23182'
                         ]
                     ]
                 ];
