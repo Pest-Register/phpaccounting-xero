@@ -160,6 +160,9 @@ class CreateInvoiceRequest extends AbstractRequest
         $this->issetParam('DueDate', 'due_date');
         $this->issetParam('Contact', 'contact');
         $this->issetParam('LineItems', 'invoice_data');
+        $this->issetParam('InvoiceNumber', 'invoice_number');
+        $this->issetParam('Reference', 'invoice_reference');
+        $this->issetParam('Status', 'invoice_status');
         return $this->data;
     }
 
