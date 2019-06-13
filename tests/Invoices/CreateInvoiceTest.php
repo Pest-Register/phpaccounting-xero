@@ -14,6 +14,7 @@ class CreateInvoiceTest extends BaseTest
             $params = [
                 'type' => 'ACCREC',
                 'contact' => '39acded4-3c5d-48b1-8acf-4df92abb56a7',
+                'invoice_reference' => '1234',
                 'invoice_data' => [
                     [
                         'description' => 'Consulting services as agreed (20% off standard rate)',

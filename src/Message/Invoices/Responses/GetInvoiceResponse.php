@@ -126,6 +126,7 @@ class GetInvoiceResponse extends AbstractResponse
                 $newInvoice['date'] = $invoice->getDate();
                 $newInvoice['due_date'] = $invoice->getDueDate();
                 $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
+                $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
 
                 array_push($invoices, $newInvoice);
             }
