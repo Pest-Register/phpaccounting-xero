@@ -20,7 +20,7 @@ class CreateInvoiceTest extends BaseTest
                         'description' => 'Consulting services as agreed (20% off standard rate)',
                         'quantity' => '10',
                         'unit_amount' => '100.00',
-                        'discount' => '20',
+                        'discount_rate' => '20',
                         'amount' => 800
                     ]
                 ]

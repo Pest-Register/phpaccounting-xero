@@ -49,7 +49,7 @@ class GetInvoiceResponse extends AbstractResponse
                 $newLineItem['unit_amount'] = $lineItem->getUnitAmount();
                 $newLineItem['line_amount'] = $lineItem->getLineAmount();
                 $newLineItem['quantity'] = $lineItem->getQuantity();
-                $newLineItem['discount'] = $lineItem->getDiscountRate();
+                $newLineItem['discount_rate'] = $lineItem->getDiscountRate();
                 $newLineItem['accounting_id'] = $lineItem->getLineItemID();
                 $newLineItem['amount'] = $lineItem->getLineAmount();
                 $newLineItem['account_code'] = $lineItem->getAccountCode();
