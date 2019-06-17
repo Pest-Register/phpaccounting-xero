@@ -122,6 +122,26 @@ class UpdateContactRequest extends AbstractRequest
     }
 
     /**
+     * Set Status Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param $value
+     * @return mixed
+     */
+    public function setStatus($value){
+        return $this->setParameter('status', $value);
+    }
+
+
+    /**
+     * Get Status Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @return mixed
+     */
+    public function getStatus(){
+        return $this->getParameter('status');
+    }
+
+    /**
      * Get Address Array with Address Details for Contact
      * @access public
      * @param array $data Array of Xero Addresses
