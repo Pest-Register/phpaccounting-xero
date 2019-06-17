@@ -226,6 +226,7 @@ class UpdateContactRequest extends AbstractRequest
         $this->issetParam('AccountsReceivableTaxType', 'accounts_receivable_tax_type');
         $this->issetParam('AccountsPayableTaxType', 'accounts_payable_tax_type');
         $this->issetParam('DefaultCurrency', 'default_currency');
+        $this->issetParam('ContactStatus','status');
 
         $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
         $this->data['Addresses'] = ($this->getAddresses() != null ? $this->getAddressData($this->getAddresses()) : null);
