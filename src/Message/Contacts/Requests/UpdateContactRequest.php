@@ -122,6 +122,26 @@ class UpdateContactRequest extends AbstractRequest
     }
 
     /**
+     * Set Status Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param $value
+     * @return mixed
+     */
+    public function setStatus($value){
+        return $this->setParameter('status', $value);
+    }
+
+
+    /**
+     * Get Status Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @return mixed
+     */
+    public function getStatus(){
+        return $this->getParameter('status');
+    }
+
+    /**
      * Get Address Array with Address Details for Contact
      * @access public
      * @param array $data Array of Xero Addresses
@@ -226,6 +246,7 @@ class UpdateContactRequest extends AbstractRequest
         $this->issetParam('AccountsReceivableTaxType', 'accounts_receivable_tax_type');
         $this->issetParam('AccountsPayableTaxType', 'accounts_payable_tax_type');
         $this->issetParam('DefaultCurrency', 'default_currency');
+        $this->issetParam('ContactStatus','status');
 
         $this->data['Phones'] = ($this->getPhones() != null ? $this->getPhoneData($this->getPhones()) : null);
         $this->data['Addresses'] = ($this->getAddresses() != null ? $this->getAddressData($this->getAddresses()) : null);
