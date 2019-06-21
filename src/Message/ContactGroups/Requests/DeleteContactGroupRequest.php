@@ -4,7 +4,7 @@ namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\ContactGroups\Responses\DeleteContactGroupResponse;
+use PHPAccounting\Xero\Message\ContactGroups\Responses\DeleteAccountResponse;
 use XeroPHP\Application;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\ContactGroup;
@@ -188,7 +188,7 @@ class DeleteContactGroupRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|DeleteContactGroupResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|DeleteAccountResponse
      */
     public function sendData($data)
     {
@@ -230,10 +230,10 @@ class DeleteContactGroupRequest extends AbstractRequest
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
-     * @return DeleteContactGroupResponse
+     * @return DeleteAccountResponse
      */
     public function createResponse($data)
     {
-        return $this->response = new DeleteContactGroupResponse($this, $data);
+        return $this->response = new DeleteAccountResponse($this, $data);
     }
 }

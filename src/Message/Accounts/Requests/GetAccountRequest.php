@@ -1,21 +1,24 @@
 <?php
-namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 
+namespace PHPAccounting\Xero\Message\Accounts\Requests;
+
+use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\ContactGroups\Responses\GetAccountResponse;
-use XeroPHP\Models\Accounting\ContactGroup;
+use PHPAccounting\Xero\Message\Accounts\Responses\GetAccountResponse;
+use XeroPHP\Models\Accounting\Account;
+
 
 /**
- * Get Contact Group(s)
- * @package PHPAccounting\XERO\Message\ContactGroups\Requests
+ * Get Account(s)
+ * @package PHPAccounting\XERO\Message\Accounts\Requests
  */
-class GetContactGroupRequest extends AbstractRequest
+class GetAccountRequest extends AbstractRequest
 {
     /**
-     * Set AccountingID from Parameter Bag (ContactGroupID generic interface)
-     * @see https://developer.xero.com/documentation/api/contactgroups
+     * Set AccountingID from Parameter Bag (AccountID generic interface)
+     * @see https://developer.xero.com/documentation/api/accounts
      * @param $value
-     * @return GetContactGroupRequest
+     * @return GetAccountRequest
      */
     public function setAccountingIDs($value) {
         return $this->setParameter('accounting_ids', $value);
@@ -23,16 +26,16 @@ class GetContactGroupRequest extends AbstractRequest
 
     /**
      * Set Page Value for Pagination from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/contactgroups
+     * @see https://developer.xero.com/documentation/api/accounts
      * @param $value
-     * @return GetContactGroupRequest
+     * @return GetAccountRequest
      */
     public function setPage($value) {
         return $this->setParameter('page', $value);
     }
 
     /**
-     * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
+     * Return Comma Delimited String of Accounting IDs (AccountIDs)
      * @return mixed comma-delimited-string
      */
     public function getAccountingIDs() {
@@ -64,15 +67,15 @@ class GetContactGroupRequest extends AbstractRequest
 
             if ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
-                    $contactGroups = $xero->loadByGUID(ContactGroup::class, $this->getAccountingIDs());
+                    $accounts = $xero->loadByGUID(Account::class, $this->getAccountingIDs());
                 }
                 else {
-                    $contactGroups = $xero->loadByGUIDs(ContactGroup::class, $this->getAccountingIDs());
+                    $accounts = $xero->loadByGUIDs(Account::class, $this->getAccountingIDs());
                 }
             } else {
-                $contactGroups = $xero->load(ContactGroup::class)->execute();
+                $accounts = $xero->load(Account::class)->execute();
             }
-            $response = $contactGroups;
+            $response = $accounts;
 
         } catch (\Exception $exception){
             $response = [

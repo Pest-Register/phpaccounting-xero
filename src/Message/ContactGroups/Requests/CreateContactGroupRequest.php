@@ -4,7 +4,7 @@ namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\ContactGroups\Responses\CreateContactGroupResponse;
+use PHPAccounting\Xero\Message\ContactGroups\Responses\CreateAccountResponse;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\ContactGroup;
 
@@ -124,7 +124,7 @@ class CreateContactGroupRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|CreateContactGroupResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|CreateAccountResponse
      */
     public function sendData($data)
     {
@@ -167,10 +167,10 @@ class CreateContactGroupRequest extends AbstractRequest
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
-     * @return CreateContactGroupResponse
+     * @return CreateAccountResponse
      */
     public function createResponse($data)
     {
-        return $this->response = new CreateContactGroupResponse($this, $data);
+        return $this->response = new CreateAccountResponse($this, $data);
     }
 }

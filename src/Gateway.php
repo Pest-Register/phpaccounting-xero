@@ -149,5 +149,27 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\DeleteInvoiceRequest', $parameters);
     }
 
+    /**
+     * Account Requests
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+
+    public function createAccount(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\Accounts\Requests\CreateAccountRequest', $parameters);
+    }
+
+    public function updateAccount(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\Accounts\Requests\UpdateAccountRequest', $parameters);
+    }
+
+    public function getAccount(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\Accounts\Requests\GetAccountRequest', $parameters);
+    }
+
+    public function deleteAccount(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\Accounts\Requests\DeleteAccountRequest', $parameters);
+    }
+
 
 }
