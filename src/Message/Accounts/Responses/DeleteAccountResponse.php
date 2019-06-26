@@ -35,19 +35,18 @@ class DeleteAccountResponse extends AbstractResponse
     }
 
     /**
-     * Return all Contact Groups with Generic Schema Variable Assignment
+     * Return all Accounts with Generic Schema Variable Assignment
      * @return array
      */
-    public function getContactGroups(){
-        $contactGroups = [];
-        foreach ($this->data as $contactGroup) {
-            $newContactGroup = [];
-            $newContactGroup['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('ContactGroupID', $contactGroup);
-            $newContactGroup['name'] = IndexSanityCheckHelper::indexSanityCheck('Name', $contactGroup);
-            $newContactGroup['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $contactGroup);
-            array_push($contactGroups, $newContactGroup);
+    public function getAccounts(){
+        $accounts = [];
+        foreach ($this->data as $account) {
+            $newAccount = [];
+            $newAccount['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('AccountID', $account);
+            $newAccount['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $account);
+            array_push($accounts, $newAccount);
         }
 
-        return $contactGroups;
+        return $accounts;
     }
 }

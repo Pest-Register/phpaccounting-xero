@@ -4,22 +4,29 @@ namespace Tests;
 use Faker;
 class CreateAccountTest extends BaseTest
 {
-    public function testCreateContacts()
-    {
+    public function testCreateAccount(){
         $this->setUp();
-        $faker = Faker\Factory::create();
         try {
 
-            $params = [];
+            $params = [
+                'code' => 999,
+                'name' => 'Test',
+                'type' => 'EXPENSE',
+                'status' => 'ACTIVE',
+                'description' => 'Test Description',
+                'tax_type' => 'INPUT',
+                'enable_payments_to_account' => true,
+                'show_inexpense_claims' => true
+            ];
 
             $response = $this->gateway->createAccount($params)->send();
             if ($response->isSuccessful()) {
-                $accounts = $response->getAccounts();
-                var_dump($accounts);
-                $this->assertIsArray($accounts);
+                $this->assertIsArray($response->getData());
+                var_dump($response->getAccounts());
             }
+            var_dump($response->getErrorMessage());
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
+            var_dump($exception->getTrace());
         }
     }
 }

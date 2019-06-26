@@ -1,16 +1,12 @@
 <?php
 
+
 namespace PHPAccounting\Xero\Message\Accounts\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
-use XeroPHP\Models\Accounting\Account;
 
-/**
- * Create ContactGroup(s) Response
- * @package PHPAccounting\XERO\Message\ContactGroups\Responses
- */
-class CreateAccountResponse extends AbstractResponse
+class UpdateAccountResponse extends AbstractResponse
 {
     /**
      * Check Response for Error or Success

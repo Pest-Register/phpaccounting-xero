@@ -69,13 +69,13 @@ class DeleteInvoiceRequest extends AbstractRequest
             $xero->getOAuthClient()->setToken($this->getAccessToken());
             $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
 
-            $contact = new Invoice($xero);
+            $invoice = new Invoice($xero);
             foreach ($data as $key => $value){
                 $methodName = 'set'. $key;
-                $contact->$methodName($value);
+                $invoice->$methodName($value);
             }
 
-            $response = $contact->save();
+            $response = $invoice->save();
 
         } catch (\Exception $exception){
             $response = [

@@ -8,13 +8,14 @@ class DeleteAccountTest extends BaseTest
     /**
      *
      */
-    public function testDeleteContact()
+    public function testDeleteAccount()
     {
         $this->setUp();
         try {
 
             $params = [
-                'accounting_id' => 'c40f872d-9b22-40e0-b2dc-9e1e7a6cbb01',
+                'accounting_id' => 'b086f4fc-b699-463e-8bcc-b8d56a3b3a45',
+                'status' => 'ARCHIVED'
             ];
 
             $response = $this->gateway->deleteAccount($params)->send();

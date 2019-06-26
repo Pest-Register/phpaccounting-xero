@@ -46,15 +46,34 @@ class GetAccountResponse extends AbstractResponse
             $account = $this->data;
             $newAccount = [];
             $newAccount['accounting_id'] = $account->getAccountID();
+            $newAccount['code'] = $account->getCode();
             $newAccount['name'] = $account->getName();
+            $newAccount['description'] = $account->getDescription();
+            $newAccount['type'] = $account->getType();
+            $newAccount['is_bank_account'] = ($account->getType() === 'BANK');
+            $newAccount['enable_payments_to_account'] = $account->getEnablePaymentsToAccount();
+            $newAccount['show_inexpense_claims'] = $account->getShowInexpenseClaims();
+            $newAccount['tax_type'] = $account->getTaxType();
+            $newAccount['bank_account_number'] = $account->getBankAccountNumber();
+            $newAccount['bank_account_type'] = $account->getBankAccountType();
+            $newAccount['currency_code'] = $account->getCurrencyCode();
             array_push($accounts, $newAccount);
         }
         else {
             foreach ($this->data as $account) {
-                $newContactGroup = [];
                 $newAccount = [];
                 $newAccount['accounting_id'] = $account->getAccountID();
+                $newAccount['code'] = $account->getCode();
                 $newAccount['name'] = $account->getName();
+                $newAccount['description'] = $account->getDescription();
+                $newAccount['type'] = $account->getType();
+                $newAccount['is_bank_account'] = ($account->getType() === 'BANK');
+                $newAccount['enable_payments_to_account'] = $account->getEnablePaymentsToAccount();
+                $newAccount['show_inexpense_claims'] = $account->getShowInexpenseClaims();
+                $newAccount['tax_type'] = $account->getTaxType();
+                $newAccount['bank_account_number'] = $account->getBankAccountNumber();
+                $newAccount['bank_account_type'] = $account->getBankAccountType();
+                $newAccount['currency_code'] = $account->getCurrencyCode();
                 array_push($accounts, $newAccount);
             }
         }
