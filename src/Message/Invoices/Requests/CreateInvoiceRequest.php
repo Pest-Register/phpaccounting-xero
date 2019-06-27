@@ -184,6 +184,9 @@ class CreateInvoiceRequest extends AbstractRequest
                     $this->addLineItemsToInvoice($invoice, $value);
                 } elseif ($key === 'Contact') {
                     $this->addContactToInvoice($invoice, $value);
+                } elseif ($key === 'Date' || $key === 'DueDate') {
+                    $methodName = 'set'. $key;
+                    $invoice->$methodName(\DateTime::createFromFormat('Y-m-d', $value));
                 } else {
                     $methodName = 'set'. $key;
                     $invoice->$methodName($value);
