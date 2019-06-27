@@ -57,6 +57,7 @@ class GetAccountResponse extends AbstractResponse
             $newAccount['bank_account_number'] = $account->getBankAccountNumber();
             $newAccount['bank_account_type'] = $account->getBankAccountType();
             $newAccount['currency_code'] = $account->getCurrencyCode();
+            $newAccount['system_account'] = $account->getSystemAccount();
             array_push($accounts, $newAccount);
         }
         else {
@@ -74,6 +75,7 @@ class GetAccountResponse extends AbstractResponse
                 $newAccount['bank_account_number'] = $account->getBankAccountNumber();
                 $newAccount['bank_account_type'] = $account->getBankAccountType();
                 $newAccount['currency_code'] = $account->getCurrencyCode();
+                $newAccount['system_account'] = $account->getSystemAccount();
                 array_push($accounts, $newAccount);
             }
         }
