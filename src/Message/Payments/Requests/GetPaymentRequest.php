@@ -4,7 +4,6 @@ namespace PHPAccounting\Xero\Message\Invoices\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use PHPAccounting\Xero\Message\Invoices\Responses\GetPaymentResponse;
-use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Payment;
 
 /**
