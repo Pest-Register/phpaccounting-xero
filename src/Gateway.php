@@ -134,19 +134,19 @@ class Gateway extends AbstractGateway
      */
 
     public function createInvoice(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\CreateInvoiceRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\CreatePaymentRequest', $parameters);
     }
 
     public function updateInvoice(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\UpdateInvoiceRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\UpdatePaymentRequest', $parameters);
     }
 
     public function getInvoice(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\GetInvoiceRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\GetPaymentRequest', $parameters);
     }
 
     public function deleteInvoice(array $parameters = []){
-        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\DeleteInvoiceRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Invoices\Requests\DeletePaymentRequest', $parameters);
     }
 
     /**

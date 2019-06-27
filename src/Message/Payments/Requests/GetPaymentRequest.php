@@ -5,12 +5,13 @@ use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use PHPAccounting\Xero\Message\Invoices\Responses\GetPaymentResponse;
 use XeroPHP\Models\Accounting\Invoice;
+use XeroPHP\Models\Accounting\Payment;
 
 /**
  * Get Invoice(s)
  * @package PHPAccounting\XERO\Message\Invoices\Requests
  */
-class GetInvoiceRequest extends AbstractRequest
+class GetPaymentRequest extends AbstractRequest
 {
 
     /**
@@ -70,17 +71,17 @@ class GetInvoiceRequest extends AbstractRequest
 
             if ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
-                    $invoices = $xero->loadByGUID(Invoice::class, $this->getAccountingIDs());
+                    $accounts = $xero->loadByGUID(Payment::class, $this->getAccountingIDs());
                 }
-                 else {
-                     $invoices = $xero->loadByGUIDs(Invoice::class, $this->getAccountingIDs());
-                 }
+                else {
+                    $accounts = $xero->loadByGUIDs(Payment::class, $this->getAccountingIDs());
+                }
             } else {
-                $invoices = $xero->load(Invoice::class)->page($this->getPage())->execute();
+                $accounts = $xero->load(Payment::class)->execute();
             }
-            $response = $invoices;
+            $response = $accounts;
 
-        } catch (\Exception $exception) {
+        } catch (\Exception $exception){
             $response = [
                 'status' => 'error',
                 'detail' => $exception->getMessage()

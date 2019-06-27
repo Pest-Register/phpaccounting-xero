@@ -1,35 +1,30 @@
 <?php
 
-namespace PHPAccounting\Xero\Message\Accounts\Requests;
+namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
-use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\Accounts\Responses\DeleteAccountResponse;
-use PHPAccounting\Xero\Message\Invoices\Requests\DeletePaymentRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\DeletePaymentResponse;
-use XeroPHP\Models\Accounting\Account;
 use XeroPHP\Models\Accounting\Invoice;
 
-
 /**
- * Delete Account(s)
- * @package PHPAccounting\XERO\Message\Accounts\Requests
+ * Delete Invoice
+ * @package PHPAccounting\XERO\Message\Invoices\Requests
  */
-class DeleteAccountRequest extends AbstractRequest
+class DeletePaymentRequest extends AbstractRequest
 {
     /**
-     * Set AccountingID from Parameter Bag (AccountID generic interface)
-     * @see https://developer.xero.com/documentation/api/accounts
+     * Set AccountingID from Parameter Bag (InvoiceID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
      * @param $value
-     * @return DeleteAccountRequest
+     * @return DeletePaymentRequest
      */
     public function setAccountingID($value) {
         return $this->setParameter('accounting_id', $value);
     }
 
     /**
-     * Get Accounting ID Parameter from Parameter Bag (AccountID generic interface)
-     * @see https://developer.xero.com/documentation/api/accounts
+     * Get Accounting ID Parameter from Parameter Bag (InvoiceID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
      */
     public function getAccountingID() {
@@ -38,13 +33,14 @@ class DeleteAccountRequest extends AbstractRequest
 
     /**
      * Set Status Parameter from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/accounts
-     * @param string $value Account Status
-     * @return DeleteAccountRequest
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param string $value Contact Name
+     * @return DeletePaymentRequest
      */
     public function setStatus($value) {
         return  $this->setParameter('status', $value);
     }
+
 
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
@@ -56,7 +52,7 @@ class DeleteAccountRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('accounting_id');
-        $this->issetParam('AccountID', 'accounting_id');
+        $this->issetParam('InvoiceID', 'accounting_id');
         $this->issetParam('Status', 'status');
         return $this->data;
     }
@@ -64,7 +60,7 @@ class DeleteAccountRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|DeleteAccountResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|DeleteContactResponse
      */
     public function sendData($data)
     {
@@ -73,13 +69,13 @@ class DeleteAccountRequest extends AbstractRequest
             $xero->getOAuthClient()->setToken($this->getAccessToken());
             $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
 
-            $account = new Account($xero);
+            $invoice = new Invoice($xero);
             foreach ($data as $key => $value){
                 $methodName = 'set'. $key;
-                $account->$methodName($value);
+                $invoice->$methodName($value);
             }
 
-            $response = $account->save();
+            $response = $invoice->save();
 
         } catch (\Exception $exception){
             $response = [
@@ -95,10 +91,10 @@ class DeleteAccountRequest extends AbstractRequest
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
-     * @return DeleteAccountResponse
+     * @return DeletePaymentResponse
      */
     public function createResponse($data)
     {
-        return $this->response = new DeleteAccountResponse($this, $data);
+        return $this->response = new DeletePaymentResponse($this, $data);
     }
 }
