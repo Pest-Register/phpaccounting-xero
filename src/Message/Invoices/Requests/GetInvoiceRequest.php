@@ -3,7 +3,7 @@
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
-use PHPAccounting\Xero\Message\Invoices\Responses\GetPaymentResponse;
+use PHPAccounting\Xero\Message\Invoices\Responses\GetInvoiceResponse;
 use XeroPHP\Models\Accounting\Invoice;
 
 /**
@@ -17,7 +17,7 @@ class GetInvoiceRequest extends AbstractRequest
      * Set AccountingID from Parameter Bag (InvoiceID generic interface)
      * @see https://developer.xero.com/documentation/api/invoices
      * @param $value
-     * @return GetPaymentRequest
+     * @return GetInvoiceRequest
      */
     public function setAccountingIDs($value) {
         return $this->setParameter('accounting_ids', $value);
@@ -27,7 +27,7 @@ class GetInvoiceRequest extends AbstractRequest
      * Set Page Value for Pagination from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @param $value
-     * @return GetPaymentRequest
+     * @return GetInvoiceRequest
      */
     public function setPage($value) {
         return $this->setParameter('page', $value);
@@ -92,10 +92,10 @@ class GetInvoiceRequest extends AbstractRequest
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
-     * @return GetPaymentResponse
+     * @return GetInvoiceResponse
      */
     public function createResponse($data)
     {
-        return $this->response = new GetPaymentResponse($this, $data);
+        return $this->response = new GetInvoiceResponse($this, $data);
     }
 }

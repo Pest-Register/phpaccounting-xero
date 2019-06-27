@@ -3,6 +3,7 @@
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
 use PHPAccounting\Xero\Message\AbstractRequest;
+use PHPAccounting\Xero\Message\Invoices\Responses\DeleteInvoiceResponse;
 use PHPAccounting\Xero\Message\Invoices\Responses\DeletePaymentResponse;
 use XeroPHP\Models\Accounting\Invoice;
 
@@ -16,7 +17,7 @@ class DeleteInvoiceRequest extends AbstractRequest
      * Set AccountingID from Parameter Bag (InvoiceID generic interface)
      * @see https://developer.xero.com/documentation/api/invoices
      * @param $value
-     * @return DeletePaymentRequest
+     * @return DeleteInvoiceRequest
      */
     public function setAccountingID($value) {
         return $this->setParameter('accounting_id', $value);
@@ -35,7 +36,7 @@ class DeleteInvoiceRequest extends AbstractRequest
      * Set Status Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @param string $value Contact Name
-     * @return DeletePaymentRequest
+     * @return DeleteInvoiceRequest
      */
     public function setStatus($value) {
         return  $this->setParameter('status', $value);
@@ -60,7 +61,7 @@ class DeleteInvoiceRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|DeleteContactResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|DeleteInvoiceResponse
      */
     public function sendData($data)
     {
@@ -91,10 +92,10 @@ class DeleteInvoiceRequest extends AbstractRequest
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
-     * @return DeletePaymentResponse
+     * @return DeleteInvoiceResponse
      */
     public function createResponse($data)
     {
-        return $this->response = new DeletePaymentResponse($this, $data);
+        return $this->response = new DeleteInvoiceResponse($this, $data);
     }
 }

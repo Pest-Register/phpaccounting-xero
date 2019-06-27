@@ -4,6 +4,7 @@ namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
+use PHPAccounting\Xero\Message\Invoices\Responses\CreateInvoiceResponse;
 use PHPAccounting\Xero\Message\Invoices\Responses\CreatePaymentResponse;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Invoice;
@@ -29,7 +30,7 @@ class CreateInvoiceRequest extends AbstractRequest
      * Set Type Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @param string $value Invoice Type
-     * @return CreatePaymentRequest
+     * @return CreateInvoiceRequest
      */
     public function setType($value){
         return $this->setParameter('type', $value);
@@ -48,7 +49,7 @@ class CreateInvoiceRequest extends AbstractRequest
      * Set Invoice Data Parameter from Parameter Bag (LineItems)
      * @see https://developer.xero.com/documentation/api/invoices
      * @param array $value Invoice Item Lines
-     * @return CreatePaymentRequest
+     * @return CreateInvoiceRequest
      */
     public function setInvoiceData($value){
         return $this->setParameter('invoice_data', $value);
@@ -67,7 +68,7 @@ class CreateInvoiceRequest extends AbstractRequest
      * Set Date Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @param string $value Invoice date
-     * @return CreatePaymentRequest
+     * @return CreateInvoiceRequest
      */
     public function setDate($value){
         return $this->setParameter('date', $value);
@@ -86,7 +87,7 @@ class CreateInvoiceRequest extends AbstractRequest
      * Set Due Date Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @param string $value Invoice Due Date
-     * @return CreatePaymentRequest
+     * @return CreateInvoiceRequest
      */
     public function setDueDate($value){
         return $this->setParameter('due_date', $value);
@@ -105,7 +106,7 @@ class CreateInvoiceRequest extends AbstractRequest
      * Set Contact Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @param Contact $value Contact
-     * @return CreatePaymentRequest
+     * @return CreateInvoiceRequest
      */
     public function setContact($value){
         return $this->setParameter('contact', $value);
@@ -169,7 +170,7 @@ class CreateInvoiceRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|CreateContactResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|CreateInvoiceResponse
      */
     public function sendData($data)
     {
@@ -207,11 +208,11 @@ class CreateInvoiceRequest extends AbstractRequest
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
-     * @return CreatePaymentResponse
+     * @return CreateInvoiceResponse
      */
     public function createResponse($data)
     {
-        return $this->response = new CreatePaymentResponse($this, $data);
+        return $this->response = new CreateInvoiceResponse($this, $data);
     }
 
 
