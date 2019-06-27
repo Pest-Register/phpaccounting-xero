@@ -1,10 +1,10 @@
 <?php
 
-namespace PHPAccounting\Xero\Message\Invoices\Requests;
+namespace PHPAccounting\Xero\Message\Payments\Requests;
 
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\Invoices\Responses\CreatePaymentResponse;
+use PHPAccounting\Xero\Message\Payments\Responses\CreatePaymentResponse;
 use XeroPHP\Models\Accounting\Account;
 use XeroPHP\Models\Accounting\CreditNote;
 use XeroPHP\Models\Accounting\Invoice;

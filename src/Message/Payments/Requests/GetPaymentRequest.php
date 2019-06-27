@@ -1,9 +1,8 @@
 <?php
 
-namespace PHPAccounting\Xero\Message\Invoices\Requests;
+namespace PHPAccounting\Xero\Message\Payments\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
-use PHPAccounting\Xero\Message\Invoices\Responses\GetPaymentResponse;
+use PHPAccounting\Xero\Message\Payments\Responses\GetPaymentResponse;
 use XeroPHP\Models\Accounting\Payment;
 
 /**
@@ -59,7 +58,7 @@ class GetPaymentRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|GetContactResponse
+     * @return GetPaymentResponse
      */
     public function sendData($data)
     {

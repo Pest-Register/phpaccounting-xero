@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPAccounting\Xero\Message\Invoices\Requests;
+namespace PHPAccounting\Xero\Message\Payments\Requests;
 
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\Invoices\Responses\DeletePaymentResponse;
+use PHPAccounting\Xero\Message\Payments\Responses\DeletePaymentResponse;
 use XeroPHP\Models\Accounting\Invoice;
 
 /**

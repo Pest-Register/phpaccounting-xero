@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPAccounting\Xero\Message\Invoices\Responses;
+namespace PHPAccounting\Xero\Message\Payments\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
