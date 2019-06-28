@@ -28,7 +28,8 @@ class UpdateInvoiceTest extends BaseTest
                         'description' => $faker->sentence,
                         'quantity' => '20',
                         'unit_amount' => '100.00',
-                        'discount_rate' => '10'
+                        'discount_rate' => '10',
+                        'code' => 200
                     ]
                 ]
             ];

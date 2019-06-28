@@ -23,7 +23,8 @@ class CreateInvoiceTest extends BaseTest
                         'quantity' => '10',
                         'unit_amount' => '100.00',
                         'discount_rate' => '20',
-                        'amount' => 800
+                        'amount' => 800,
+                        'code' => 200
                     ]
                 ]
             ];
