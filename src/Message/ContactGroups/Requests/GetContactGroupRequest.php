@@ -3,6 +3,7 @@ namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\GetAccountResponse;
+use PHPAccounting\Xero\Message\ContactGroups\Responses\GetContactGroupResponse;
 use XeroPHP\Models\Accounting\ContactGroup;
 
 /**
@@ -53,7 +54,7 @@ class GetContactGroupRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|GetAccountResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|GetContactGroupResponse
      */
     public function sendData($data)
     {
@@ -86,10 +87,10 @@ class GetContactGroupRequest extends AbstractRequest
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
-     * @return GetAccountResponse
+     * @return GetContactGroupResponse
      */
     public function createResponse($data)
     {
-        return $this->response = new GetAccountResponse($this, $data);
+        return $this->response = new GetContactGroupResponse($this, $data);
     }
 }
