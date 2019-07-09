@@ -133,6 +133,7 @@ class CreateContactResponse extends AbstractResponse
             $newContact['accounts_receivable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('ReceivableTaxType', $contact);;
             $newContact['accounts_payable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('AccountsPayableTaxType', $contact);;
             $newContact['default_currency'] = IndexSanityCheckHelper::indexSanityCheck('DefaultCurrency', $contact);
+            $newContact['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $contact);
             if (IndexSanityCheckHelper::indexSanityCheck('ContactGroups', $contact)) {
                 $newContact = $this->parseContactGroups($contact['ContactGroups'], $newContact);
             }

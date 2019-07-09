@@ -44,6 +44,7 @@ class DeleteAccountResponse extends AbstractResponse
             $newAccount = [];
             $newAccount['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('AccountID', $account);
             $newAccount['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $account);
+            $newAccount['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $account);
             array_push($accounts, $newAccount);
         }
 

@@ -105,6 +105,7 @@ class GetInvoiceResponse extends AbstractResponse
             $newInvoice['currency_rate'] = $invoice->getCurrencyRate();
             $newInvoice['date'] = $invoice->getDate();
             $newInvoice['due_date'] = $invoice->getDueDate();
+            $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
             $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
             $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
 
@@ -126,6 +127,7 @@ class GetInvoiceResponse extends AbstractResponse
                 $newInvoice['currency_rate'] = $invoice->getCurrencyRate();
                 $newInvoice['date'] = $invoice->getDate();
                 $newInvoice['due_date'] = $invoice->getDueDate();
+                $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
                 $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
                 $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
 

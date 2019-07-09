@@ -136,6 +136,7 @@ class GetContactResponse extends AbstractResponse
             $newContact['accounts_receivable_tax_type'] = $contact->getAccountsReceivableTaxType();
             $newContact['accounts_payable_tax_type'] = $contact->getAccountsPayableTaxType();
             $newContact['default_currency'] = $contact->getDefaultCurrency();
+            $newContact['updated_at'] = $contact->getUpdatedDateUTC();
             $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
             $newContact = $this->parsePhones($contact->getPhones(), $newContact);
             $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
@@ -156,6 +157,7 @@ class GetContactResponse extends AbstractResponse
                 $newContact['accounts_receivable_tax_type'] = $contact->getAccountsReceivableTaxType();
                 $newContact['accounts_payable_tax_type'] = $contact->getAccountsPayableTaxType();
                 $newContact['default_currency'] = $contact->getDefaultCurrency();
+                $newContact['updated_at'] = $contact->getUpdatedDateUTC();
                 $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
                 $newContact = $this->parsePhones($contact->getPhones(), $newContact);
                 $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);

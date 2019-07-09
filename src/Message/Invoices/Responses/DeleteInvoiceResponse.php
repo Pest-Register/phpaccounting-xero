@@ -44,6 +44,7 @@ class DeleteInvoiceResponse extends AbstractResponse
             $newInvoice = [];
             $newInvoice['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('InvoiceID', $invoice);
             $newInvoice['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $invoice);
+            $newInvoice['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $invoice);
             array_push($invoices, $newInvoice);
         }
 

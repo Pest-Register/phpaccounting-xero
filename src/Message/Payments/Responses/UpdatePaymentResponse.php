@@ -93,7 +93,7 @@ class UpdatePaymentResponse extends AbstractResponse
             $newPayment['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $payment);
             $newPayment['has_account'] = IndexSanityCheckHelper::indexSanityCheck('HasAccount', $payment);
             $newPayment['is_reconciled'] = IndexSanityCheckHelper::indexSanityCheck('IsReconciled', $payment);
-
+            $newPayment['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $payment);
             if (IndexSanityCheckHelper::indexSanityCheck('Account', $payment)) {
                 $newPayment = $this->parseAccount($payment['Account'], $newPayment);
             }

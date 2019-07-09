@@ -3,6 +3,7 @@
 namespace PHPAccounting\Xero\Message\Payments\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
+use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Payment;
 
@@ -90,6 +91,7 @@ class GetPaymentResponse extends AbstractResponse
             $newPayment['type'] = $payment->getPaymentType();
             $newPayment['status'] = $payment->getStatus();
             $newPayment['is_reconciled'] = $payment->getIsReconciled();
+            $newPayment['updated_at'] = $payment->getUpdatedDateUTC();
             $newPayment = $this->parseAccount($payment->getAccount(), $newPayment);
             $newPayment = $this->parseInvoice($payment->getInvoice(), $newPayment);
 
@@ -106,6 +108,7 @@ class GetPaymentResponse extends AbstractResponse
                 $newPayment['type'] = $payment->getPaymentType();
                 $newPayment['status'] = $payment->getStatus();
                 $newPayment['is_reconciled'] = $payment->getIsReconciled();
+                $newPayment['updated_at'] = $payment->getUpdatedDateUTC();
                 $newPayment = $this->parseAccount($payment->getAccount(), $newPayment);
                 $newPayment = $this->parseInvoice($payment->getInvoice(), $newPayment);
 

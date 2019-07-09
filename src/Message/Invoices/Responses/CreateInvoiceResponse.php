@@ -102,6 +102,7 @@ class CreateInvoiceResponse extends AbstractResponse
             $newInvoice['currency_rate'] = IndexSanityCheckHelper::indexSanityCheck('CurrencyRate', $invoice);
             $newInvoice['discount_total'] = IndexSanityCheckHelper::indexSanityCheck('TotalDiscount', $invoice);
             $newInvoice['date'] = IndexSanityCheckHelper::indexSanityCheck('Date', $invoice);
+            $newInvoice['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $invoice);
 
             if (IndexSanityCheckHelper::indexSanityCheck('Contact', $invoice)) {
                 $newInvoice = $this->parseContact($invoice['Contact'], $newInvoice);

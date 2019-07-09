@@ -52,6 +52,7 @@ class UpdateAccountResponse extends AbstractResponse
             $newAccount['bank_account_type'] = IndexSanityCheckHelper::indexSanityCheck('BankAccountType', $account);
             $newAccount['currency_code'] = IndexSanityCheckHelper::indexSanityCheck('CurrencyCode', $account);
             $newAccount['system_account'] = IndexSanityCheckHelper::indexSanityCheck('SystemAccount', $account);
+            $newAccount['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $account);
             array_push($accounts, $newAccount);
         }
 

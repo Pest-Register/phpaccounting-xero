@@ -38,15 +38,16 @@ class DeletePaymentResponse extends AbstractResponse
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
-    public function getInvoices(){
-        $invoices = [];
-        foreach ($this->data as $invoice) {
-            $newInvoice = [];
-            $newInvoice['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('InvoiceID', $invoice);
-            $newInvoice['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $invoice);
-            array_push($invoices, $newInvoice);
+    public function getPayments(){
+        $payment = [];
+        foreach ($this->data as $payment) {
+            $newPayment = [];
+            $newPayment['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('InvoiceID', $payment);
+            $newPayment['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $payment);
+            $newPayment['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $payment);
+            array_push($payment, $newPayment);
         }
 
-        return $invoices;
+        return $payment;
     }
 }

@@ -45,6 +45,7 @@ class DeleteContactResponse extends AbstractResponse
             $newContact['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('ContactID', $contact);
             $newContact['name'] = IndexSanityCheckHelper::indexSanityCheck('Name', $contact);
             $newContact['status'] = IndexSanityCheckHelper::indexSanityCheck('ContactStatus', $contact);
+            $newContact['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $contact);
             array_push($contacts, $newContact);
         }
 
