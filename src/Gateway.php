@@ -193,4 +193,14 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\Xero\Message\Payments\Requests\DeletePaymentRequest', $parameters);
     }
 
+    /**
+     * Organisation Requests
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+
+    public function getOrganisation(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\Organisations\Requests\GetOrganisationRequest', $parameters);
+    }
+
 }

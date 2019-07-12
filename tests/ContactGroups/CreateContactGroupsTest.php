@@ -14,11 +14,7 @@ class CreateContactGroupsTest extends BaseTest
             $params = [
                 'name' => $faker->company,
                 'status' => 'ACTIVE',
-                'contacts' => [
-                    [
-                        'accounting_id' => '540fcb05-f136-4658-a5b9-81265f8ad459'
-                    ]
-                ]
+                'contacts' => []
             ];
 
             $response = $this->gateway->createContactGroup($params)->send();

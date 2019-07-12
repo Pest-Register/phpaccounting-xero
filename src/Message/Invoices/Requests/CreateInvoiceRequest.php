@@ -5,7 +5,6 @@ namespace PHPAccounting\Xero\Message\Invoices\Requests;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\CreateInvoiceResponse;
-use PHPAccounting\Xero\Message\Invoices\Responses\CreatePaymentResponse;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Invoice\LineItem;
