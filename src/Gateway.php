@@ -203,4 +203,26 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\Xero\Message\Organisations\Requests\GetOrganisationRequest', $parameters);
     }
 
+    /**
+     * Inventory Item Requests
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+
+    public function createInventoryItem(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\InventoryItems\Requests\CreateInventoryItemRequest', $parameters);
+    }
+
+    public function updateInventoryItem(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\InventoryItems\Requests\UpdateInventoryItemRequest', $parameters);
+    }
+
+    public function getInventoryItem(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\InventoryItems\Requests\GetInventoryItemRequest', $parameters);
+    }
+
+    public function deleteInventoryItem(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\InventoryItems\Requests\DeleteInventoryItemRequest', $parameters);
+    }
+
 }
