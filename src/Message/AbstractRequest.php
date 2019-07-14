@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 13/05/2019
- * Time: 3:30 PM
- */
-
 namespace PHPAccounting\Xero\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
+use XeroPHP\Application\PartnerApplication;
+use XeroPHP\Application\PrivateApplication;
+use XeroPHP\Application\PublicApplication;
 
 class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -51,13 +47,13 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $type = $value['type'];
         switch ($type) {
             case "private":
-                $this->xeroInstance = new \XeroPHP\Application\PrivateApplication($value['config']);
+                $this->xeroInstance = new PrivateApplication($value['config']);
                 break;
             case "public":
-                $this->xeroInstance = new \XeroPHP\Application\PublicApplication($value['config']);
+                $this->xeroInstance = new PublicApplication($value['config']);
                 break;
             case "partner":
-                $this->xeroInstance = new \XeroPHP\Application\PartnerApplication($value['config']);
+                $this->xeroInstance = new PartnerApplication($value['config']);
                 break;
             default:
                 throw new \Exception('Application type must be set');
