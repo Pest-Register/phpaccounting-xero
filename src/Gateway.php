@@ -225,4 +225,26 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\Xero\Message\InventoryItems\Requests\DeleteInventoryItemRequest', $parameters);
     }
 
+    /**
+     * Tax Rates Requests
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+
+    public function createTaxRate(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\TaxRates\Requests\CreateTaxRateRequest', $parameters);
+    }
+
+    public function updateTaxRate(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\TaxRates\Requests\UpdateTaxRateRequest', $parameters);
+    }
+
+    public function getTaxRate(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\TaxRates\Requests\GetTaxRateRequest', $parameters);
+    }
+
+    public function deleteTaxRate(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\TaxRates\Requests\DeleteTaxRateRequest', $parameters);
+    }
+
 }
