@@ -5,7 +5,6 @@ namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\CreateInventoryItemResponse;
-use PHPAccounting\Xero\Message\InventoryItems\Responses\CreateTaxRateResponse;
 use XeroPHP\Models\Accounting\Item;
 
 /**
