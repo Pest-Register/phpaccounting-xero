@@ -38,8 +38,6 @@ class DeleteInventoryItemResponse extends AbstractResponse
      * @return array
      */
     public function getInventoryItems(){
-        $items= [];
-
-        return $items;
+        return [];
     }
 }

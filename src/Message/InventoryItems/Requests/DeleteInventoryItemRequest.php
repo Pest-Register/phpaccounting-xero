@@ -3,6 +3,8 @@
 namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
 
 use PHPAccounting\Xero\Message\AbstractRequest;
+use PHPAccounting\Xero\Message\InventoryItems\Responses\DeleteInventoryItemResponse;
+use XeroPHP\Models\Accounting\Item;
 
 /**
  * Delete Inventory Item
@@ -39,7 +41,6 @@ class DeleteInventoryItemRequest extends AbstractRequest
         return  $this->setParameter('status', $value);
     }
 
-
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
@@ -50,27 +51,43 @@ class DeleteInventoryItemRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('accounting_id');
-        $this->issetParam('InvoiceID', 'accounting_id');
-        $this->issetParam('Status', 'status');
-        return $this->data;
     }
+
 
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
+     * @return \Omnipay\Common\Message\ResponseInterface|DeleteInventoryItemResponse
      */
     public function sendData($data)
     {
+        try {
+            $xero = $this->createXeroApplication();
+            $xero->getOAuthClient()->setToken($this->getAccessToken());
+            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
 
-        return;
+            $item = new Item($xero);
+            $item->setItemID($this->getAccountingID());
+
+            $response = $item->delete();
+
+        } catch (\Exception $exception){
+            $response = [
+                'status' => 'error',
+                'detail' => $exception->getMessage()
+            ];
+            return $this->createResponse($response);
+        }
+        return $this->createResponse($response);
     }
 
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
+     * @return DeleteInventoryItemResponse
      */
     public function createResponse($data)
     {
-        return;
+        return $this->response = new DeleteInventoryItemResponse($this, $data);
     }
 }
