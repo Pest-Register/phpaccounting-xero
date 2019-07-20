@@ -264,13 +264,11 @@ class CreateContactRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('name');
-
         $this->issetParam('Name', 'name');
         $this->issetParam('FirstName', 'display_name');
         $this->issetParam('LastName', 'last_name');
         $this->issetParam('EmailAddress', 'email_address');
         $this->issetParam('Website', 'website');
-        $this->issetParam('IsIndividual', 'is_individual');
         $this->issetParam('BankAccountDetails', 'bank_account_details');
         $this->issetParam('TaxNumber', 'tax_number');
         $this->issetParam('AccountsReceivableTaxType', 'accounts_receivable_tax_type');

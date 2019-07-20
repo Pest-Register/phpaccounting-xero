@@ -114,6 +114,23 @@ class CreateContactResponse extends AbstractResponse
     }
 
     /**
+     * @param $isSupplier
+     * @param $isCustomer
+     * @param $contact
+     * @return mixed
+     */
+    private function parseTypes($isSupplier, $isCustomer, $contact) {
+        $contact['types'] = [];
+        if ($isSupplier) {
+            array_push($contact['types'], 'SUPPLIER');
+        }
+        if ($isCustomer) {
+            array_push($contact['types'], 'CUSTOMER');
+        }
+        return $contact;
+    }
+
+    /**
      * Return all Contacts with Generic Schema Variable Assignment
      * @return array
      */
@@ -126,7 +143,7 @@ class CreateContactResponse extends AbstractResponse
             $newContact['last_name'] = IndexSanityCheckHelper::indexSanityCheck('LastName', $contact);
             $newContact['email_address'] =IndexSanityCheckHelper::indexSanityCheck('EmailAddress', $contact);;
             $newContact['website'] = IndexSanityCheckHelper::indexSanityCheck('Website', $contact);;
-            $newContact['type'] = (IndexSanityCheckHelper::indexSanityCheck('IsSupplier', $contact) === 'true' ? 'SUPPLIER' : 'CUSTOMER');
+            $newContact['types'] =
             $newContact['is_individual'] = (IndexSanityCheckHelper::indexSanityCheck('IsSupplier', $contact) === 'true' ? true : false);
             $newContact['bank_account_details'] = IndexSanityCheckHelper::indexSanityCheck('BankAccountDetails', $contact);;
             $newContact['tax_number'] = IndexSanityCheckHelper::indexSanityCheck('TaxNumber', $contact);;
@@ -142,6 +159,10 @@ class CreateContactResponse extends AbstractResponse
             }
             if (IndexSanityCheckHelper::indexSanityCheck('Addresses', $contact)) {
                 $newContact = $this->parseAddresses($contact['Addresses'], $newContact);
+            }
+
+            if (IndexSanityCheckHelper::indexSanityCheck('IsSupplier', $contact) && IndexSanityCheckHelper::indexSanityCheck('IsCustomer', $contact)) {
+                $newContact = $this->parseTypes($contact['IsSupplier'], $contact['IsCustomer'], $newContact);
             }
 
             array_push($contacts, $newContact);

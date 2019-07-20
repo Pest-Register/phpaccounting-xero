@@ -115,6 +115,23 @@ class GetContactResponse extends AbstractResponse
     }
 
     /**
+     * @param $isSupplier
+     * @param $isCustomer
+     * @param $contact
+     * @return mixed
+     */
+    private function parseTypes($isSupplier, $isCustomer, $contact) {
+        $contact['types'] = [];
+        if ($isSupplier) {
+            array_push($contact['types'], 'SUPPLIER');
+        }
+        if ($isCustomer) {
+            array_push($contact['types'], 'CUSTOMER');
+        }
+        return $contact;
+    }
+
+    /**
      * Return all Contacts with Generic Schema Variable Assignment
      * @return array
      */
@@ -129,7 +146,6 @@ class GetContactResponse extends AbstractResponse
             $newContact['last_name'] = $contact->getLastName();
             $newContact['email_address'] = $contact->getEmailAddress();
             $newContact['website'] = $contact->getWebsite();
-            $newContact['type'] = ($contact->getIsSupplier() ? 'SUPPLIER' : 'CUSTOMER');
             $newContact['is_individual'] = !$contact->getIsSupplier();
             $newContact['bank_account_details'] = $contact->getBankAccountDetails();
             $newContact['tax_number'] = $contact->getTaxNumber();
@@ -140,6 +156,7 @@ class GetContactResponse extends AbstractResponse
             $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
             $newContact = $this->parsePhones($contact->getPhones(), $newContact);
             $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
+            $newContact = $this->parseTypes($contact->getIsSupplier(), $contact->getIsCustomer(), $newContact);
             array_push($contacts, $newContact);
         } else {
             foreach ($this->data as $contact) {
@@ -150,7 +167,6 @@ class GetContactResponse extends AbstractResponse
                 $newContact['last_name'] = $contact->getLastName();
                 $newContact['email_address'] = $contact->getEmailAddress();
                 $newContact['website'] = $contact->getWebsite();
-                $newContact['type'] = ($contact->getIsSupplier() ? 'SUPPLIER' : 'CUSTOMER');
                 $newContact['is_individual'] = !$contact->getIsSupplier();
                 $newContact['bank_account_details'] = $contact->getBankAccountDetails();
                 $newContact['tax_number'] = $contact->getTaxNumber();
@@ -161,6 +177,7 @@ class GetContactResponse extends AbstractResponse
                 $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
                 $newContact = $this->parsePhones($contact->getPhones(), $newContact);
                 $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
+                $newContact = $this->parseTypes($contact->getIsSupplier(), $contact->getIsCustomer(), $newContact);
                 array_push($contacts, $newContact);
             }
         }
