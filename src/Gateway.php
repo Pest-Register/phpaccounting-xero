@@ -247,4 +247,13 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\Xero\Message\TaxRates\Requests\DeleteTaxRateRequest', $parameters);
     }
 
+    /**
+     * Journal Requests
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function getJournal(array $parameters = []) {
+        return $this->createRequest('\PHPAccounting\Xero\Message\Journals\Requests\GetJournalRequest', $parameters);
+    }
+
 }
