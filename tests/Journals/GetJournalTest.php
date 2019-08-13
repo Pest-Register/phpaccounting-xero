@@ -8,6 +8,7 @@ use Tests\BaseTest;
 
 class GetJournalTest extends BaseTest
 {
+
     public function testGetJournals()
     {
         $this->setUp();

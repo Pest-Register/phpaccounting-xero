@@ -94,7 +94,6 @@ class GetJournalResponse extends AbstractResponse
             }
         }
 
-
         return $journals;
     }
 }
