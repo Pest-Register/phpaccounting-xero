@@ -6,6 +6,7 @@ namespace PHPAccounting\Xero\Message\Journals\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
 use XeroPHP\Models\Accounting\Journal;
+use XeroPHP\Models\Accounting\TaxRate;
 
 class GetJournalResponse extends AbstractResponse
 {
@@ -36,6 +37,7 @@ class GetJournalResponse extends AbstractResponse
         if ($data) {
             $journalItems = [];
             foreach($data as $journalItem) {
+//                TaxRate::
                 $newJournalItem = [];
                 $newJournalItem['accounting_id'] = $journalItem->getJournalLineID();
                 $newJournalItem['account_id'] = $journalItem->getAccountID();
@@ -47,13 +49,12 @@ class GetJournalResponse extends AbstractResponse
                 $newJournalItem['gross_amount'] = $journalItem->getGrossAmount();
                 $newJournalItem['tax_amount'] = $journalItem->getTaxAmount();
                 $newJournalItem['tax_type'] = $journalItem->getTaxType();
-                $newJournalItem['tax_name'] = $journalItem->getTaxName();
+//                $newJournalItem['tax_name'] = $journalItem->getTaxName();
                 array_push($journalItems, $newJournalItem);
             }
 
             $journal['journal_data'] = $journalItems;
         }
-
         return $journal;
     }
     /**
@@ -72,7 +73,6 @@ class GetJournalResponse extends AbstractResponse
             $newJournal['source_id'] = $journal->getSourceID();
             $newJournal['source_type'] = $journal->getSourceType();
             $newJournal['updated_at'] = $journal->getCreatedDateUTC();
-
             $newJournal = $this->parseJournalItems($journal->getJournalLines(), $newJournal);
 
             array_push($journals, $newJournal);
@@ -87,9 +87,7 @@ class GetJournalResponse extends AbstractResponse
                 $newJournal['source_id'] = $journal->getSourceID();
                 $newJournal['source_type'] = $journal->getSourceType();
                 $newJournal['updated_at'] = $journal->getCreatedDateUTC();
-
                 $newJournal = $this->parseJournalItems($journal->getJournalLines(), $newJournal);
-
                 array_push($journals, $newJournal);
             }
         }
