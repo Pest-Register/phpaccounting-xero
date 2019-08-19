@@ -37,7 +37,6 @@ class GetJournalResponse extends AbstractResponse
         if ($data) {
             $journalItems = [];
             foreach($data as $journalItem) {
-//                TaxRate::
                 $newJournalItem = [];
                 $newJournalItem['accounting_id'] = $journalItem->getJournalLineID();
                 $newJournalItem['account_id'] = $journalItem->getAccountID();
@@ -49,7 +48,6 @@ class GetJournalResponse extends AbstractResponse
                 $newJournalItem['gross_amount'] = $journalItem->getGrossAmount();
                 $newJournalItem['tax_amount'] = $journalItem->getTaxAmount();
                 $newJournalItem['tax_type'] = $journalItem->getTaxType();
-//                $newJournalItem['tax_name'] = $journalItem->getTaxName();
                 array_push($journalItems, $newJournalItem);
             }
 
@@ -72,7 +70,6 @@ class GetJournalResponse extends AbstractResponse
             $newJournal['reference_id'] = $journal->getReference();
             $newJournal['source_id'] = $journal->getSourceID();
             $newJournal['source_type'] = $journal->getSourceType();
-            $newJournal['updated_at'] = $journal->getCreatedDateUTC();
             $newJournal = $this->parseJournalItems($journal->getJournalLines(), $newJournal);
 
             array_push($journals, $newJournal);
@@ -86,7 +83,6 @@ class GetJournalResponse extends AbstractResponse
                 $newJournal['reference_id'] = $journal->getReference();
                 $newJournal['source_id'] = $journal->getSourceID();
                 $newJournal['source_type'] = $journal->getSourceType();
-                $newJournal['updated_at'] = $journal->getCreatedDateUTC();
                 $newJournal = $this->parseJournalItems($journal->getJournalLines(), $newJournal);
                 array_push($journals, $newJournal);
             }
