@@ -105,7 +105,7 @@ class GetOrganisationResponse extends AbstractResponse
             $newOrganisation['country_code'] = $organisation->getCountryCode();
 
             $newOrganisation['legal_name'] = $organisation->getLegalName();
-            $newOrganisation['pays_tax'] = $organisation->getPaysTax();
+            $newOrganisation['gst_registered'] = $organisation->getPaysTax();
             $newOrganisation['version'] = $organisation->getVersion();
             $newOrganisation['organisation_type'] = $organisation->getOrganisationEntityType();
             $newOrganisation['base_currency'] = $organisation->getBaseCurrency();
