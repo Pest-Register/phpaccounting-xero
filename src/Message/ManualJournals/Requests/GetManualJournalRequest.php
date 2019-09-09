@@ -1,20 +1,21 @@
 <?php
 
 
-namespace PHPAccounting\Xero\Message\Journals\Requests;
+namespace PHPAccounting\Xero\Message\ManualJournals\Requests;
 
 
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\Journals\Responses\GetManualJournalResponse;
+use PHPAccounting\Xero\Message\ManualJournals\Responses\GetManualJournalResponse;
 use XeroPHP\Models\Accounting\Journal;
+use XeroPHP\Models\Accounting\ManualJournal;
 
-class GetJournalRequest extends AbstractRequest
+class GetManualJournalRequest extends AbstractRequest
 {
     /**
      * Set AccountingID from Parameter Bag (JournalID generic interface)
-     * @see https://developer.xero.com/documentation/api/journals
+     * @see https://developer.xero.com/documentation/api/manual-journals
      * @param $value
-     * @return GetJournalRequest
+     * @return GetManualJournalRequest
      */
     public function setAccountingIDs($value) {
         return $this->setParameter('accounting_ids', $value);
@@ -22,9 +23,9 @@ class GetJournalRequest extends AbstractRequest
 
     /**
      * Set Page Value for Pagination from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/journals
+     * @see https://developer.xero.com/documentation/api/manual-journals
      * @param $value
-     * @return GetJournalRequest
+     * @return GetManualJournalRequest
      */
     public function setPage($value) {
         return $this->setParameter('page', $value);
@@ -67,13 +68,13 @@ class GetJournalRequest extends AbstractRequest
 
             if ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
-                    $journals = $xero->loadByGUID(Journal::class, $this->getAccountingIDs());
+                    $journals = $xero->loadByGUID(ManualJournal::class, $this->getAccountingIDs());
                 }
                 else {
-                    $journals = $xero->loadByGUIDs(Journal::class, $this->getAccountingIDs());
+                    $journals = $xero->loadByGUIDs(ManualJournal::class, $this->getAccountingIDs());
                 }
             } else {
-                $journals = $xero->load(Journal::class)->execute();
+                $journals = $xero->load(ManualJournal::class)->page($this->getPage())->execute();
             }
             $response = $journals;
 

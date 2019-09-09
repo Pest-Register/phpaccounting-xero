@@ -256,4 +256,21 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\PHPAccounting\Xero\Message\Journals\Requests\GetJournalRequest', $parameters);
     }
 
+    /**
+     * Manual Journal Requests
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function getManualJournal(array $parameters = []) {
+        return $this->createRequest('\PHPAccounting\Xero\Message\ManualJournals\Requests\GetManualJournalRequest', $parameters);
+    }
+
+    public function createManualJournal(array $parameters = []) {
+        return $this->createRequest('\PHPAccounting\Xero\Message\ManualJournals\Requests\CreateManualJournalRequest', $parameters);
+    }
+
+    public function updateManualJournal(array $parameters = []) {
+        return $this->createRequest('\PHPAccounting\Xero\Message\ManualJournals\Requests\CreateManualJournalRequest', $parameters);
+    }
+
 }
