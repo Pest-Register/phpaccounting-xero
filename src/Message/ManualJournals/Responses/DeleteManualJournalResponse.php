@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: MaxYendall
- * Date: 9/09/2019
- * Time: 4:41 PM
- */
 
-namespace PHPAccounting\XERO\Message\ManualJournals\Responses;
+namespace PHPAccounting\Xero\Message\ManualJournals\Responses;
 
 
 use Omnipay\Common\Message\AbstractResponse;

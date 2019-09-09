@@ -6,10 +6,11 @@
  * Time: 4:41 PM
  */
 
-namespace PHPAccounting\XERO\Message\ManualJournals\Requests;
+namespace PHPAccounting\Xero\Message\ManualJournals\Requests;
 
 
-use PHPAccounting\XERO\Message\ManualJournals\Responses\DeleteManualJournalResponse;
+use PHPAccounting\Xero\Message\AbstractRequest;
+use PHPAccounting\Xero\Message\ManualJournals\Responses\DeleteManualJournalResponse;
 use XeroPHP\Models\Accounting\ManualJournal;
 
 class DeleteManualJournalRequest extends AbstractRequest
