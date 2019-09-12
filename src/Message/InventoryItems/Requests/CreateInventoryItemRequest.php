@@ -75,6 +75,25 @@ class CreateInventoryItemRequest extends AbstractRequest
      * @see https://developer.xero.com/documentation/api/items
      * @return mixed
      */
+    public function getIsTracked() {
+        return $this->getParameter('is_tracked');
+    }
+
+    /**
+     * Set Is Buying Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/items
+     * @param $value
+     * @return mixed
+     */
+    public function setIsTracked($value) {
+        return $this->setParameter('is_tracked', $value);
+    }
+
+    /**
+     * Get Is Buying Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/items
+     * @return mixed
+     */
     public function getIsBuying() {
         return $this->getParameter('is_buying');
     }
@@ -175,6 +194,25 @@ class CreateInventoryItemRequest extends AbstractRequest
     }
 
     /**
+     * Get Asset Details Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/items
+     * @return mixed
+     */
+    public function getAssetDetails() {
+        return $this->getParameter('asset_details');
+    }
+
+    /**
+     * Set Asset Details Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/items
+     * @param $value
+     * @return mixed
+     */
+    public function setAssetDetails($value) {
+        return $this->setParameter('asset_details', $value);
+    }
+
+    /**
      * Set Sales Details Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/items
      * @param $value
@@ -244,15 +282,18 @@ class CreateInventoryItemRequest extends AbstractRequest
         $this->validate('code');
 
         $this->issetParam('Code', 'code');
-        $this->issetParam('InventoryAssetAccountCode', 'inventory_account_code');
         $this->issetParam('Name', 'name');
         $this->issetParam('IsSold', 'is_selling');
         $this->issetParam('IsPurchased', 'is_buying');
+        $this->issetParam('IsTrackedAsInventory', 'is_tracked');
         $this->issetParam('Description', 'description');
         $this->issetParam('PurchaseDescription', 'buying_description');
         $this->data['PurchaseDetails'] = ($this->getPurchaseDetails() != null ? $this->getPurchaseDetailsData($this->getPurchaseDetails()) : null);
         $this->data['SalesDetails'] = ($this->getSalesDetails() != null ? $this->getSalesDetailsData($this->getSalesDetails()) : null);
 
+        if ($this->getAssetDetails()) {
+            $this->data['InventoryAssetAccountCode'] = $this->getAssetDetails()['asset_account_code'];
+        }
         return $this->data;
     }
 

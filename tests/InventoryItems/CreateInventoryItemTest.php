@@ -34,6 +34,9 @@ class CreateInventoryItemTest extends BaseTest
                     'selling_account_code' => 200,
                     'selling_tax_type_id' => 10,
                     'selling_tax_type_code' => 'OUTPUT'
+                ],
+                'asset_details' => [
+                    'asset_account_code' => ''
                 ]
             ];
 

@@ -78,6 +78,7 @@ class GetInventoryItemResponse extends AbstractResponse
             $newItem['is_tracked'] = $item->getIsTrackedAsInventory();
             $newItem['buying_description'] = $item->getPurchaseDescription();
             $newItem['selling_description'] = $item->getDescription();
+            $newItem['asset_account_code'] = $item->getInventoryAssetAccountCode();
             $newItem['quantity'] = $item->getQuantityOnHand();
             $newItem['cost_pool'] = $item->getTotalCostPool();
             $newItem['updated_at'] = $item->getUpdatedDateUTC();
@@ -98,6 +99,7 @@ class GetInventoryItemResponse extends AbstractResponse
                 $newItem['is_tracked'] = $item->getIsTrackedAsInventory();
                 $newItem['buying_description'] = $item->getPurchaseDescription();
                 $newItem['selling_description'] = $item->getDescription();
+                $newItem['asset_account_code'] = $item->getInventoryAssetAccountCode();
                 $newItem['quantity'] = $item->getQuantityOnHand();
                 $newItem['cost_pool'] = $item->getTotalCostPool();
                 $newItem['updated_at'] = $item->getUpdatedDateUTC();
