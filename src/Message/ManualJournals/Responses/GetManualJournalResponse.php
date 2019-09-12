@@ -44,6 +44,7 @@ class GetManualJournalResponse extends AbstractResponse
                 $newJournalItem['gross_amount'] = $journalItem->getLineAmount();
                 $newJournalItem['tax_amount'] = $journalItem->getTaxAmount();
                 $newJournalItem['tax_type'] = $journalItem->getTaxType();
+                $newJournalItem['is_credit'] = ($journalItem->getLineAmount() < 0 ? false : true);
                 array_push($journalItems, $newJournalItem);
             }
 
