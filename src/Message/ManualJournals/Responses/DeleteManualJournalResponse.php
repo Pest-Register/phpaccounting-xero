@@ -35,7 +35,7 @@ class DeleteManualJournalResponse extends AbstractResponse
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
-    public function getInvoices(){
+    public function getJournals(){
         $journals = [];
         foreach ($this->data as $journal) {
             $newInvoice = [];
