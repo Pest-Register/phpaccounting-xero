@@ -2,7 +2,6 @@
 namespace PHPAccounting\Xero\Message\ManualJournals\Requests;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\ManualJournals\Responses\CreateManualJournalResponse;
 use PHPAccounting\Xero\Message\ManualJournals\Responses\UpdateManualJournalResponse;
 use XeroPHP\Models\Accounting\ManualJournal;
 use XeroPHP\Models\Accounting\ManualJournal\JournalLine;

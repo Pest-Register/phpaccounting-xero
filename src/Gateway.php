@@ -270,7 +270,7 @@ class Gateway extends AbstractGateway
     }
 
     public function updateManualJournal(array $parameters = []) {
-        return $this->createRequest('\PHPAccounting\Xero\Message\ManualJournals\Requests\CreateManualJournalRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\ManualJournals\Requests\UpdateManualJournalRequest', $parameters);
     }
 
     public function deleteManualJournal(array $parameters = []) {

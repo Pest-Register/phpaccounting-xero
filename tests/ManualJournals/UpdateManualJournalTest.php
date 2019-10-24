@@ -36,7 +36,7 @@ class UpdateManualJournalTest extends BaseTest
                 ]
             ];
 
-            $response = $this->gateway->createManualJournal($params)->send();
+            $response = $this->gateway->updateManualJournal($params)->send();
             if ($response->isSuccessful()) {
                 $this->assertIsArray($response->getData());
                 var_dump($response->getManualJournals());
