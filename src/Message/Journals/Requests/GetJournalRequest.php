@@ -5,7 +5,7 @@ namespace PHPAccounting\Xero\Message\Journals\Requests;
 
 
 use PHPAccounting\Xero\Message\AbstractRequest;
-use PHPAccounting\Xero\Message\Journals\Responses\GetManualJournalResponse;
+use PHPAccounting\Xero\Message\Journals\Responses\GetJournalResponse;
 use XeroPHP\Models\Accounting\Journal;
 
 class GetJournalRequest extends AbstractRequest
@@ -89,10 +89,10 @@ class GetJournalRequest extends AbstractRequest
     /**
      * Create Generic Response from Xero Endpoint
      * @param mixed $data Array Elements or Xero Collection from Response
-     * @return GetManualJournalResponse
+     * @return GetJournalResponse
      */
     public function createResponse($data)
     {
-        return $this->response = new GetManualJournalResponse($this, $data);
+        return $this->response = new GetJournalResponse($this, $data);
     }
 }
