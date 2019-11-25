@@ -16,7 +16,7 @@ class CreatePaymentTest extends BaseTest
                 'amount' => 100.00,
                 'reference_id' => 'Test Description',
                 'is_reconciled' => true,
-                'date' => '2019-27-06',
+                'date' => '2019-27-06 00:00:00',
                 'invoice' => [
                     'accounting_id' => '30a87092-31b5-4a2c-831e-327486533dd2'
                 ],
