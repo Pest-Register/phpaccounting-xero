@@ -16,6 +16,24 @@ use XeroPHP\Models\Accounting\Invoice\LineItem;
  */
 class UpdateInvoiceRequest extends AbstractRequest
 {
+    /**
+     * Get GST Inclusive Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function getGSTInclusive(){
+        return $this->getParameter('gst_inclusive');
+    }
+
+    /**
+     * Set GST Inclusive Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param string $value GST Inclusive
+     * @return UpdateInvoiceRequest
+     */
+    public function setGSTInclusive($value){
+        return $this->setParameter('gst_inclusive', $value);
+    }
 
     /**
      * Get Type Parameter from Parameter Bag
@@ -184,6 +202,7 @@ class UpdateInvoiceRequest extends AbstractRequest
         $this->issetParam('InvoiceNumber', 'invoice_number');
         $this->issetParam('Reference', 'invoice_reference');
         $this->issetParam('Status', 'invoice_status');
+        $this->issetParam('LineAmountType', 'gst_inclusive');
         return $this->data;
     }
 
@@ -209,6 +228,16 @@ class UpdateInvoiceRequest extends AbstractRequest
                     $methodName = 'set'. $key;
                     $date = \DateTime::createFromFormat('Y-m-d', $value);
                     $invoice->$methodName($date);
+                } else if ($key === 'LineAmountType') {
+                    $methodName = 'set'.$key;
+                    if ($value === 'EXCLUSIVE') {
+                        $invoice->$methodName('Exclusive');
+                    }
+                    else if ($value === 'INCLUSIVE') {
+                        $invoice->$methodName('Inclusive');
+                    } else {
+                        $invoice->$methodName('No Tax');
+                    }
                 } else {
                     $methodName = 'set'. $key;
                     $invoice->$methodName($value);
