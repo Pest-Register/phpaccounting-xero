@@ -317,6 +317,10 @@ class UpdatePaymentRequest extends AbstractRequest
                     $methodName = 'set'. $key;
                     $date = \DateTime::createFromFormat('Y-m-d', $value);
                     $payment->$methodName($date);
+                } elseif ($key === 'IsReconciled') {
+                    $methodName = 'set'.$key;
+                    $isReconciled = $value ? 'true' : 'false';
+                    $payment->$methodName($isReconciled);
                 } else {
                     $methodName = 'set'. $key;
                     $payment->$methodName($value);
