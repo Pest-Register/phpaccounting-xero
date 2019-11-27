@@ -240,7 +240,6 @@ class UpdateContactRequest extends AbstractRequest
         $this->issetParam('LastName', 'last_name');
         $this->issetParam('EmailAddress', 'email_address');
         $this->issetParam('Website', 'website');
-        $this->issetParam('IsIndividual', 'is_individual');
         $this->issetParam('BankAccountDetails', 'bank_account_details');
         $this->issetParam('TaxNumber', 'tax_number');
         $this->issetParam('AccountsReceivableTaxType', 'accounts_receivable_tax_type');
@@ -265,7 +264,6 @@ class UpdateContactRequest extends AbstractRequest
             $xero = $this->createXeroApplication();
             $xero->getOAuthClient()->setToken($this->getAccessToken());
             $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
-
             $contact = new Contact($xero);
             foreach ($data as $key => $value){
                 if ($key === 'Phones') {
