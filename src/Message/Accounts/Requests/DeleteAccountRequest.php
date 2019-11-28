@@ -37,16 +37,6 @@ class DeleteAccountRequest extends AbstractRequest
     }
 
     /**
-     * Set Status Parameter from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/accounts
-     * @param string $value Account Status
-     * @return DeleteAccountRequest
-     */
-    public function setStatus($value) {
-        return  $this->setParameter('status', $value);
-    }
-
-    /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
@@ -57,7 +47,6 @@ class DeleteAccountRequest extends AbstractRequest
     {
         $this->validate('accounting_id');
         $this->issetParam('AccountID', 'accounting_id');
-        $this->issetParam('Status', 'status');
         return $this->data;
     }
 
@@ -78,6 +67,8 @@ class DeleteAccountRequest extends AbstractRequest
                 $methodName = 'set'. $key;
                 $account->$methodName($value);
             }
+
+            $account->setStatus('ARCHIVED');
 
             $response = $account->save();
 
