@@ -193,6 +193,25 @@ class UpdatePaymentRequest extends AbstractRequest
     }
 
     /**
+     * Get Date Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/payments
+     * @return mixed
+     */
+    public function getDate(){
+        return $this->getParameter('date');
+    }
+
+    /**
+     * Set Date Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/payments
+     * @param string $value Date
+     * @return UpdatePaymentRequest
+     */
+    public function setDate($value){
+        return $this->setParameter('date', $value);
+    }
+
+    /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
