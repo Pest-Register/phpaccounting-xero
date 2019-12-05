@@ -150,7 +150,7 @@ class UpdateManualJournalRequest extends AbstractRequest
                     $this->addJournalLinesToJournal($journal, $value);
                 } elseif ($key === 'Date' || $key === 'DueDate') {
                     $methodName = 'set'. $key;
-                    $date = \DateTime::createFromFormat('Y-m-d', $value);
+                    $date = \DateTime::createFromFormat('Y-m-d H:m:s', $value);
                     $journal->$methodName($date);
                 } else {
                     $methodName = 'set'. $key;
