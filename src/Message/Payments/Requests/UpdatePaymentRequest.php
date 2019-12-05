@@ -334,7 +334,7 @@ class UpdatePaymentRequest extends AbstractRequest
                     $this->addOverpaymentToPayment($payment, $value);
                 } elseif ($key === 'Date') {
                     $methodName = 'set'. $key;
-                    $date = \DateTime::createFromFormat('Y-m-d', $value);
+                    $date = \DateTime::createFromFormat('Y-m-d H:m:s', $value);
                     $payment->$methodName($date);
                 } elseif ($key === 'IsReconciled') {
                     $methodName = 'set'.$key;
