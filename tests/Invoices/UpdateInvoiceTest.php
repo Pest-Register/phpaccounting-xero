@@ -22,6 +22,7 @@ class UpdateInvoiceTest extends BaseTest
             $params = [
                 'accounting_id' => 'fc714cd8-98b6-44b9-90a4-55189d56872d',
                 'type' => 'ACCREC',
+                'date' => '',
                 'contact' => 'd6a384fb-f46f-41a3-8ac7-b7bc9e0b5efa',
                 'invoice_data' => [
                     [
