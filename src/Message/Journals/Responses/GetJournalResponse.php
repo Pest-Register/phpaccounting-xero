@@ -48,6 +48,12 @@ class GetJournalResponse extends AbstractResponse
                 $newJournalItem['gross_amount'] = $journalItem->getGrossAmount();
                 $newJournalItem['tax_amount'] = $journalItem->getTaxAmount();
                 $newJournalItem['tax_type'] = $journalItem->getTaxType();
+
+                if ((float) $journalItem->getGrossAmount() < 0 ) {
+                    $newJournalItem['is_credit'] = false;
+                } else {
+                    $newJournalItem['is_credit'] = true;
+                }
                 array_push($journalItems, $newJournalItem);
             }
 
