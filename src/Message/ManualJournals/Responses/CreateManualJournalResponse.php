@@ -47,6 +47,11 @@ class CreateManualJournalResponse extends AbstractResponse
                 $newLineItem['tax_amount'] = IndexSanityCheckHelper::indexSanityCheck('TaxAmount', $lineItem);
                 $newLineItem['account_code'] = IndexSanityCheckHelper::indexSanityCheck('AccountCode', $lineItem);
                 $newLineItem['tax_type'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $lineItem);
+                if (array_key_exists('TaxAmount',$lineItem)) {
+                    $newJournalItem['net_amount'] = $lineItem['TaxAmount'] + $lineItem['LineAmount'];
+                } else {
+                    $newJournalItem['net_amount'] = $lineItem['LineAmount'];
+                }
                 array_push($lineItems, $newLineItem);
             }
 
