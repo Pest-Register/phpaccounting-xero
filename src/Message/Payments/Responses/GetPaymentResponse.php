@@ -19,9 +19,14 @@ class GetPaymentResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        if(array_key_exists('status', $this->data)){
-            return !$this->data['status'] == 'error';
+        if ($this->data) {
+            if(array_key_exists('status', $this->data)){
+                return !$this->data['status'] == 'error';
+            }
+        } else {
+            return false;
         }
+
         return true;
     }
 
@@ -30,8 +35,10 @@ class GetPaymentResponse extends AbstractResponse
      * @return string
      */
     public function getErrorMessage(){
-        if(array_key_exists('status', $this->data)){
-            return $this->data['detail'];
+        if ($this->data) {
+            if(array_key_exists('status', $this->data)){
+                return $this->data['detail'];
+            }
         }
         return null;
     }
