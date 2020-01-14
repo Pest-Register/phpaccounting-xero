@@ -20,6 +20,9 @@ class GetJournalResponse extends AbstractResponse
             if(array_key_exists('status', $this->data)){
                 return !$this->data['status'] == 'error';
             }
+            if (count($this->data) === 0) {
+                return false;
+            }
         } else {
             return false;
         }
@@ -35,6 +38,9 @@ class GetJournalResponse extends AbstractResponse
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
                 return $this->data['detail'];
+            }
+            if (count($this->data) === 0) {
+                return 'NULL Returned from API or End of Pagination';
             }
         }
         return null;

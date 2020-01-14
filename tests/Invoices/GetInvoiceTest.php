@@ -19,8 +19,8 @@ class GetInvoiceTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-                'accounting_ids' => ["f571c38b-5be1-41e1-ad5a-ff6184284beb"],
-                'page' => 1
+                'accounting_ids' => [""],
+                'page' => 2
             ];
 
             $response = $this->gateway->getInvoice($params)->send();
