@@ -14,8 +14,8 @@ class UpdateAccountTest extends BaseTest
         try {
 
             $params = [
-                'accounting_id' => 'b086f4fc-b699-463e-8bcc-b8d56a3b3a45',
-                'name' => 'Test 1',
+                'accounting_id' => '38b7b812-d334-46eb-872e-67c4cfb87538',
+                'name' => 'Accrued Liabilities',
                 'type' => 'EXPENSE',
                 'description' => 'Test Description 1',
                 'tax_type' => 'INPUT',
@@ -28,6 +28,8 @@ class UpdateAccountTest extends BaseTest
                 $accounts = $response->getAccounts();
                 var_dump($accounts);
                 $this->assertIsArray($accounts);
+            } else {
+                var_dump($response->getErrorMessage());
             }
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());

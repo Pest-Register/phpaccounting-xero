@@ -9,8 +9,8 @@ class CreateAccountTest extends BaseTest
         try {
 
             $params = [
-                'code' => 999,
-                'name' => 'Test',
+                'code' => '005',
+                'name' => 'PESTREGISTER_General Asset Account',
                 'type' => 'EXPENSE',
                 'status' => 'ACTIVE',
                 'description' => 'Test Description',

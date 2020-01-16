@@ -44,7 +44,7 @@ class UpdateInvoiceTest extends BaseTest
                 ],
                 'total_discount' => 0,
                 'gst_registered' => true,
-                'invoice_reference' => 'ORC1027',
+                'invoice_reference' => 'ORC1026',
                 'total' => '825.00',
                 'gst_inclusive' => 'EXCLUSIVE',
                 'sync_token' => NULL,
@@ -55,6 +55,8 @@ class UpdateInvoiceTest extends BaseTest
             if ($response->isSuccessful()) {
                 $invoices = $response->getInvoices();
                 $this->assertIsArray($invoices);
+            } else {
+                var_dump($response->getErrorMessage());
             }
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());

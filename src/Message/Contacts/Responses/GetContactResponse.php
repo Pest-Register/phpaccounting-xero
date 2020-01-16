@@ -2,6 +2,7 @@
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
+use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 use XeroPHP\Models\Accounting\Contact;
 
 /**
@@ -38,7 +39,7 @@ class GetContactResponse extends AbstractResponse
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return $this->data['detail'];
+                return ErrorResponseHelper::parseErrorResponse($this->data['detail'], 'Contact');
             }
             if (count($this->data) === 0) {
                 return 'NULL Returned from API or End of Pagination';

@@ -12,7 +12,7 @@ class CreateInventoryItemTest extends BaseTest
         try {
 
             $params = [
-                'code' => 'DEV-OPS',
+                'code' => 'DEV-OPS1',
                 'name' => 'Development Operations',
                 'is_selling' => true,
                 'is_buying' => true,

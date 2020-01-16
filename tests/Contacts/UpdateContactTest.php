@@ -14,7 +14,7 @@ class UpdateContactTest extends BaseTest
         try {
 
             $params = [
-                'accounting_id' => '565acaa9-e7f3-4fbf-80c3-16b081ddae10',
+                'accounting_id' => '565acaa9-e7f3-4fbf-80c3-16b081dda567',
                 'addresses' => [
                     [
                         'type' => 'STREET',
@@ -31,6 +31,8 @@ class UpdateContactTest extends BaseTest
                 $contacts = $response->getContacts();
                 var_dump($contacts);
                 $this->assertIsArray($contacts);
+            } else {
+                var_dump($response->getErrorMessage());
             }
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());

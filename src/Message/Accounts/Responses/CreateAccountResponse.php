@@ -3,6 +3,7 @@
 namespace PHPAccounting\Xero\Message\Accounts\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
+use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use XeroPHP\Models\Accounting\Account;
 
@@ -39,7 +40,7 @@ class CreateAccountResponse extends AbstractResponse
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return $this->data['detail'];
+                return ErrorResponseHelper::parseErrorResponse($this->data['detail'], 'Account');
             }
             if (count($this->data) === 0) {
                 return 'NULL Returned from API or End of Pagination';

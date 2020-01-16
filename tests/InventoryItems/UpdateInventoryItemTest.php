@@ -20,7 +20,7 @@ class UpdateInventoryItemTest extends BaseTest
 
             $params = [
                 'accounting_id' => "ebdda49d-d57d-4ecb-934d-e8d3f8507f08",
-                'code' => 'DEV-OPS',
+                'code' => 'DEV-OPS1',
                 'name' => 'Development Operations Update',
                 'is_selling' => true,
                 'is_buying' => true,
