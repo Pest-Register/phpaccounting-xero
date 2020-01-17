@@ -33,7 +33,8 @@ class ErrorResponseHelper
             case 'Invoice':
                 if (strpos($response, 'An existing Invoice with the specified InvoiceID could not be found') !== false) {
                     return 'No model found from given ID';
-                } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)')) {
+                } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') ||
+                    strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') !== false) {
                     return 'Model cannot be edited';
                 }
                 return $response;
@@ -57,6 +58,11 @@ class ErrorResponseHelper
                 }
                 return $response;
                 break;
+            case 'Payment':
+                if (strpos($response, 'A validation exception occurred (Payment amount exceeds the amount outstanding on this document)') !== false) {
+                    return 'Model cannot be edited';
+                }
+                return $response;
             default:
                 if (strpos('Please enter a unique', $response) !== false) {
                     return 'Duplicate model found';
