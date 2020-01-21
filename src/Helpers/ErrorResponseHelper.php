@@ -23,6 +23,10 @@ class ErrorResponseHelper
                     return 'Duplicate model found';
                 } elseif(strpos($response, 'Account is not found') !== false) {
                     return 'No model found from given ID';
+                } elseif(strpos($response, 'A validation exception occurred (Can only update STATUS on Archived accounts)') !== false ||
+                    strpos($response, 'A validation exception occurred (Cannot archive System accounts)') !== false ||
+                    strpos($response, 'A validation exception occurred (Cannot update Bank Accounts)') !== false) {
+                    return 'Model cannot be edited';
                 }
                 return $response;
                 break;
@@ -30,6 +34,8 @@ class ErrorResponseHelper
                 if (strpos($response, 'An existing Invoice with the specified InvoiceID could not be found') !== false) {
                     return 'No model found from given ID';
                 } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'The document date cannot be before the period lock date') !== false) {
+                } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') ||
+                    strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') !== false) {
                     return 'Model cannot be edited';
                 }
                 return $response;
@@ -41,7 +47,8 @@ class ErrorResponseHelper
                 return $response;
                 break;
             case 'Contact Group':
-                if (strpos($response, 'An contact group by that name already exists') !== false) {
+                if (strpos($response, 'An contact group by that name already exists') !== false ||
+                    strpos($response, 'A validation exception occurred (A Contact Group already exists with this name)') !== false) {
                     return 'Duplicate model found';
                 }
                 return $response;
@@ -52,6 +59,11 @@ class ErrorResponseHelper
                 }
                 return $response;
                 break;
+            case 'Payment':
+                if (strpos($response, 'A validation exception occurred (Payment amount exceeds the amount outstanding on this document)') !== false) {
+                    return 'Model cannot be edited';
+                }
+                return $response;
             default:
                 if (strpos('Please enter a unique', $response) !== false) {
                     return 'Duplicate model found';
