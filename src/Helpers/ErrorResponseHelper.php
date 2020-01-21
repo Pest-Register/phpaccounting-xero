@@ -33,8 +33,8 @@ class ErrorResponseHelper
             case 'Invoice':
                 if (strpos($response, 'An existing Invoice with the specified InvoiceID could not be found') !== false) {
                     return 'No model found from given ID';
-                } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'The document date cannot be before the period lock date') !== false) {
                 } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') ||
+                    strpos($response, 'The document date cannot be before the period lock date') !== false ||
                     strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') !== false) {
                     return 'Model cannot be edited';
                 }
