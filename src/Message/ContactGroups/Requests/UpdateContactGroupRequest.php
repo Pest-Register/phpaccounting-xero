@@ -148,8 +148,7 @@ class UpdateContactGroupRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            $xero->getOAuthClient()->setToken($this->getAccessToken());
-            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
+
 
             $contactGroup = new ContactGroup($xero);
             foreach ($data as $key => $value){

@@ -40,6 +40,36 @@ class Gateway extends AbstractGateway
      * @return mixed
      */
 
+    public function getClientID()
+    {
+        return $this->getParameter('clientID');
+    }
+
+    public function setClientID($value)
+    {
+        return $this->setParameter('clientID', $value);
+    }
+
+    /**
+     * Access Token getters and setters
+     * @return mixed
+     */
+
+    public function getClientSecret()
+    {
+        return $this->getParameter('clientSecret');
+    }
+
+    public function setClientSecret($value)
+    {
+        return $this->setParameter('clientSecret', $value);
+    }
+
+    /**
+     * Access Token getters and setters
+     * @return mixed
+     */
+
     public function getAccessToken()
     {
         return $this->getParameter('accessToken');
@@ -51,12 +81,33 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Consumer Key getters and setters
+     * Access Token getters and setters
      * @return mixed
      */
 
-    public function setXeroConfig($value){
-        return $this->setParameter('xeroConfig', $value);
+    public function getCallbackURL()
+    {
+        return $this->getParameter('callbackURL');
+    }
+
+    public function setCallbackURL($value)
+    {
+        return $this->setParameter('callbackURL', $value);
+    }
+
+    /**
+     * Access Token getters and setters
+     * @return mixed
+     */
+
+    public function getTenantID()
+    {
+        return $this->getParameter('tenantID');
+    }
+
+    public function setTenantID($value)
+    {
+        return $this->setParameter('tenantID', $value);
     }
 
     /**

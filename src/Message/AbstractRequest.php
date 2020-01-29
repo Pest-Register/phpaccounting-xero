@@ -1,10 +1,9 @@
 <?php
 namespace PHPAccounting\Xero\Message;
 
+use Calcinai\OAuth2\Client\Provider\Xero;
 use Omnipay\Common\Message\ResponseInterface;
-use XeroPHP\Application\PartnerApplication;
-use XeroPHP\Application\PrivateApplication;
-use XeroPHP\Application\PublicApplication;
+use XeroPHP\Application;
 
 class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -26,40 +25,53 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('accessToken');
     }
 
-    public function setXeroConfig($value){
-        return $this->setParameter('xeroConfig', $value);
+    public function setTenantID($value) {
+        return $this->setParameter('tenantID', $value);
     }
 
-    public function getXeroConfig(){
-        return $this->getParameter('xeroConfig');
+    public function getTenantID() {
+        return $this->getParameter('tenantID');
     }
 
-    public function getAccessTokenSecret() {
-        return $this->getParameter('accessTokenSecret');
+    public function getClientID() {
+        return $this->getParameter('tenantID');
     }
 
-    public function setAccessTokenSecret($value) {
-        return $this->setParameter('accessTokenSecret', $value);
+    public function setClientID($value) {
+        return $this->setParameter('clientID', $value);
+    }
+
+    public function getClientSecret() {
+        return $this->getParameter('tenantID');
+    }
+
+    public function setClientSecret($value) {
+        return $this->setParameter('clientID', $value);
+    }
+
+    public function getCallbackURL() {
+        return $this->getParameter('callbackURL');
+    }
+
+    public function setCallbackURL($value) {
+        return $this->setParameter('callbackURL', $value);
     }
 
     protected function createXeroApplication(){
-        $value  = $this->getXeroConfig();
-        $type = $value['type'];
-        switch ($type) {
-            case "private":
-                $this->xeroInstance = new PrivateApplication($value['config']);
-                break;
-            case "public":
-                $this->xeroInstance = new PublicApplication($value['config']);
-                break;
-            case "partner":
-                $this->xeroInstance = new PartnerApplication($value['config']);
-                break;
-            default:
-                throw new \Exception('Application type must be set');
-        }
+        $this->xeroInstance = new Application($this->getAccessToken(), $this->getTenantID());
         return $this->xeroInstance;
     }
+
+    protected function createProviderForTenants() {
+        $provider = new Xero([
+            'clientId'          => $this->getClientID(),
+            'clientSecret'      => $this->getClientSecret(),
+            'redirectUri'       => $this->getCallbackURL(),
+        ]);
+
+        return $provider;
+    }
+
 
     public function getXeroInstance(){
         return $this->xeroInstance;

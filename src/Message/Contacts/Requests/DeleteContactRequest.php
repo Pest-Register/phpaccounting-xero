@@ -67,8 +67,7 @@ class DeleteContactRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            $xero->getOAuthClient()->setToken($this->getAccessToken());
-            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
+
 
             $contact = new Contact($xero);
             foreach ($data as $key => $value){

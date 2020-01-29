@@ -141,8 +141,7 @@ class UpdateManualJournalRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            $xero->getOAuthClient()->setToken($this->getAccessToken());
-            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
+
 
             $journal = new ManualJournal($xero);
             foreach ($data as $key => $value){

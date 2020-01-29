@@ -63,8 +63,7 @@ class GetManualJournalRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            $xero->getOAuthClient()->setToken($this->getAccessToken());
-            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
+
 
             if ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {

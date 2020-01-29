@@ -9,6 +9,7 @@
 namespace PHPAccounting\Xero\Message\Organisations\Responses;
 
 
+use Calcinai\OAuth2\Client\XeroTenant;
 use Omnipay\Common\Message\AbstractResponse;
 
 class GetOrganisationResponse extends AbstractResponse
@@ -109,24 +110,28 @@ class GetOrganisationResponse extends AbstractResponse
 
     public function getOrganisations(){
         $organisations = [];
+
         foreach ($this->data as $organisation) {
             $newOrganisation = [];
+            if ($organisation instanceof XeroTenant) {
+                $newOrganisation['accounting_id'] = $organisation->tenantId;
+            } else {
+                $newOrganisation['accounting_id'] = $organisation->getOrganisationID();
+                $newOrganisation['name'] = $organisation->getName();
+                $newOrganisation['country_code'] = $organisation->getCountryCode();
 
-            //parity with myob
-            $newOrganisation['accounting_id'] = $organisation->getOrganisationID();
-            $newOrganisation['name'] = $organisation->getName();
-            $newOrganisation['country_code'] = $organisation->getCountryCode();
+                $newOrganisation['legal_name'] = $organisation->getLegalName();
+                $newOrganisation['gst_registered'] = $organisation->getPaysTax();
+                $newOrganisation['version'] = $organisation->getVersion();
+                $newOrganisation['organisation_type'] = $organisation->getOrganisationEntityType();
+                $newOrganisation['base_currency'] = $organisation->getBaseCurrency();
+                $newOrganisation['is_demo_company'] = $organisation->getIsDemoCompany();
+                $newOrganisation['organisation_status'] = $organisation->getOrganisationStatus();
+                $newOrganisation['tax_number'] = $organisation->getTaxNumber();
+                $newOrganisation = $this->parsePhones($organisation->getPhones(), $newOrganisation);
+                $newOrganisation = $this->parseAddresses($organisation->getAddresses(), $newOrganisation);
+            }
 
-            $newOrganisation['legal_name'] = $organisation->getLegalName();
-            $newOrganisation['gst_registered'] = $organisation->getPaysTax();
-            $newOrganisation['version'] = $organisation->getVersion();
-            $newOrganisation['organisation_type'] = $organisation->getOrganisationEntityType();
-            $newOrganisation['base_currency'] = $organisation->getBaseCurrency();
-            $newOrganisation['is_demo_company'] = $organisation->getIsDemoCompany();
-            $newOrganisation['organisation_status'] = $organisation->getOrganisationStatus();
-            $newOrganisation['tax_number'] = $organisation->getTaxNumber();
-            $newOrganisation = $this->parsePhones($organisation->getPhones(), $newOrganisation);
-            $newOrganisation = $this->parseAddresses($organisation->getAddresses(), $newOrganisation);
             array_push($organisations, $newOrganisation);
         }
         return $organisations;

@@ -66,8 +66,7 @@ class DeletePaymentRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            $xero->getOAuthClient()->setToken($this->getAccessToken());
-            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
+
 
             $invoice = new Invoice($xero);
             foreach ($data as $key => $value){

@@ -59,8 +59,6 @@ class DeleteAccountRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            $xero->getOAuthClient()->setToken($this->getAccessToken());
-            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
 
             $account = new Account($xero);
             foreach ($data as $key => $value){

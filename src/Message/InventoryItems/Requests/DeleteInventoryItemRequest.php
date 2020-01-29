@@ -63,8 +63,7 @@ class DeleteInventoryItemRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            $xero->getOAuthClient()->setToken($this->getAccessToken());
-            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
+
 
             $item = new Item($xero);
             $item->setItemID($this->getAccountingID());

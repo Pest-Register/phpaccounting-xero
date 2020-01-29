@@ -286,8 +286,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            $xero->getOAuthClient()->setToken($this->getAccessToken());
-            $xero->getOAuthClient()->setTokenSecret($this->getAccessTokenSecret());
+
 
             $item = new Item($xero);
             foreach ($data as $key => $value){
