@@ -29,7 +29,6 @@ class BaseTest extends TestCase
         $this->gateway->setClientSecret(getenv('CLIENT_SECRET'));
         $this->gateway->setTenantID(getenv('TENANT_ID'));
         $this->gateway->setAccessToken(getenv('ACCESS_TOKEN'));
-        $this->gateway->setAccessTokenSecret(getenv('ACCESS_TOKEN_SECRET'));
         $this->gateway->setCallbackURL(getenv('CALLBACK_URL'));
     }
 

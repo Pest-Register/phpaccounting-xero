@@ -110,20 +110,6 @@ class Gateway extends AbstractGateway
         return $this->setParameter('tenantID', $value);
     }
 
-    /**
-     * Token Secret getters and setters
-     * @return mixed
-     */
-
-    public function setAccessTokenSecret($value)
-    {
-        return $this->setParameter('accessTokenSecret', $value);
-    }
-
-    public function getAccessTokenSecret() {
-        return $this->getParameter('accessTokenSecret');
-    }
-
 
     /**
      * Customer Requests
