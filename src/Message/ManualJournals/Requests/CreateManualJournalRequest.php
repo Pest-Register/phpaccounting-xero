@@ -141,7 +141,7 @@ class CreateManualJournalRequest extends AbstractRequest
         } catch (\Exception $exception){
             $response = [
                 'status' => 'error',
-                'detail' => $exception->getMessage()
+                json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
             ];
             return $this->createResponse($response);
         }

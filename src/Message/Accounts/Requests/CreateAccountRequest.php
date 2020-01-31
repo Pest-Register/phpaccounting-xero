@@ -2,10 +2,12 @@
 
 namespace PHPAccounting\Xero\Message\Accounts\Requests;
 
+use GuzzleHttp\Exception\ClientException;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Accounts\Responses\CreateAccountResponse;
 use XeroPHP\Models\Accounting\Account;
-
+use XeroPHP\Remote\Exception;
+use XeroPHP\Remote\Exception\UnauthorizedException;
 
 /**
  * Create Account(s)
@@ -259,22 +261,23 @@ class CreateAccountRequest extends AbstractRequest
             $xero = $this->createXeroApplication();
 
             $account = new Account($xero);
-            foreach ($data as $key => $value){
+            foreach ($data as $key => $value) {
                 if ($key === 'ShowInexpenseClaims') {
                     $methodName = 'setShowInexpenseClaim';
                     $account->$methodName($value);
                 } else {
-                    $methodName = 'set'. $key;
+                    $methodName = 'set' . $key;
                     $account->$methodName($value);
                 }
 
             }
             $response = $account->save();
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $response = [
                 'status' => 'error',
-                'detail' => $exception->getMessage()
+                'detail' => json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
             ];
+
             return $this->createResponse($response);
         }
         return $this->createResponse($response->getElements());

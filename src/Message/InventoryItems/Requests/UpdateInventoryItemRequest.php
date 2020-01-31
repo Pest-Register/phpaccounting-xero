@@ -304,7 +304,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
         } catch (\Exception $exception){
             $response = [
                 'status' => 'error',
-                'detail' => $exception->getMessage()
+                'detail' => json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
             ];
             return $this->createResponse($response);
         }

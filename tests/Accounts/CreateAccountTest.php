@@ -21,12 +21,12 @@ class CreateAccountTest extends BaseTest
 
             $response = $this->gateway->createAccount($params)->send();
             if ($response->isSuccessful()) {
-                $this->assertIsArray($response->getData());
                 var_dump($response->getAccounts());
+            } else {
+                var_dump($response->getErrorMessage());
             }
-            var_dump($response->getErrorMessage());
         } catch (\Exception $exception) {
-            var_dump($exception->getTrace());
+            var_dump($exception->getMessage());
         }
     }
 }
