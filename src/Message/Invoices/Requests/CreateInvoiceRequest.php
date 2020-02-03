@@ -223,10 +223,18 @@ class CreateInvoiceRequest extends AbstractRequest
             }
             $response = $invoice->save();
         } catch (\Exception $exception){
-            $response = [
-                'status' => 'error',
-                'detail' => json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
-            ];
+            $contents = $exception->getResponse()->getBody()->getContents();
+            if (json_decode($contents, 1)) {
+                $response = [
+                    'status' => 'error',
+                    'detail' => json_decode($contents, 1)['detail']
+                ];
+            } elseif (simplexml_load_string($contents)) {
+                $response = [
+                    'status' => 'error',
+                    'detail' => json_decode(json_encode(simplexml_load_string($contents)))['Message']
+                ];
+            }
             return $this->createResponse($response);
         }
         return $this->createResponse($response->getElements());

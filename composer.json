@@ -27,7 +27,8 @@
         "ext-json": "*",
         "omnipay/common": "^3.0",
         "calcinai/xero-php": "dev-feature/oauth-2",
-        "fzaninotto/faker": "^1.8"
+        "fzaninotto/faker": "^1.8",
+      "ext-simplexml": "*"
     },
     "scripts": {
         "docs": "swagger src/"
