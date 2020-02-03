@@ -85,9 +85,10 @@ class DeleteContactRequest extends AbstractRequest
                     'detail' => json_decode($contents, 1)['detail']
                 ];
             } elseif (simplexml_load_string($contents)) {
+                $message = json_decode(json_encode(simplexml_load_string($contents)))->Elements->DataContractBase->ValidationErrors->ValidationError->Message;
                 $response = [
                     'status' => 'error',
-                    'detail' => json_decode(json_encode(simplexml_load_string($contents)))['Message']
+                    'detail' => $message
                 ];
             }
             return $this->createResponse($response);

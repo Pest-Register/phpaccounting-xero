@@ -19,7 +19,7 @@ class ErrorResponseHelper
     public static function parseErrorResponse ($response, $model = '') {
         switch ($model) {
             case 'Account':
-                if (strpos($response, 'Please enter a unique Name') !== false || strpos($response, 'Please enter a unique Code')) {
+                if (strpos($response, 'Please enter a unique Name') !== false || strpos($response, 'Please enter a unique Code') !== false) {
                     return 'Duplicate model found';
                 } elseif(strpos($response, 'Account is not found') !== false) {
                     return 'No model found from given ID';
@@ -35,7 +35,7 @@ class ErrorResponseHelper
             case 'Invoice':
                 if (strpos($response, 'An existing Invoice with the specified InvoiceID could not be found') !== false) {
                     return 'No model found from given ID';
-                } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') ||
+                } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') !== false ||
                     strpos($response, 'The document date cannot be before the period lock date') !== false ||
                     strpos($response, 'A validation exception occurred (Invoice not of valid status for modification)') !== false) {
                     return 'Model cannot be edited';
@@ -62,7 +62,7 @@ class ErrorResponseHelper
                 return $response;
                 break;
             case 'Inventory Item':
-                if (strpos($response, 'already exists') !== false || strpos($response, 'must be unique')) {
+                if (strpos($response, 'already exists') !== false || strpos($response, 'must be unique') !== false) {
                     return 'Duplicate model found';
                 } elseif (strpos($response, 'TokenExpired') !== false) {
                     return 'The access token has expired';
