@@ -323,13 +323,20 @@ class CreateInventoryItemRequest extends AbstractRequest
             $response = $item->save();
         } catch (\Exception $exception){
             $contents = $exception->getResponse()->getBody()->getContents();
-            if (json_decode($contents, 1)) {
+            $contentsObj = json_decode($contents, 1);
+
+            if ($contentsObj) {
                 $response = [
                     'status' => 'error',
-                    'detail' => json_decode($contents, 1)['detail']
+                    'detail' => $contentsObj['detail']
                 ];
             } elseif (simplexml_load_string($contents)) {
-                $message = json_decode(json_encode(simplexml_load_string($contents)))->Elements->DataContractBase->ValidationErrors->ValidationError->Message;
+                $error = json_decode(json_encode(simplexml_load_string($contents)))->Elements->DataContractBase->ValidationErrors->ValidationError;
+                if (is_array($error)) {
+                    $message = $error[0]->Message;
+                } else {
+                    $message = $error->Message;
+                }
                 $response = [
                     'status' => 'error',
                     'detail' => $message
