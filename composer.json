@@ -22,16 +22,19 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Pest-Register/omnipay-square"
+        }
+    ],
     "require": {
         "php-http/guzzle6-adapter": "*",
         "ext-json": "*",
         "omnipay/common": "^3.0",
-        "calcinai/xero-php": "dev-feature/oauth-2",
+        "calcinai/xero-php": "^2.0.1",
         "fzaninotto/faker": "^1.8",
-      "ext-simplexml": "*"
-    },
-    "scripts": {
-        "docs": "swagger src/"
+        "ext-simplexml": "*"
     },
     "prefer-stable": true
 }

@@ -2,10 +2,13 @@
 
 namespace PHPAccounting\Xero\Message\Accounts\Requests;
 
+use GuzzleHttp\Exception\ClientException;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Accounts\Responses\GetAccountResponse;
+use XeroPHP\Exception;
 use XeroPHP\Models\Accounting\Account;
+use XeroPHP\Remote\Exception\UnauthorizedException;
 
 
 /**
@@ -62,7 +65,6 @@ class GetAccountRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-
             if ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $accounts = $xero->loadByGUID(Account::class, $this->getAccountingIDs());
@@ -76,26 +78,10 @@ class GetAccountRequest extends AbstractRequest
             $response = $accounts;
 
         } catch (\Exception $exception){
-            $contents = $exception->getResponse()->getBody()->getContents();
-            $contentsObj = json_decode($contents, 1);
-
-            if ($contentsObj) {
-                $response = [
-                    'status' => 'error',
-                    'detail' => $contentsObj['detail']
-                ];
-            } elseif (simplexml_load_string($contents)) {
-                $error = json_decode(json_encode(simplexml_load_string($contents)))->Elements->DataContractBase->ValidationErrors->ValidationError;
-                if (is_array($error)) {
-                    $message = $error[0]->Message;
-                } else {
-                    $message = $error->Message;
-                }
-                $response = [
-                    'status' => 'error',
-                    'detail' => $message
-                ];
-            }
+            $response = [
+                'status' => 'error',
+                'detail' => $exception->getMessage()
+            ];
         }
         return $this->createResponse($response);
     }

@@ -3,6 +3,7 @@
 namespace PHPAccounting\Xero\Message\TaxRates\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
+use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 
 /**
  * Delete InventoryItem(s) Response
@@ -37,7 +38,7 @@ class DeleteTaxRateResponse extends AbstractResponse
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return $this->data['detail'];
+                return ErrorResponseHelper::parseErrorResponse($this->data['detail']);
             }
             if (count($this->data) === 0) {
                 return 'NULL Returned from API or End of Pagination';

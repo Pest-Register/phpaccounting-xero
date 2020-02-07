@@ -11,6 +11,7 @@ namespace PHPAccounting\Xero\Message\Organisations\Responses;
 
 use Calcinai\OAuth2\Client\XeroTenant;
 use Omnipay\Common\Message\AbstractResponse;
+use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 
 class GetOrganisationResponse extends AbstractResponse
 {
@@ -42,7 +43,7 @@ class GetOrganisationResponse extends AbstractResponse
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return $this->data['detail'];
+                return ErrorResponseHelper::parseErrorResponse($this->data['detail'], 'Organisation');
             }
             if (count($this->data) === 0) {
                 return 'NULL Returned from API or End of Pagination';

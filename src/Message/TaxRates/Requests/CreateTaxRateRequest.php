@@ -176,7 +176,7 @@ class CreateTaxRateRequest extends AbstractRequest
         } catch (\Exception $exception){
             $response = [
                 'status' => 'error',
-                json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
+                'detail' => $exception->getMessage()
             ];
             return $this->createResponse($response);
         }

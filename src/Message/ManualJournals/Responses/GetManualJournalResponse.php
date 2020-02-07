@@ -5,6 +5,7 @@ namespace PHPAccounting\Xero\Message\ManualJournals\Responses;
 
 
 use Omnipay\Common\Message\AbstractResponse;
+use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 use XeroPHP\Models\Accounting\Journal;
 use XeroPHP\Models\Accounting\ManualJournal;
 use XeroPHP\Models\Accounting\TaxRate;
@@ -38,7 +39,7 @@ class GetManualJournalResponse extends AbstractResponse
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return $this->data['detail'];
+                return ErrorResponseHelper::parseErrorResponse($this->data['detail'], 'Manual Journal');
             }
             if (count($this->data) === 0) {
                 return 'NULL Returned from API or End of Pagination';

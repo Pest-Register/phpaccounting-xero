@@ -4,6 +4,7 @@ namespace PHPAccounting\Xero\Message\Accounts\Requests;
 
 use Faker\Provider\Payment;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Accounts\Responses\CreateAccountResponse;
 use XeroPHP\Models\Accounting\Account;
@@ -274,26 +275,10 @@ class CreateAccountRequest extends AbstractRequest
             }
             $response = $account->save();
         } catch (\Exception $exception) {
-            $contents = $exception->getResponse()->getBody()->getContents();
-            $contentsObj = json_decode($contents, 1);
-
-            if ($contentsObj) {
-                $response = [
-                    'status' => 'error',
-                    'detail' => $contentsObj['detail']
-                ];
-            } elseif (simplexml_load_string($contents)) {
-                $error = json_decode(json_encode(simplexml_load_string($contents)))->Elements->DataContractBase->ValidationErrors->ValidationError;
-                if (is_array($error)) {
-                    $message = $error[0]->Message;
-                } else {
-                    $message = $error->Message;
-                }
-                $response = [
-                    'status' => 'error',
-                    'detail' => $message
-                ];
-            }
+            $response = [
+                'status' => 'error',
+                'detail' => $exception->getMessage()
+            ];
             return $this->createResponse($response);
         }
         return $this->createResponse($response->getElements());
