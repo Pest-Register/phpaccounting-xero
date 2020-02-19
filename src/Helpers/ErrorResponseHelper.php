@@ -72,7 +72,7 @@ class ErrorResponseHelper
                 return $response;
                 break;
             case 'Payment':
-                if (strpos($response, 'Payment amount exceeds the amount outstanding on this document') !== false) {
+                if (strpos($response, 'Payment amount exceeds the amount outstanding on this document') !== false || strpos($response, 'Payment not of valid status for modification') !== false) {
                     return 'Model cannot be edited';
                 } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                     return 'The access token has expired';

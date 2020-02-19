@@ -5,6 +5,7 @@ namespace PHPAccounting\Xero\Message\Payments\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Payments\Responses\DeletePaymentResponse;
 use XeroPHP\Models\Accounting\Invoice;
+use XeroPHP\Models\Accounting\Payment;
 
 /**
  * Delete Invoice
@@ -52,7 +53,7 @@ class DeletePaymentRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('accounting_id');
-        $this->issetParam('InvoiceID', 'accounting_id');
+        $this->issetParam('PaymentID', 'accounting_id');
         $this->issetParam('Status', 'status');
         return $this->data;
     }
@@ -60,7 +61,7 @@ class DeletePaymentRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|DeleteContactResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|DeletePaymentResponse
      */
     public function sendData($data)
     {
@@ -68,13 +69,13 @@ class DeletePaymentRequest extends AbstractRequest
             $xero = $this->createXeroApplication();
 
 
-            $invoice = new Invoice($xero);
+            $payment = new Payment($xero);
             foreach ($data as $key => $value){
                 $methodName = 'set'. $key;
-                $invoice->$methodName($value);
+                $payment->$methodName($value);
             }
 
-            $response = $invoice->save();
+            $response = $payment->save();
 
         } catch (\Exception $exception){
             $response = [

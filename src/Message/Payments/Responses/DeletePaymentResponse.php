@@ -56,7 +56,7 @@ class DeletePaymentResponse extends AbstractResponse
         $payment = [];
         foreach ($this->data as $payment) {
             $newPayment = [];
-            $newPayment['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('InvoiceID', $payment);
+            $newPayment['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('PaymentID', $payment);
             $newPayment['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $payment);
             $newPayment['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $payment);
             array_push($payment, $newPayment);
