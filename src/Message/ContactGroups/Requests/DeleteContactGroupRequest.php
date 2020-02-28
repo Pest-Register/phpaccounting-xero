@@ -104,10 +104,10 @@ class DeleteContactGroupRequest extends AbstractRequest
                     ContactGroup::getResourceURI(), $contactGroup->getGUID(),
                     Contact::getResourceURI())
             );
-        } catch (Exception $exception) {
+        } catch (\XeroPHP\Exception $exception) {
             $response = [
                 'status' => 'error',
-                json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
+                'detail' => $exception->getMessage()
             ];
 
             return $response;
@@ -116,10 +116,10 @@ class DeleteContactGroupRequest extends AbstractRequest
         try {
             $request = new Request($xero, $url, Request::METHOD_DELETE);
             $request->send();
-        } catch (Exception $exception) {
+        } catch (\XeroPHP\Exception $exception) {
             $response = [
                 'status' => 'error',
-                json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
+                'detail' => $exception->getMessage()
             ];
 
             return $response;
@@ -131,6 +131,7 @@ class DeleteContactGroupRequest extends AbstractRequest
      * @param ContactGroup $contactGroup Xero Contact Group Object
      * @param array $contacts Array of Contact IDs as strings
      * @param Application $xero Xero Endpoint Application Instance
+     * @return array|\XeroPHP\Remote\Response
      */
     private function deleteContactsFromGroup(ContactGroup $contactGroup, $contacts, $xero) {
         if ($contacts) {
@@ -143,10 +144,10 @@ class DeleteContactGroupRequest extends AbstractRequest
                             ContactGroup::getResourceURI(), $contactGroup->getGUID(),
                             Contact::getResourceURI(), $contact->getGUID())
                     );
-                } catch (Exception $exception) {
+                } catch (\XeroPHP\Exception $exception) {
                     $response = [
                         'status' => 'error',
-                        json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
+                        'detail' => $exception->getMessage()
                     ];
 
                     return $response;
@@ -155,10 +156,10 @@ class DeleteContactGroupRequest extends AbstractRequest
                 try {
                     $request = new Request($xero, $url, Request::METHOD_DELETE);
                     $response = $request->send();
-                } catch (Exception $exception) {
+                } catch (\XeroPHP\Exception $exception) {
                     $response = [
                         'status' => 'error',
-                        json_decode(print_r($exception->getResponse()->getBody()->getContents(), true))->detail
+                        'detail' => $exception->getMessage()
                     ];
 
                     return $response;
