@@ -71,6 +71,18 @@ class CreateContactResponse extends AbstractResponse
         return $contact;
     }
 
+    private function convertAddressType($data) {
+        if ($data) {
+            switch ($data) {
+                case 'STREET':
+                    return 'PRIMARY';
+                case 'POBOX':
+                    return 'STRUCTURE';
+            }
+        }
+        return $data;
+    }
+
     /**
      * Add Addresses to Contact
      * @param $data Array of Addresses
@@ -83,7 +95,9 @@ class CreateContactResponse extends AbstractResponse
             $addresses = [];
             foreach($data as $address) {
                 $newAddress = [];
-                $newAddress['address_type'] =  IndexSanityCheckHelper::indexSanityCheck('AddressType',$address);
+                if (array_key_exists('AddressType', $address)) {
+                    $newAddress['address_type'] = $this->convertAddressType($address['AddressType']);
+                }
                 $newAddress['address_line_1'] = IndexSanityCheckHelper::indexSanityCheck('AddressLine1',$address);;
                 $newAddress['city'] = IndexSanityCheckHelper::indexSanityCheck('City',$address);
                 $newAddress['postal_code'] = IndexSanityCheckHelper::indexSanityCheck('PostalCode',$address);

@@ -71,6 +71,18 @@ class GetContactResponse extends AbstractResponse
         return $contact;
     }
 
+    private function convertAddressType($data) {
+        if ($data) {
+            switch ($data) {
+                case 'STREET':
+                    return 'PRIMARY';
+                case 'POBOX':
+                    return 'STRUCTURE';
+            }
+        }
+        return $data;
+    }
+
     /**
      * Add Addresses to Contact
      * @param $data Array of Addresses
@@ -83,7 +95,7 @@ class GetContactResponse extends AbstractResponse
             $addresses = [];
             foreach($data as $address) {
                 $newAddress = [];
-                $newAddress['address_type'] = $address->getAddressType();
+                $newAddress['address_type'] = $this->convertAddressType($address->getAddressType());
                 $newAddress['address_line_1'] = $address->getAddressLine1();
                 $newAddress['city'] = $address->getCity();
                 $newAddress['postal_code'] = $address->getPostalCode();
