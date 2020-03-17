@@ -171,8 +171,8 @@ class UpdateInventoryItemRequest extends AbstractRequest
      * @see https://developer.xero.com/documentation/api/items
      * @return mixed
      */
-    public function getPurchaseDetails() {
-        return $this->getParameter('purchase_details');
+    public function getBuyingDetails() {
+        return $this->getParameter('buying_details');
     }
 
     /**
@@ -181,8 +181,8 @@ class UpdateInventoryItemRequest extends AbstractRequest
      * @param $value
      * @return mixed
      */
-    public function setPurchaseDetails($value) {
-        return $this->setParameter('purchase_details', $value);
+    public function setBuyingDetails($value) {
+        return $this->setParameter('buying_details', $value);
     }
 
     /**
@@ -204,7 +204,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
         return $this->setParameter('sales_details', $value);
     }
 
-    public function addPurchaseDetailsToItem(Item $item, $purchaseDetails) {
+    public function addBuyingDetailsToItem(Item $item, $purchaseDetails) {
         if ($purchaseDetails) {
             $purchase = new Item\Purchase();
             if (array_key_exists('tracked_buying_account_code',$purchaseDetails)) {
@@ -244,7 +244,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
      * @param $data
      * @return mixed
      */
-    public function getPurchaseDetailsData($data) {
+    public function getBuyingDetailsData($data) {
         $data['UnitPrice'] = IndexSanityCheckHelper::indexSanityCheck('buying_unit_price', $data);
         $data['AccountCode'] = IndexSanityCheckHelper::indexSanityCheck('buying_account_code', $data);
         $data['TaxType'] = IndexSanityCheckHelper::indexSanityCheck('buying_tax_type_code', $data);
@@ -271,7 +271,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
         $this->issetParam('IsPurchased', 'is_buying');
         $this->issetParam('Description', 'description');
         $this->issetParam('PurchaseDescription', 'buying_description');
-        $this->data['PurchaseDetails'] = ($this->getPurchaseDetails() != null ? $this->getPurchaseDetailsData($this->getPurchaseDetails()) : null);
+        $this->data['PurchaseDetails'] = ($this->getBuyingDetails() != null ? $this->getBuyingDetailsData($this->getBuyingDetails()) : null);
         $this->data['SalesDetails'] = ($this->getSalesDetails() != null ? $this->getSalesDetailsData($this->getSalesDetails()) : null);
 
         return $this->data;
@@ -291,7 +291,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
             $item = new Item($xero);
             foreach ($data as $key => $value){
                 if ($key === 'PurchaseDetails') {
-                    $this->addPurchaseDetailsToItem($item, $value);
+                    $this->addBuyingDetailsToItem($item, $value);
                 } elseif ($key === 'SalesDetails') {
                     $this->addSalesDetailsToItem($item, $value);
                 } else {
