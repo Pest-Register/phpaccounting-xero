@@ -23,8 +23,10 @@ class UpdatePaymentResponse extends AbstractResponse
             if(array_key_exists('status', $this->data)){
                 return !$this->data['status'] == 'error';
             }
-            if (count($this->data) === 0) {
-                return false;
+            if (is_array($this->data)) {
+                if (count($this->data) === 0) {
+                    return false;
+                }
             }
         } else {
             return false;
