@@ -3,6 +3,7 @@ namespace PHPAccounting\Xero\Message\Contacts\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
+use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use XeroPHP\Models\Accounting\Contact;
 
 /**
@@ -100,6 +101,7 @@ class GetContactResponse extends AbstractResponse
                 $newAddress['address_type'] = $this->convertAddressType($address->getAddressType());
                 $newAddress['address_line_1'] = $address->getAddressLine1();
                 $newAddress['city'] = $address->getCity();
+                $newAddress['state'] = $address->getRegion();
                 $newAddress['postal_code'] = $address->getPostalCode();
                 $newAddress['country'] = $address->getCountry();
                 array_push($addresses, $newAddress);

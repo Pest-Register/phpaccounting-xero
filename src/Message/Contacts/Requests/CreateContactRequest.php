@@ -156,6 +156,7 @@ class CreateContactRequest extends AbstractRequest
             $newAddress->setAddressType(IndexSanityCheckHelper::indexSanityCheck('type', $address));
             $newAddress->setAddressLine1(IndexSanityCheckHelper::indexSanityCheck('address_line_1', $address));
             $newAddress->setCity(IndexSanityCheckHelper::indexSanityCheck('city', $address));
+            $newAddress->setRegion(IndexSanityCheckHelper::indexSanityCheck('state', $address));
             $newAddress->setPostalCode(IndexSanityCheckHelper::indexSanityCheck('postal_code', $address));
             $newAddress->setCountry(IndexSanityCheckHelper::indexSanityCheck('country', $address));
             array_push($addresses, $newAddress);

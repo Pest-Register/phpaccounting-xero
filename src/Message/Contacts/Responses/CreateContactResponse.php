@@ -103,6 +103,7 @@ class CreateContactResponse extends AbstractResponse
                 $newAddress['address_line_1'] = IndexSanityCheckHelper::indexSanityCheck('AddressLine1',$address);;
                 $newAddress['city'] = IndexSanityCheckHelper::indexSanityCheck('City',$address);
                 $newAddress['postal_code'] = IndexSanityCheckHelper::indexSanityCheck('PostalCode',$address);
+                $newAddress['state'] = IndexSanityCheckHelper::indexSanityCheck('Region', $address);
                 $newAddress['country'] = IndexSanityCheckHelper::indexSanityCheck('Country',$address);
                 array_push($addresses, $newAddress);
             }

@@ -153,6 +153,7 @@ class UpdateContactRequest extends AbstractRequest
             $newAddress = new Address();
             $newAddress->setAddressType(IndexSanityCheckHelper::indexSanityCheck('type', $address));
             $newAddress->setAddressLine1(IndexSanityCheckHelper::indexSanityCheck('address_line_1', $address));
+            $newAddress->setRegion(IndexSanityCheckHelper::indexSanityCheck('state', $address));
             $newAddress->setCity(IndexSanityCheckHelper::indexSanityCheck('city', $address));
             $newAddress->setPostalCode(IndexSanityCheckHelper::indexSanityCheck('postal_code', $address));
             $newAddress->setCountry(IndexSanityCheckHelper::indexSanityCheck('country', $address));
