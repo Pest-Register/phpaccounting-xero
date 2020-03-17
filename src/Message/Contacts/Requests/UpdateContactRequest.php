@@ -237,7 +237,7 @@ class UpdateContactRequest extends AbstractRequest
 
         $this->issetParam('ContactID', 'accounting_id');
         $this->issetParam('Name', 'name');
-        $this->issetParam('FirstName', 'display_name');
+        $this->issetParam('FirstName', 'first_name');
         $this->issetParam('LastName', 'last_name');
         $this->issetParam('EmailAddress', 'email_address');
         $this->issetParam('Website', 'website');
