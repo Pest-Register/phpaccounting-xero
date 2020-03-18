@@ -74,6 +74,24 @@ class UpdateInvoiceRequest extends AbstractRequest
     }
 
     /**
+     * Get Invoice Reference Parameter from Parameter Bag (LineItems generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function setInvoiceReference($value){
+        return $this->setParameter('invoice_reference', $value);
+    }
+
+    /**
+     * Get Invoice Reference Parameter from Parameter Bag (LineItems generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function getInvoiceReference(){
+        return $this->getParameter('invoice_reference');
+    }
+
+    /**
      * Get Date Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
