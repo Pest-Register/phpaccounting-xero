@@ -92,6 +92,25 @@ class UpdateInvoiceRequest extends AbstractRequest
     }
 
     /**
+     * Get Status Parameter from Parameter Bag (LineItems generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function getStatus(){
+        return $this->getParameter('status');
+    }
+
+    /**
+     * Get Status Parameter from Parameter Bag (LineItems generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function setStatus($value){
+        return $this->setParameter('status', $value);
+    }
+
+
+    /**
      * Get Date Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
@@ -219,7 +238,7 @@ class UpdateInvoiceRequest extends AbstractRequest
         $this->issetParam('LineItems', 'invoice_data');
         $this->issetParam('InvoiceNumber', 'invoice_number');
         $this->issetParam('Reference', 'invoice_reference');
-        $this->issetParam('Status', 'invoice_status');
+        $this->issetParam('Status', 'status');
         $this->issetParam('LineAmountType', 'gst_inclusive');
         return $this->data;
     }
@@ -233,7 +252,6 @@ class UpdateInvoiceRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-
 
             $invoice = new Invoice($xero);
             foreach ($data as $key => $value){
@@ -254,6 +272,12 @@ class UpdateInvoiceRequest extends AbstractRequest
                         $invoice->$methodName('Inclusive');
                     } else {
                         $invoice->$methodName('No Tax');
+                    }
+                } else if($key === 'Status') {
+                    $methodName = 'set'.$key;
+                    $invoice->$methodName($value);
+                    if ($value === 'AUTHORISED') {
+                        $invoice->setSentToContact(false);
                     }
                 } else {
                     $methodName = 'set'. $key;
