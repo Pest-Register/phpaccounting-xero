@@ -23,7 +23,7 @@ class GetContactTest extends BaseTest
         try {
             $params = [
                 'accounting_ids' => [""],
-                'page' => 1
+                'page' => 2
             ];
 
             $response = $this->gateway->getContact($params)->send();

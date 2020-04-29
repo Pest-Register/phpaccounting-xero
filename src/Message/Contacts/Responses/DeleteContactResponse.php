@@ -22,8 +22,12 @@ class DeleteContactResponse extends AbstractResponse
             if(array_key_exists('status', $this->data)){
                 return !$this->data['status'] == 'error';
             }
-            if (is_array($this->data)) {
-                if (count($this->data) === 0) {
+            if ($this->data instanceof \XeroPHP\Remote\Collection) {
+                if (count($this->data) == 0) {
+                    return false;
+                }
+            } elseif (is_array($this->data)) {
+                if (count($this->data) == 0) {
                     return false;
                 }
             }
@@ -43,7 +47,7 @@ class DeleteContactResponse extends AbstractResponse
             if(array_key_exists('status', $this->data)){
                 return ErrorResponseHelper::parseErrorResponse($this->data['detail'], 'Contact');
             }
-            if (count($this->data) === 0) {
+            if (count($this->data) == 0) {
                 return 'NULL Returned from API or End of Pagination';
             }
         }
