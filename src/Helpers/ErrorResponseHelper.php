@@ -26,8 +26,9 @@ class ErrorResponseHelper
                 } elseif(strpos($response, 'Can only update STATUS on Archived accounts') !== false ||
                     strpos($response, 'Cannot archive System accounts') !== false ||
                     strpos($response, 'Cannot update Bank Accounts') !== false ||
-                    strpos($response, 'Cannot update account details and STATUS on the same request') !== false
-                ) {
+                    strpos($response, 'Cannot update account details and STATUS on the same request') !== false ||
+                    strpos($response, 'Account cannot be updated to Inventory') !== false)
+                {
                     return 'Model cannot be edited';
                 } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                     return 'The access token has expired';
