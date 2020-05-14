@@ -107,7 +107,7 @@ class GetPaymentResponse extends AbstractResponse
             $newPayment['date'] = $payment->getDate();
             $newPayment['amount'] = $payment->getAmount();
             $newPayment['reference_id'] = $payment->getReference();
-            $newPayment['currency_rate'] = $payment->getCurrencyRate();
+            $newPayment['currency_rate'] = $payment->getCurrencyRate() ?: 1.0;
             $newPayment['type'] = $payment->getPaymentType();
             $newPayment['status'] = $payment->getStatus();
             $newPayment['is_reconciled'] = $payment->getIsReconciled();
@@ -124,7 +124,7 @@ class GetPaymentResponse extends AbstractResponse
                 $newPayment['date'] = $payment->getDate();
                 $newPayment['amount'] = $payment->getAmount();
                 $newPayment['reference_id'] = $payment->getReference();
-                $newPayment['currency_rate'] = $payment->getCurrencyRate();
+                $newPayment['currency_rate'] = $payment->getCurrencyRate() ?: 1.0;
                 $newPayment['type'] = $payment->getPaymentType();
                 $newPayment['status'] = $payment->getStatus();
                 $newPayment['is_reconciled'] = $payment->getIsReconciled();

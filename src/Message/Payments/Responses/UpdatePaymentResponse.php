@@ -108,7 +108,7 @@ class UpdatePaymentResponse extends AbstractResponse
             $newPayment['bank_amount'] = IndexSanityCheckHelper::indexSanityCheck('BankAmount', $payment);
             $newPayment['amount'] = IndexSanityCheckHelper::indexSanityCheck('Amount', $payment);
             $newPayment['reference_id'] = IndexSanityCheckHelper::indexSanityCheck('Reference', $payment);
-            $newPayment['currency_rate'] = IndexSanityCheckHelper::indexSanityCheck('CurrencyRate', $payment);
+            $newPayment['currency_rate'] = IndexSanityCheckHelper::indexSanityCheck('CurrencyRate', $payment) ?: 1.0;
             $newPayment['type'] = IndexSanityCheckHelper::indexSanityCheck('PaymentType', $payment);
             $newPayment['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $payment);
             $newPayment['has_account'] = IndexSanityCheckHelper::indexSanityCheck('HasAccount', $payment);
