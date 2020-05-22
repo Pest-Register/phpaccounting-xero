@@ -45,7 +45,7 @@ class GetManualJournalResponse extends AbstractResponse
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse($this->data['detail'], 'Manual Journal');
+                return ErrorResponseHelper::parseErrorResponse($this->data['detail'],$this->data['type'],$this->data, 'Manual Journal');
             }
             if (count($this->data) === 0) {
                 return 'NULL Returned from API or End of Pagination';

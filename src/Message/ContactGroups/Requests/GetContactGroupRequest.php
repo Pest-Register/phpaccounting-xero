@@ -5,7 +5,16 @@ use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\GetAccountResponse;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\GetContactGroupResponse;
 use XeroPHP\Models\Accounting\ContactGroup;
-
+use XeroPHP\Remote\Exception\UnauthorizedException;
+use XeroPHP\Remote\Exception\BadRequestException;
+use XeroPHP\Remote\Exception\ForbiddenException;
+use XeroPHP\Remote\Exception\ReportPermissionMissingException;
+use XeroPHP\Remote\Exception\NotFoundException;
+use XeroPHP\Remote\Exception\InternalErrorException;
+use XeroPHP\Remote\Exception\NotImplementedException;
+use XeroPHP\Remote\Exception\RateLimitExceededException;
+use XeroPHP\Remote\Exception\NotAvailableException;
+use XeroPHP\Remote\Exception\OrganisationOfflineException;
 /**
  * Get Contact Group(s)
  * @package PHPAccounting\XERO\Message\ContactGroups\Requests

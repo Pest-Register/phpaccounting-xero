@@ -46,7 +46,7 @@ class UpdatePaymentResponse extends AbstractResponse
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse($this->data['detail'], 'Payment');
+                return ErrorResponseHelper::parseErrorResponse($this->data['detail'],$this->data['type'],$this->data, 'Payment');
             }
             if (count($this->data) === 0) {
                 return 'NULL Returned from API or End of Pagination';

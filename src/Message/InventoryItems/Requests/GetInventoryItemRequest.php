@@ -4,7 +4,16 @@ namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\GetInventoryItemResponse;
 use XeroPHP\Models\Accounting\Item;
-
+use XeroPHP\Remote\Exception\UnauthorizedException;
+use XeroPHP\Remote\Exception\BadRequestException;
+use XeroPHP\Remote\Exception\ForbiddenException;
+use XeroPHP\Remote\Exception\ReportPermissionMissingException;
+use XeroPHP\Remote\Exception\NotFoundException;
+use XeroPHP\Remote\Exception\InternalErrorException;
+use XeroPHP\Remote\Exception\NotImplementedException;
+use XeroPHP\Remote\Exception\RateLimitExceededException;
+use XeroPHP\Remote\Exception\NotAvailableException;
+use XeroPHP\Remote\Exception\OrganisationOfflineException;
 /**
  * Get Inventory Items(s)
  * @package PHPAccounting\XERO\Message\InventoryItems\Requests

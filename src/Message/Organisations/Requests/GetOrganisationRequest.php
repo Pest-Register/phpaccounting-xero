@@ -14,7 +14,16 @@ use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Organisations\Responses\GetOrganisationResponse;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Organisation;
-
+use XeroPHP\Remote\Exception\UnauthorizedException;
+use XeroPHP\Remote\Exception\BadRequestException;
+use XeroPHP\Remote\Exception\ForbiddenException;
+use XeroPHP\Remote\Exception\ReportPermissionMissingException;
+use XeroPHP\Remote\Exception\NotFoundException;
+use XeroPHP\Remote\Exception\InternalErrorException;
+use XeroPHP\Remote\Exception\NotImplementedException;
+use XeroPHP\Remote\Exception\RateLimitExceededException;
+use XeroPHP\Remote\Exception\NotAvailableException;
+use XeroPHP\Remote\Exception\OrganisationOfflineException;
 class GetOrganisationRequest extends AbstractRequest
 {
     private function parseOrganisationResponse($data){
