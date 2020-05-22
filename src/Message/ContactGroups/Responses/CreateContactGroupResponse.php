@@ -40,7 +40,7 @@ class CreateContactGroupResponse extends AbstractResponse
 
     /**
      * Fetch Error Message from Response
-     * @return string
+     * @return array
      */
     public function getErrorMessage(){
         if ($this->data) {
@@ -48,7 +48,7 @@ class CreateContactGroupResponse extends AbstractResponse
                 return ErrorResponseHelper::parseErrorResponse($this->data['detail'],$this->data['type'],$this->data, 'Contact Group');
             }
             if (count($this->data) === 0) {
-                return 'NULL Returned from API or End of Pagination';
+                return ['message' => 'NULL Returned from API or End of Pagination'];
             }
         }
         return null;

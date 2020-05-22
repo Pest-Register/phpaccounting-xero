@@ -40,15 +40,15 @@ class GetTaxRateResponse extends AbstractResponse
 
     /**
      * Fetch Error Message from Response
-     * @return string
+     * @return array
      */
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse($this->data['detail']);
+                return ErrorResponseHelper::parseErrorResponse($this->data['detail'],$this->data['type'],$this->data, 'TaxRate');
             }
             if (count($this->data) === 0) {
-                return 'NULL Returned from API or End of Pagination';
+                return ['message' => 'NULL Returned from API or End of Pagination'];
             }
         }
         return null;

@@ -44,7 +44,7 @@ class GetOrganisationResponse extends AbstractResponse
 
     /**
      * Fetch Error Message from Response
-     * @return string
+     * @return array
      */
     public function getErrorMessage(){
         if ($this->data) {
@@ -52,7 +52,7 @@ class GetOrganisationResponse extends AbstractResponse
                 return ErrorResponseHelper::parseErrorResponse($this->data['detail'],$this->data['type'],$this->data, 'Organisation');
             }
             if (count($this->data) === 0) {
-                return 'NULL Returned from API or End of Pagination';
+                return ['message' => 'NULL Returned from API or End of Pagination'];
             }
         }
         return null;
