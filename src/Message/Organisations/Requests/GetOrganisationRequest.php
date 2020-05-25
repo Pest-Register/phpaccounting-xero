@@ -56,11 +56,88 @@ class GetOrganisationRequest extends AbstractRequest
                     $response = array_merge($response, $this->parseOrganisationResponse($orgResponse));
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (BadRequestException $exception) {
             $response = [
                 'status' => 'error',
+                'type' => 'BadRequest',
                 'detail' => $exception->getMessage()
             ];
+
+            return $this->createResponse($response);
+        } catch (UnauthorizedException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'Unauthorized',
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
+        } catch (ForbiddenException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'Forbidden',
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
+        } catch (ReportPermissionMissingException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'ReportPermissionMissingException',
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
+        } catch (NotFoundException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'NotFound',
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
+        } catch (InternalErrorException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'Internal',
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
+        } catch (NotImplementedException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'NotImplemented',
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
+        } catch (RateLimitExceededException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'RateLimitExceeded',
+                'rate_problem' => $exception->getRateLimitProblem(),
+                'retry' => $exception->getRetryAfter(),
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
+        } catch (NotAvailableException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'NotAvailable',
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
+        } catch (OrganisationOfflineException $exception) {
+            $response = [
+                'status' => 'error',
+                'type' => 'OrganisationOffline',
+                'detail' => $exception->getMessage()
+            ];
+
+            return $this->createResponse($response);
         }
 
         return $this->createResponse($response);
