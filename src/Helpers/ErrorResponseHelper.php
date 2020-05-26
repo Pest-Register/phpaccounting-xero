@@ -40,7 +40,7 @@ class ErrorResponseHelper
                     } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                         return [ 'message' => 'The access token has expired' ];
                     }
-                    return $response;
+                    return ['message' => $response];
                     break;
                 case 'Invoice':
                     if (strpos($response, 'An existing Invoice with the specified InvoiceID could not be found') !== false) {
@@ -52,7 +52,7 @@ class ErrorResponseHelper
                     } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                         return [ 'message' => 'The access token has expired' ];
                     }
-                    return $response;
+                    return ['message' => $response];
                     break;
                 case 'Contact':
                     if (strpos($response, 'The contact name must be unique') !== false) {
@@ -60,7 +60,7 @@ class ErrorResponseHelper
                     } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                         return [ 'message' => 'The access token has expired' ];
                     }
-                    return $response;
+                    return ['message' => $response];
                     break;
                 case 'Contact Group':
                     if (strpos($response, 'An contact group by that name already exists') !== false ||
@@ -69,7 +69,7 @@ class ErrorResponseHelper
                     } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                         return [ 'message' => 'The access token has expired' ];
                     }
-                    return $response;
+                    return ['message' => $response];
                     break;
                 case 'Inventory Item':
                     if (strpos($response, 'already exists') !== false || strpos($response, 'must be unique') !== false) {
@@ -77,7 +77,7 @@ class ErrorResponseHelper
                     } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                         return [ 'message' => 'The access token has expired' ];
                     }
-                    return $response;
+                    return ['message' => $response];
                     break;
                 case 'Payment':
                     if (strpos($response, 'Payment amount exceeds the amount outstanding on this document') !== false || strpos($response, 'Payment not of valid status for modification') !== false) {
@@ -85,14 +85,14 @@ class ErrorResponseHelper
                     } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                         return [ 'message' => 'The access token has expired' ];
                     }
-                    return $response;
+                    return ['message' => $response];
                 default:
                     if (strpos('Please enter a unique', $response) !== false) {
                         return [ 'message' => 'Duplicate model found' ];
                     } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
                         return [ 'message' => 'The access token has expired' ];
                     }
-                    return $response;
+                    return ['message' => $response];
             }
         }
     }
