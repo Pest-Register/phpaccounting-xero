@@ -280,7 +280,7 @@ class UpdateInvoiceRequest extends AbstractRequest
                     else if ($value === 'INCLUSIVE') {
                         $invoice->$methodName('Inclusive');
                     } else {
-                        $invoice->$methodName('No Tax');
+                        $invoice->$methodName('NoTax');
                     }
                 } else if($key === 'Status') {
                     $methodName = 'set'.$key;
