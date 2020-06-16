@@ -3,6 +3,7 @@
 namespace Tests\Invoices;
 
 
+use Carbon\Carbon;
 use Tests\BaseTest;
 
 class CreateInvoiceTest extends BaseTest
@@ -13,18 +14,34 @@ class CreateInvoiceTest extends BaseTest
 
             $params = [
                 'type' => 'ACCREC',
-                'date' => '2019-01-27 00:00:00',
-                'due_date' => '2019-01-28 00:00:00',
+                'date' => Carbon::now(),
+                'due_date' => Carbon::now(),
                 'contact' => '58697449-85ef-46ae-83fc-6a9446f037fb',
-                'invoice_reference' => 'ORC1040',
+                'invoice_reference' => 'YEET',
                 'invoice_data' => [
                     [
-                        'description' => 'Consulting services as agreed (20% off standard rate)',
-                        'quantity' => '10',
-                        'unit_amount' => '100.00',
-                        'discount_rate' => '20',
-                        'amount' => 800,
-                        'code' => 200
+                        'description' => 'Test',
+                        'accounting_id' => '',
+                        'quantity' => 1.0,
+                        'unit_amount' => 220.0,
+                        'discount_rate' => 0.0,
+                        'code' => '200',
+                        'tax_type' => 'OUTPUT',
+                        'unit' => 'QTY',
+                        'tax_id' => 'OUTPUT',
+                        'account_id' => '200',
+                    ],
+                    [
+                        'description' => 'Test',
+                        'accounting_id' => '',
+                        'quantity' => 1.0,
+                        'unit_amount' => 110.0,
+                        'discount_rate' => 100.0,
+                        'code' => '200',
+                        'tax_type' => 'OUTPUT',
+                        'unit' => 'QTY',
+                        'tax_id' => 'OUTPUT',
+                        'account_id' => '200',
                     ]
                 ]
             ];
