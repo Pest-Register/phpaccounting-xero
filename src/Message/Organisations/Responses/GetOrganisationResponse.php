@@ -49,10 +49,24 @@ class GetOrganisationResponse extends AbstractResponse
     public function getErrorMessage(){
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse($this->data['detail'],$this->data['type'],$this->data, 'Organisation');
+                return ErrorResponseHelper::parseErrorResponse(
+                    $this->data['detail'],
+                    $this->data['type'],
+                    $this->data['status'],
+                    $this->data['error_code'],
+                    $this->data['status_code'],
+                    $this->data['detail'],
+                    $this->data,
+                    'Organisation');
             }
             if (count($this->data) === 0) {
-                return ['message' => 'NULL Returned from API or End of Pagination', 'exception' => 'NULL Returned from API or End of Pagination'];
+                return [
+                    'message' => 'NULL Returned from API or End of Pagination',
+                    'exception' => 'NULL Returned from API or End of Pagination',
+                    'error_code' => null,
+                    'status_code' => null,
+                    'detail' => null
+                ];
             }
         }
         return null;

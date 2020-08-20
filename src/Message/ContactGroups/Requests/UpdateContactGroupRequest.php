@@ -175,7 +175,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'BadRequest',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -183,7 +185,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'Unauthorized',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -191,7 +195,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'Forbidden',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -199,7 +205,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'ReportPermissionMissingException',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -207,7 +215,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'NotFound',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -215,7 +225,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'Internal',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -223,7 +235,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'NotImplemented',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -233,7 +247,9 @@ class UpdateContactGroupRequest extends AbstractRequest
                 'type' => 'RateLimitExceeded',
                 'rate_problem' => $exception->getRateLimitProblem(),
                 'retry' => $exception->getRetryAfter(),
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -241,7 +257,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'NotAvailable',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);
@@ -249,7 +267,9 @@ class UpdateContactGroupRequest extends AbstractRequest
             $response = [
                 'status' => 'error',
                 'type' => 'OrganisationOffline',
-                'detail' => $exception->getMessage()
+                'detail' => $exception->getMessage(),
+                'error_code' => $exception->getCode(),
+                'status_code' => $exception->getCode(),
             ];
 
             return $this->createResponse($response);

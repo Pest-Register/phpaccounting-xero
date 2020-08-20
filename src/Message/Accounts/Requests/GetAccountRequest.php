@@ -103,8 +103,10 @@ class GetAccountRequest extends AbstractRequest
 
             return $this->createResponse($response);
         } catch (ForbiddenException $exception) {
+            var_dump($exception);
             $response = [
                 'status' => 'error',
+                'error_code' => $exception->getCode(),
                 'type' => 'Forbidden',
                 'detail' => $exception->getMessage()
             ];
