@@ -1,6 +1,7 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
+use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
 use XeroPHP\Models\Accounting\Address;
@@ -273,7 +274,12 @@ class CreateContactRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('name');
+
+        try {
+            $this->validate('name');
+        } catch (InvalidRequestException $exception) {
+            return $exception;;
+        }
         $this->issetParam('Name', 'name');
         $this->issetParam('FirstName', 'first_name');
         $this->issetParam('LastName', 'last_name');
@@ -299,6 +305,16 @@ class CreateContactRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = [
+                'status' => 'error',
+                'type' => 'InvalidRequestException',
+                'detail' => $data->getMessage(),
+                'error_code' => $data->getCode(),
+                'status_code' => $data->getCode(),
+            ];
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 

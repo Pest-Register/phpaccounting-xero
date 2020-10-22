@@ -1,5 +1,6 @@
 <?php
 namespace PHPAccounting\Xero\Message\ManualJournals\Requests;
+use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\ManualJournals\Responses\CreateManualJournalResponse;
@@ -113,7 +114,11 @@ class CreateManualJournalRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('narration', 'journal_data');
+        try {
+            $this->validate('narration', 'journal_data');
+        } catch (InvalidRequestException $exception) {
+            return $exception;;
+        }
 
         $this->issetParam('Narration', 'narration');
         $this->issetParam('Date', 'date');
@@ -128,6 +133,16 @@ class CreateManualJournalRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = [
+                'status' => 'error',
+                'type' => 'InvalidRequestException',
+                'detail' => $data->getMessage(),
+                'error_code' => $data->getCode(),
+                'status_code' => $data->getCode(),
+            ];
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 

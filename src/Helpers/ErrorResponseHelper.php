@@ -253,6 +253,15 @@ class ErrorResponseHelper
                             'status_code' => $statusCode,
                             'detail'=> $detail
                         ];
+                    } elseif (strpos($response, 'parameter is required') !== false) {
+                        return [
+                            'message' => $response,
+                            'status' => $status,
+                            'exception' => $response,
+                            'error_code' => $errorCode,
+                            'status_code' => $statusCode,
+                            'detail'=> $detail
+                        ];
                     }
                     return [
                         'message' => $response,

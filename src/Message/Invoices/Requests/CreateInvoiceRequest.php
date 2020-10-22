@@ -2,6 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
+use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\CreateInvoiceResponse;
@@ -216,7 +217,11 @@ class CreateInvoiceRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('type', 'contact', 'invoice_data');
+        try {
+            $this->validate('type', 'contact', 'invoice_data');
+        } catch (InvalidRequestException $exception) {
+            return $exception;;
+        }
 
         $this->issetParam('Type', 'type');
         $this->issetParam('Date', 'date');
@@ -237,6 +242,16 @@ class CreateInvoiceRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = [
+                'status' => 'error',
+                'type' => 'InvalidRequestException',
+                'detail' => $data->getMessage(),
+                'error_code' => $data->getCode(),
+                'status_code' => $data->getCode(),
+            ];
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 

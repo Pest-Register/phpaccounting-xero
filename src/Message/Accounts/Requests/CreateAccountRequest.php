@@ -5,6 +5,7 @@ namespace PHPAccounting\Xero\Message\Accounts\Requests;
 use Faker\Provider\Payment;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Accounts\Responses\CreateAccountResponse;
 use XeroPHP\Models\Accounting\Account;
@@ -245,7 +246,11 @@ class CreateAccountRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('code', 'name', 'type');
+        try {
+            $this->validate('code', 'name', 'type');
+        } catch (InvalidRequestException $exception) {
+            return $exception;;
+        }
 
         $this->issetParam('Code', 'code');
         $this->issetParam('Name', 'name');
@@ -268,6 +273,16 @@ class CreateAccountRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = [
+                'status' => 'error',
+                'type' => 'InvalidRequestException',
+                'detail' => $data->getMessage(),
+                'error_code' => $data->getCode(),
+                'status_code' => $data->getCode(),
+            ];
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 

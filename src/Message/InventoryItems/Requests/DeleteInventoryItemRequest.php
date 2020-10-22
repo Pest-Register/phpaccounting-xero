@@ -2,6 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
 
+use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\DeleteInventoryItemResponse;
 use XeroPHP\Models\Accounting\Item;
@@ -59,7 +60,12 @@ class DeleteInventoryItemRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('accounting_id');
+        try {
+            $this->validate('accounting_id');
+        } catch (InvalidRequestException $exception) {
+            return $exception;;
+        }
+        $this->data;
     }
 
 
@@ -70,6 +76,16 @@ class DeleteInventoryItemRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = [
+                'status' => 'error',
+                'type' => 'InvalidRequestException',
+                'detail' => $data->getMessage(),
+                'error_code' => $data->getCode(),
+                'status_code' => $data->getCode(),
+            ];
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 

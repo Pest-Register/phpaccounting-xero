@@ -2,6 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 
+use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\CreateContactGroupResponse;
@@ -123,7 +124,11 @@ class CreateContactGroupRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('name');
+        try {
+            $this->validate('name');
+        } catch (InvalidRequestException $exception) {
+            return $exception;;
+        }
         $this->issetParam('Name', 'name');
         $this->issetParam('Status', 'status');
         $this->data['Contacts'] = ($this->getContacts() != null ? $this->getContactData($this->getContacts()) : null);
@@ -137,6 +142,17 @@ class CreateContactGroupRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+
+        if($data instanceof InvalidRequestException) {
+            $response = [
+                'status' => 'error',
+                'type' => 'InvalidRequestException',
+                'detail' => $data->getMessage(),
+                'error_code' => $data->getCode(),
+                'status_code' => $data->getCode(),
+            ];
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 

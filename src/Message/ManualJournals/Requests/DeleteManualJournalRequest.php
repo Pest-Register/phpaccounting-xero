@@ -9,6 +9,7 @@
 namespace PHPAccounting\Xero\Message\ManualJournals\Requests;
 
 
+use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\ManualJournals\Responses\DeleteManualJournalResponse;
 use XeroPHP\Models\Accounting\ManualJournal;
@@ -63,7 +64,11 @@ class DeleteManualJournalRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('accounting_id');
+        try {
+            $this->validate('accounting_id');
+        } catch (InvalidRequestException $exception) {
+            return $exception;;
+        }
         $this->issetParam('ManualJournalID', 'accounting_id');
         $this->issetParam('Status', 'status');
         return $this->data;
@@ -76,6 +81,16 @@ class DeleteManualJournalRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = [
+                'status' => 'error',
+                'type' => 'InvalidRequestException',
+                'detail' => $data->getMessage(),
+                'error_code' => $data->getCode(),
+                'status_code' => $data->getCode(),
+            ];
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 

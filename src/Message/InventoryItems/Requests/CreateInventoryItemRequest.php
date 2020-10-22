@@ -2,6 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
 
+use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\CreateInventoryItemResponse;
@@ -288,7 +289,12 @@ class CreateInventoryItemRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('code');
+
+        try {
+            $this->validate('code');
+        } catch (InvalidRequestException $exception) {
+            return $exception;;
+        }
 
         $this->issetParam('Code', 'code');
         $this->issetParam('Name', 'name');
@@ -313,6 +319,16 @@ class CreateInventoryItemRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = [
+                'status' => 'error',
+                'type' => 'InvalidRequestException',
+                'detail' => $data->getMessage(),
+                'error_code' => $data->getCode(),
+                'status_code' => $data->getCode(),
+            ];
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 
