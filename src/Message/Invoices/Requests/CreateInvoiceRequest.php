@@ -81,6 +81,25 @@ class CreateInvoiceRequest extends AbstractRequest
         return $this->getParameter('invoice_reference');
     }
 
+
+    /**
+     * Get Invoice number Parameter from Parameter Bag (LineItems generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function setInvoiceNumber($value){
+        return $this->setParameter('invoice_number', $value);
+    }
+
+    /**
+     * Get Invoice number Parameter from Parameter Bag (LineItems generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function getInvoiceNumber(){
+        return $this->getParameter('invoice_number');
+    }
+
     /**
      * Get Invoice Data Parameter from Parameter Bag (LineItems generic interface)
      * @see https://developer.xero.com/documentation/api/invoices

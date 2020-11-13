@@ -18,6 +18,7 @@ class CreateInvoiceTest extends BaseTest
                 'due_date' => Carbon::now(),
                 'contact' => '58697449-85ef-46ae-83fc-6a9446f037fb',
                 'invoice_reference' => 'YEET',
+                'invoice_number' => 'adsadasdasd',
                 'invoice_data' => [
                     [
                         'description' => 'Test',
