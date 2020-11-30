@@ -42,6 +42,42 @@ class GetContactRequest extends AbstractRequest
     }
 
     /**
+     * Set SearchTerm from Parameter Bag (interface for query-based searching)
+     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
+     * @param $value
+     * @return GetContactRequest
+     */
+    public function setSearchTerm($value) {
+        return $this->setParameter('search_term', $value);
+    }
+
+    /**
+     * Set SearchParam from Parameter Bag (interface for query-based searching)
+     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
+     * @param $value
+     * @return GetContactRequest
+     */
+    public function setSearchParam($value) {
+        return $this->setParameter('search_param', $value);
+    }
+
+    /**
+     * Return Search Parameter for query-based searching
+     * @return integer
+     */
+    public function getSearchParam() {
+        return $this->getParameter('search_param');
+    }
+
+    /**
+     * Return Search Term for query-based searching
+     * @return integer
+     */
+    public function getSearchTerm() {
+        return $this->getParameter('search_term');
+    }
+
+    /**
      * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
      * @return mixed comma-delimited-string
      */
@@ -82,7 +118,14 @@ class GetContactRequest extends AbstractRequest
                     $contacts = $xero->loadByGUIDs(Contact::class, $this->getAccountingIDs());
                 }
             } else {
-                $contacts = $xero->load(Contact::class)->page($this->getPage())->execute();
+                if($this->getSearchParam() && $this->getSearchTerm())
+                {
+                    // Set contains query for partial matching
+                    $searchQuery = $this->getSearchParam().'.ToLower().Contains("'.strtolower($this->getSearchTerm()).'")';
+                    $contacts = $xero->load(Contact::class)->where($searchQuery)->execute();
+                } else {
+                    $contacts = $xero->load(Contact::class)->execute();
+                }
             }
             $response = $contacts;
 

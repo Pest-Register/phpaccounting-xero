@@ -14,7 +14,9 @@ class GetInventoryItemTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-                'accounting_ids' => [""],
+//                'accounting_ids' => [""],
+                'search_param' => 'Name',
+                'search_term' => 'Golf',
                 'page' => 1
             ];
 

@@ -23,7 +23,9 @@ class GetContactTest extends BaseTest
         try {
             $params = [
                 'accounting_ids' => [""],
-                'page' => 2
+                'search_param' => 'Name',
+                'search_term' => 'Income',
+                'page' => 1
             ];
 
             $response = $this->gateway->getContact($params)->send();

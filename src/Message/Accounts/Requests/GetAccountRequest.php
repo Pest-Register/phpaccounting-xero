@@ -36,6 +36,42 @@ class GetAccountRequest extends AbstractRequest
     }
 
     /**
+     * Set SearchTerm from Parameter Bag (interface for query-based searching)
+     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
+     * @param $value
+     * @return GetAccountRequest
+     */
+    public function setSearchTerm($value) {
+        return $this->setParameter('search_term', $value);
+    }
+
+    /**
+     * Set SearchParam from Parameter Bag (interface for query-based searching)
+     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
+     * @param $value
+     * @return GetAccountRequest
+     */
+    public function setSearchParam($value) {
+        return $this->setParameter('search_param', $value);
+    }
+
+    /**
+     * Return Search Parameter for query-based searching
+     * @return integer
+     */
+    public function getSearchParam() {
+        return $this->getParameter('search_param');
+    }
+
+    /**
+     * Return Search Term for query-based searching
+     * @return integer
+     */
+    public function getSearchTerm() {
+        return $this->getParameter('search_term');
+    }
+
+    /**
      * Set Page Value for Pagination from Parameter Bag
      * @see https://developer.xero.com/documentation/api/accounts
      * @param $value
@@ -82,7 +118,14 @@ class GetAccountRequest extends AbstractRequest
                     $accounts = $xero->loadByGUIDs(Account::class, $this->getAccountingIDs());
                 }
             } else {
-                $accounts = $xero->load(Account::class)->execute();
+                if($this->getSearchParam() && $this->getSearchTerm())
+                {
+                    // Set contains query for partial matching
+                    $searchQuery = $this->getSearchParam().'.ToLower().Contains("'.strtolower($this->getSearchTerm()).'")';
+                    $accounts = $xero->load(Account::class)->where($searchQuery)->execute();
+                } else {
+                    $accounts = $xero->load(Account::class)->execute();
+                }
             }
             $response = $accounts;
 
@@ -103,7 +146,6 @@ class GetAccountRequest extends AbstractRequest
 
             return $this->createResponse($response);
         } catch (ForbiddenException $exception) {
-            var_dump($exception);
             $response = [
                 'status' => 'error',
                 'error_code' => $exception->getCode(),
