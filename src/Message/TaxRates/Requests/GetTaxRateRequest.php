@@ -43,39 +43,21 @@ class GetTaxRateRequest extends AbstractRequest
     }
 
     /**
-     * Set SearchTerm from Parameter Bag (interface for query-based searching)
+     * Set SearchParams from Parameter Bag (interface for query-based searching)
      * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
      * @param $value
      * @return GetTaxRateRequest
      */
-    public function setSearchTerm($value) {
-        return $this->setParameter('search_term', $value);
+    public function setSearchParams($value) {
+        return $this->setParameter('search_params', $value);
     }
 
     /**
-     * Set SearchParam from Parameter Bag (interface for query-based searching)
-     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
-     * @param $value
-     * @return GetTaxRateRequest
+     * Return Search Parameters for query-based searching
+     * @return array
      */
-    public function setSearchParam($value) {
-        return $this->setParameter('search_param', $value);
-    }
-
-    /**
-     * Return Search Parameter for query-based searching
-     * @return integer
-     */
-    public function getSearchParam() {
-        return $this->getParameter('search_param');
-    }
-
-    /**
-     * Return Search Term for query-based searching
-     * @return integer
-     */
-    public function getSearchTerm() {
-        return $this->getParameter('search_term');
+    public function getSearchParams() {
+        return $this->getParameter('search_params');
     }
 
     /**
@@ -105,6 +87,7 @@ class GetTaxRateRequest extends AbstractRequest
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
      * @return GetTaxRateResponse
+     * @throws \XeroPHP\Exception
      */
     public function sendData($data)
     {
@@ -120,11 +103,23 @@ class GetTaxRateRequest extends AbstractRequest
                     $taxes = $xero->loadByGUIDs(TaxRate::class, $this->getAccountingIDs());
                 }
             } else {
-                if($this->getSearchParam() && $this->getSearchTerm())
+                if($this->getSearchParams())
                 {
                     // Set contains query for partial matching
-                    $searchQuery = $this->getSearchParam().'.ToLower().Contains("'.strtolower($this->getSearchTerm()).'")';
-                    $taxes = $xero->load(TaxRate::class)->where($searchQuery)->execute();
+                    $query = $xero->load(TaxRate::class);
+                    $queryCounter = 0;
+                    foreach($this->getSearchParams() as $key => $value)
+                    {
+                        $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
+                        if ($queryCounter == 0)
+                        {
+                            $query = $query->where($searchQuery);
+                        } else {
+                            $query = $query->orWhere($searchQuery);
+                        }
+                        $queryCounter++;
+                    }
+                    $taxes = $query->execute();
                 } else {
                     $taxes = $xero->load(TaxRate::class)->execute();
                 }

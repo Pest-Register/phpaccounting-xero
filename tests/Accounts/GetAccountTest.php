@@ -22,10 +22,12 @@ class GetAccountTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-                'accounting_ids' => [""],
-                'search_param' => 'Name',
-                'search_term' => 'Income',
-                'page' => 1
+                'search_params' => [
+                    'Name' => 'Income',
+                    'Code'=> 270
+                ],
+//                'accounting_ids' => [""],
+//                'page' => 1
             ];
 
             $response = $this->gateway->getAccount($params)->send();
