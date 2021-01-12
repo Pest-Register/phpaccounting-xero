@@ -119,7 +119,7 @@ class GetContactRequest extends AbstractRequest
                     }
                     $contacts = $query->execute();
                 } else {
-                    $contacts = $xero->load(Contact::class)->execute();
+                    $contacts = $xero->load(Contact::class)->page($this->getPage())->execute();
                 }
             }
             $response = $contacts;

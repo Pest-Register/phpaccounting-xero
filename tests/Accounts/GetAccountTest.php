@@ -23,8 +23,7 @@ class GetAccountTest extends BaseTest
         try {
             $params = [
                 'search_params' => [
-                    'Name' => 'Income',
-                    'Code'=> 270
+                    'Name' => 'Income'
                 ],
 //                'accounting_ids' => [""],
 //                'page' => 1

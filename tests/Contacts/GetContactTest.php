@@ -23,9 +23,9 @@ class GetContactTest extends BaseTest
         try {
             $params = [
                 'accounting_ids' => [""],
-                'search_params' => [
-                    'Name' => 'Yendall',
-                ],
+//                'search_params' => [
+//                    'Name' => 'Yendall',
+//                ],
                 'page' => 1
             ];
 

@@ -117,7 +117,7 @@ class GetAccountRequest extends AbstractRequest
                     }
                     $accounts = $query->execute();
                 } else {
-                    $accounts = $xero->load(Account::class)->execute();
+                    $accounts = $xero->load(Account::class)->page($this->getPage())->execute();
                 }
             }
             $response = $accounts;
