@@ -121,7 +121,7 @@ class GetTaxRateRequest extends AbstractRequest
                     }
                     $taxes = $query->execute();
                 } else {
-                    $taxes = $xero->load(TaxRate::class)->page($this->getPage())->execute();
+                    $taxes = $xero->load(TaxRate::class)->execute();
                 }
             }
             $response = $taxes;
