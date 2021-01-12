@@ -14,11 +14,11 @@ class GetInventoryItemTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-//                'accounting_ids' => [""],
-                'search_params' => [
-                    'Name' => 'Golf'
-                ],
-                'page' => 1
+                'accounting_ids' => [""],
+//                'search_params' => [
+//                    'Name' => 'Golf'
+//                ],
+//                'page' => 1
             ];
 
             $response = $this->gateway->getInventoryItem($params)->send();

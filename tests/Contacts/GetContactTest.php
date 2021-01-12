@@ -26,7 +26,7 @@ class GetContactTest extends BaseTest
 //                'search_params' => [
 //                    'Name' => 'Yendall',
 //                ],
-                'page' => 5
+                'page' => 1
             ];
 
             $response = $this->gateway->getContact($params)->send();

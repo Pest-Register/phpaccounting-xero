@@ -118,7 +118,7 @@ class GetInventoryItemRequest extends AbstractRequest
                     }
                     $items = $query->execute();
                 } else {
-                    $items = $xero->load(Item::class)->page($this->getPage())->execute();
+                    $items = $xero->load(Item::class)->execute();
                 }
             }
             $response = $items;
