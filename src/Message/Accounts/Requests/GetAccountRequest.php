@@ -53,6 +53,23 @@ class GetAccountRequest extends AbstractRequest
     }
 
     /**
+     * Set boolean to determine partial or exact query based searches
+     * @param $value
+     * @return GetAccountRequest
+     */
+    public function setExactSearchValue($value) {
+        return $this->setParameter('exact_search_value', $value);
+    }
+
+    /**
+     * Get boolean to determine partial or exact query based searches
+     * @return mixed
+     */
+    public function getExactSearchValue() {
+        return $this->getParameter('exact_search_value');
+    }
+
+    /**
      * Set Page Value for Pagination from Parameter Bag
      * @see https://developer.xero.com/documentation/api/accounts
      * @param $value
@@ -106,7 +123,14 @@ class GetAccountRequest extends AbstractRequest
                     $queryCounter = 0;
                     foreach($this->getSearchParams() as $key => $value)
                     {
-                        $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
+                        if($this->getExactSearchValue())
+                        {
+                            $searchQuery = $key.'="'.$value.'"';
+                        }
+                        else {
+                            $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
+                        }
+
                         if ($queryCounter == 0)
                         {
                             $query = $query->where($searchQuery);

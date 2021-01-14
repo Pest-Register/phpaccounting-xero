@@ -60,6 +60,23 @@ class GetInventoryItemRequest extends AbstractRequest
     }
 
     /**
+     * Set boolean to determine partial or exact query based searches
+     * @param $value
+     * @return GetInventoryItemRequest
+     */
+    public function setExactSearchValue($value) {
+        return $this->setParameter('exact_search_value', $value);
+    }
+
+    /**
+     * Get boolean to determine partial or exact query based searches
+     * @return mixed
+     */
+    public function getExactSearchValue() {
+        return $this->getParameter('exact_search_value');
+    }
+
+    /**
      * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
      * @return mixed comma-delimited-string
      */
@@ -102,12 +119,20 @@ class GetInventoryItemRequest extends AbstractRequest
             } else {
                 if($this->getSearchParams())
                 {
+
                     // Set contains query for partial matching
                     $query = $xero->load(Item::class);
                     $queryCounter = 0;
                     foreach($this->getSearchParams() as $key => $value)
                     {
-                        $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
+                        if($this->getExactSearchValue())
+                        {
+                            $searchQuery = $key.'="'.$value.'"';
+                        }
+                        else {
+                            $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
+                        }
+
                         if ($queryCounter == 0)
                         {
                             $query = $query->where($searchQuery);

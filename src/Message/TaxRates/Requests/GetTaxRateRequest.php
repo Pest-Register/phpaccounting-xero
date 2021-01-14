@@ -61,6 +61,23 @@ class GetTaxRateRequest extends AbstractRequest
     }
 
     /**
+     * Set boolean to determine partial or exact query based searches
+     * @param $value
+     * @return GetTaxRateRequest
+     */
+    public function setExactSearchValue($value) {
+        return $this->setParameter('exact_search_value', $value);
+    }
+
+    /**
+     * Get boolean to determine partial or exact query based searches
+     * @return mixed
+     */
+    public function getExactSearchValue() {
+        return $this->getParameter('exact_search_value');
+    }
+
+    /**
      * Return Comma Delimited String of Accounting IDs (TaxRateIDs)
      * @return mixed comma-delimited-string
      */
@@ -94,7 +111,6 @@ class GetTaxRateRequest extends AbstractRequest
         try {
             $xero = $this->createXeroApplication();
 
-
             if ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $taxes = $xero->loadByGUID(TaxRate::class, $this->getAccountingIDs());
@@ -110,7 +126,14 @@ class GetTaxRateRequest extends AbstractRequest
                     $queryCounter = 0;
                     foreach($this->getSearchParams() as $key => $value)
                     {
-                        $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
+                        if($this->getExactSearchValue())
+                        {
+                            $searchQuery = $key.'="'.$value.'"';
+                        }
+                        else {
+                            $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
+                        }
+
                         if ($queryCounter == 0)
                         {
                             $query = $query->where($searchQuery);
