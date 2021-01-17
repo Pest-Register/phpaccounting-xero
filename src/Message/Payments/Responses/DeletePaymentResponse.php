@@ -46,12 +46,12 @@ class DeletePaymentResponse extends AbstractResponse
         if ($this->data) {
             if(array_key_exists('status', $this->data)){
                 return ErrorResponseHelper::parseErrorResponse(
-                    $this->data['detail'],
-                    $this->data['type'],
-                    $this->data['status'],
-                    $this->data['error_code'],
-                    $this->data['status_code'],
-                    $this->data['detail'],
+                    isset($this->data['detail']) ? $this->data['detail'] : null,
+                    isset($this->data['type']) ? $this->data['type'] : null,
+                    isset($this->data['status']) ? $this->data['status'] : null,
+                    isset($this->data['error_code']) ? $this->data['error_code'] : null,
+                    isset($this->data['status_code']) ? $this->data['status_code'] : null,
+                    isset($this->data['detail']) ? $this->data['detail'] : null,
                     $this->data,
                     'Payment');
             }
