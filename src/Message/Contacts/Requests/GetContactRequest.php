@@ -41,6 +41,25 @@ class GetContactRequest extends AbstractRequest
         return $this->setParameter('page', $value);
     }
 
+
+    /**
+     * Set SearchFilters from Parameter Bag (interface for query-based searching)
+     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
+     * @param $value
+     * @return GetContactRequest
+     */
+    public function setSearchFilters($value) {
+        return $this->setParameter('search_filters', $value);
+    }
+
+    /**
+     * Return Search Filters for query-based searching
+     * @return array
+     */
+    public function getSearchFilters() {
+        return $this->getParameter('search_filters');
+    }
+
     /**
      * Set SearchParams from Parameter Bag (interface for query-based searching)
      * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
@@ -77,6 +96,23 @@ class GetContactRequest extends AbstractRequest
     }
 
     /**
+     * Set boolean to determine whether all filters need to be matched
+     * @param $value
+     * @return GetContactRequest
+     */
+    public function setMatchAllFilters($value) {
+        return $this->setParameter('match_all_filters', $value);
+    }
+
+    /**
+     * Get boolean to determine whether all filters need to be matched
+     * @return mixed
+     */
+    public function getMatchAllFilters() {
+        return $this->getParameter('match_all_filters');
+    }
+
+    /**
      * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
      * @return mixed comma-delimited-string
      */
@@ -100,6 +136,62 @@ class GetContactRequest extends AbstractRequest
     }
 
     /**
+     * Builds search / filter query based on search parameters and filters
+     */
+    private function buildSearchQuery($xero) {
+        // Set contains query for partial matching
+        $query = $xero->load(Contact::class);
+        $queryCounter = 0;
+        if ($this->getSearchParams())
+        {
+            foreach($this->getSearchParams() as $key => $value)
+            {
+                if($this->getExactSearchValue())
+                {
+                    $searchQuery = $key.'="'.$value.'"';
+                }
+                else {
+                    $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
+                }
+
+                if ($queryCounter == 0)
+                {
+                    $query = $query->where($searchQuery);
+                } else {
+                    $query = $query->orWhere($searchQuery);
+                }
+                $queryCounter++;
+            }
+        }
+        // If there are specific filters, add them to query
+        $queryCounter = 0;
+        if ($this->getSearchFilters())
+        {
+            foreach($this->getSearchFilters() as $key => $value)
+            {
+                $filterKey = $key;
+                foreach($value as $filterValue)
+                {
+                    $searchQuery = $filterKey.'="'.$filterValue.'"';
+                    if ($queryCounter == 0)
+                    {
+                        $query = $query->andWhere($searchQuery);
+                    } else {
+                        if ($this->getMatchAllFilters())
+                        {
+                            $query = $query->andWhere($searchQuery);
+                        }
+                        else {
+                            $query = $query->orWhere($searchQuery);
+                        }
+                    }
+                    $queryCounter++;
+                }
+            }
+        }
+        return $query;
+    }
+    /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
      * @return \Omnipay\Common\Message\ResponseInterface|GetContactResponse
@@ -118,29 +210,9 @@ class GetContactRequest extends AbstractRequest
                     $contacts = $xero->loadByGUIDs(Contact::class, $this->getAccountingIDs());
                 }
             } else {
-                if($this->getSearchParams())
+                if($this->getSearchParams() || $this->getSearchFilters())
                 {
-                    // Set contains query for partial matching
-                    $query = $xero->load(Contact::class);
-                    $queryCounter = 0;
-                    foreach($this->getSearchParams() as $key => $value)
-                    {
-                        if($this->getExactSearchValue())
-                        {
-                            $searchQuery = $key.'="'.$value.'"';
-                        }
-                        else {
-                            $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
-                        }
-
-                        if ($queryCounter == 0)
-                        {
-                            $query = $query->where($searchQuery);
-                        } else {
-                            $query = $query->orWhere($searchQuery);
-                        }
-                        $queryCounter++;
-                    }
+                    $query = $this->buildSearchQuery($xero);
                     $contacts = $query->execute();
                 } else {
                     $contacts = $xero->load(Contact::class)->page($this->getPage())->execute();

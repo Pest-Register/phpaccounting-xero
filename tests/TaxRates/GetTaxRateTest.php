@@ -17,6 +17,11 @@ class GetTaxRateTest extends BaseTest
                 'search_params' => [
                     'TaxType' => 'INPUT',
                 ],
+//                'search_filters' => [
+//                    'TaxType' => [
+//                        'INPUT'
+//                    ]
+//                ],
                 'exact_search_value' => true,
 //                'page' => 1
             ];
