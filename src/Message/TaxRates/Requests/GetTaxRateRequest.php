@@ -3,6 +3,7 @@
 namespace PHPAccounting\Xero\Message\TaxRates\Requests;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\TaxRates\Responses\GetTaxRateResponse;
+use XeroPHP\Application;
 use XeroPHP\Models\Accounting\TaxRate;
 use XeroPHP\Models\Accounting\TaxType;
 use XeroPHP\Remote\Exception\UnauthorizedException;
@@ -137,8 +138,10 @@ class GetTaxRateRequest extends AbstractRequest
 
     /**
      * Builds search / filter query based on search parameters and filters
+     * @param Application $xero
+     * @return \XeroPHP\Remote\Query
      */
-    private function buildSearchQuery($xero) {
+    private function buildSearchQuery(Application $xero) {
         // Set contains query for partial matching
         $query = $xero->load(TaxRate::class);
         $queryCounter = 0;
@@ -169,24 +172,27 @@ class GetTaxRateRequest extends AbstractRequest
         {
             foreach($this->getSearchFilters() as $key => $value)
             {
+                $queryString = '';
                 $filterKey = $key;
                 foreach($value as $filterValue)
                 {
                     $searchQuery = $filterKey.'="'.$filterValue.'"';
                     if ($queryCounter == 0)
                     {
-                        $query = $query->andWhere($searchQuery);
+                        $queryString = '('.$searchQuery;
                     } else {
                         if ($this->getMatchAllFilters())
                         {
-                            $query = $query->andWhere($searchQuery);
+                            $queryString.= ' AND '.$searchQuery;
                         }
                         else {
-                            $query = $query->orWhere($searchQuery);
+                            $queryString.= ' OR '.$searchQuery;
                         }
                     }
                     $queryCounter++;
                 }
+                $queryString.=")";
+                $query->andWhere($queryString);
             }
         }
         return $query;

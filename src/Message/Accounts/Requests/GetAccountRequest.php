@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\ClientException;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Accounts\Responses\GetAccountResponse;
+use XeroPHP\Application;
 use XeroPHP\Exception;
 use XeroPHP\Models\Accounting\Account;
 use XeroPHP\Remote\Exception\UnauthorizedException;
@@ -135,11 +136,15 @@ class GetAccountRequest extends AbstractRequest
 
     /**
      * Builds search / filter query based on search parameters and filters
+     * @param Application $xero
+     * @return \XeroPHP\Remote\Query
      */
-    private function buildSearchQuery($xero) {
+    private function buildSearchQuery(Application $xero) {
         // Set contains query for partial matching
         $query = $xero->load(Account::class);
+        // If there are specific filters, add them to query
         $queryCounter = 0;
+
         if ($this->getSearchParams())
         {
             foreach($this->getSearchParams() as $key => $value)
@@ -161,32 +166,36 @@ class GetAccountRequest extends AbstractRequest
                 $queryCounter++;
             }
         }
-        // If there are specific filters, add them to query
+
         $queryCounter = 0;
         if ($this->getSearchFilters())
         {
             foreach($this->getSearchFilters() as $key => $value)
             {
+                $queryString = '';
                 $filterKey = $key;
                 foreach($value as $filterValue)
                 {
                     $searchQuery = $filterKey.'="'.$filterValue.'"';
                     if ($queryCounter == 0)
                     {
-                        $query = $query->andWhere($searchQuery);
+                        $queryString = '('.$searchQuery;
                     } else {
                         if ($this->getMatchAllFilters())
                         {
-                            $query = $query->andWhere($searchQuery);
+                            $queryString.= ' AND '.$searchQuery;
                         }
                         else {
-                            $query = $query->orWhere($searchQuery);
+                            $queryString.= ' OR '.$searchQuery;
                         }
                     }
                     $queryCounter++;
                 }
+                $queryString.=")";
+                $query->andWhere($queryString);
             }
         }
+
         return $query;
     }
 
@@ -213,7 +222,7 @@ class GetAccountRequest extends AbstractRequest
                     $query = $this->buildSearchQuery($xero);
                     $accounts = $query->execute();
                 } else {
-                    $accounts = $xero->load(Account::class)->page($this->getPage())->execute();
+                    $accounts = $xero->load(Account::class)->execute();
                 }
             }
             $response = $accounts;

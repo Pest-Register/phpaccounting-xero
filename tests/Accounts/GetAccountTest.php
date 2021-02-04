@@ -23,15 +23,16 @@ class GetAccountTest extends BaseTest
         try {
             $params = [
                 'search_params' => [
-                    'Name' => 'Account',
+                    'Name' => 'Sales',
                 ],
-//                'search_filters' => [
-//                    'Type' => [
-//                        'BANK',
-//                        'CURRLIAB',
-//                        'EQUITY'
-//                    ]
-//                ],
+                'search_filters' => [
+                    'Type' => [
+                        'BANK',
+                        'CURRLIAB',
+                        'EQUITY',
+                        'REVENUE'
+                    ]
+                ],
                 'match_all_filters' => false,
 //                'accounting_ids' => [""],
 //                'page' => 1
