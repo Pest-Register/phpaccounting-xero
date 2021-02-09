@@ -187,6 +187,27 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Quotation Requests
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function createQuotation(array $parameters = []){
+        return $this->createRequest('\PHPAccounting\Xero\Message\Quotations\Requests\CreateQuotationRequest', $parameters);
+    }
+
+    public function updateQuotation(array $parameters = []) {
+        return $this->createRequest('\PHPAccounting\Xero\Message\Quotations\Requests\UpdateQuotationRequest', $parameters);
+    }
+
+    public function deleteQuotation(array $parameters = []) {
+        return $this->createRequest('\PHPAccounting\Xero\Message\Quotations\Request\DeleteQuotationRequest', $parameters);
+    }
+
+    public function getQuotation(array $parameters = []) {
+        return $this->createRequest('\PHPAccounting\Xero\Message\Quotations\Requests\GetQuotationRequest', $parameters);
+    }
+
+    /**
      * Account Requests
      * @param array $parameters
      * @return \Omnipay\Common\Message\AbstractRequest

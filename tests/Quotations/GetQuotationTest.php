@@ -1,20 +1,15 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Max
- * Date: 5/29/2019
- * Time: 5:42 PM
- */
 
-namespace Tests\Invoices;
+
+namespace Tests\Quotations;
 
 
 use Tests\BaseTest;
 
-class GetInvoiceTest extends BaseTest
+class GetQuotationTest extends BaseTest
 {
 
-    public function testGetInvoices()
+    public function testGetQuotations()
     {
         $this->setUp();
         try {
@@ -23,9 +18,9 @@ class GetInvoiceTest extends BaseTest
                 'page' => 1
             ];
 
-            $response = $this->gateway->getInvoice($params)->send();
+            $response = $this->gateway->getQuotation($params)->send();
             if ($response->isSuccessful()) {
-                var_dump($response->getInvoices());
+                var_dump($response->getQuotations());
             } else {
                 var_dump($response->getErrorMessage());
             }
