@@ -200,7 +200,7 @@ class Gateway extends AbstractGateway
     }
 
     public function deleteQuotation(array $parameters = []) {
-        return $this->createRequest('\PHPAccounting\Xero\Message\Quotations\Request\DeleteQuotationRequest', $parameters);
+        return $this->createRequest('\PHPAccounting\Xero\Message\Quotations\Requests\DeleteQuotationRequest', $parameters);
     }
 
     public function getQuotation(array $parameters = []) {

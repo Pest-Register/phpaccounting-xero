@@ -91,13 +91,13 @@ class DeleteQuotationRequest extends AbstractRequest
             $xero = $this->createXeroApplication();
 
 
-            $invoice = new Quote($xero);
+            $quote = new Quote($xero);
             foreach ($data as $key => $value){
                 $methodName = 'set'. $key;
-                $invoice->$methodName($value);
+                $quote->$methodName($value);
             }
 
-            $response = $xero->save($invoice);
+            $response = $xero->save($quote);
 
         } catch (BadRequestException $exception) {
             $response = [
