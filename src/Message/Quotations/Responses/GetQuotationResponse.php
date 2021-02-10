@@ -70,10 +70,10 @@ class GetQuotationResponse extends AbstractResponse
     /**
      * Add LineItems to Quote
      * @param $data Array of LineItems
-     * @param array $invoice Xero Quote Object Mapping
+     * @param array $quote Xero Quote Object Mapping
      * @return mixed
      */
-    private function parseLineItems($data, $invoice) {
+    private function parseLineItems($data, $quote) {
         if ($data) {
             $lineItems = [];
             foreach($data as $lineItem) {
@@ -93,10 +93,10 @@ class GetQuotationResponse extends AbstractResponse
                 array_push($lineItems, $newLineItem);
             }
 
-            $invoice['invoice_data'] = $lineItems;
+            $quote['quotation_data'] = $lineItems;
         }
 
-        return $invoice;
+        return $quote;
     }
 
     /**
@@ -125,21 +125,21 @@ class GetQuotationResponse extends AbstractResponse
         if ($this->data instanceof Quote){
             $quote = $this->data;
             $newQuote = [];
-            $newQuote['accounting_id'] = $quote->getInvoiceID();
+            $newQuote['accounting_id'] = $quote->getQuoteID();
             $newQuote['status'] = $quote->getStatus();
             $newQuote['sub_total'] = $quote->getSubTotal();
             $newQuote['total_tax'] = $quote->getTotalTax();
             $newQuote['total'] = $quote->getTotal();
             $newQuote['currency'] = $quote->getCurrencyCode();
-            $newQuote['type'] = $quote->getType();
-            $newQuote['invoice_number'] = $quote->getInvoiceNumber();
-            $newQuote['amount_due'] = $quote->getAmountDue();
-            $newQuote['amount_paid'] = $quote->getAmountPaid();
+            $newQuote['quotation_number'] = $quote->getQuoteNumber();
             $newQuote['currency_rate'] = $quote->getCurrencyRate();
             $newQuote['date'] = $quote->getDate();
-            $newQuote['due_date'] = $quote->getDueDate();
+            $newQuote['expiry_date'] = $quote->getExpiryDate();
             $newQuote['gst_inclusive'] = $quote->getLineAmountTypes();
             $newQuote['updated_at'] = $quote->getUpdatedDateUTC();
+            $newQuote['title'] = $quote->getTitle();
+            $newQuote['summary'] = $quote->getSummary();
+            $newQuote['terms'] = $quote->getTerms();
             $newQuote = $this->parseContact($quote->getContact(), $newQuote);
             $newQuote = $this->parseLineItems($quote->getLineItems(), $newQuote);
 
@@ -148,21 +148,21 @@ class GetQuotationResponse extends AbstractResponse
         } else {
             foreach ($this->data as $quote) {
                 $newQuote = [];
-                $newQuote['accounting_id'] = $quote->getInvoiceID();
+                $newQuote['accounting_id'] = $quote->getQuoteID();
                 $newQuote['status'] = $quote->getStatus();
                 $newQuote['sub_total'] = $quote->getSubTotal();
                 $newQuote['total_tax'] = $quote->getTotalTax();
                 $newQuote['total'] = $quote->getTotal();
                 $newQuote['currency'] = $quote->getCurrencyCode();
-                $newQuote['type'] = $quote->getType();
-                $newQuote['invoice_number'] = $quote->getInvoiceNumber();
-                $newQuote['amount_due'] = $quote->getAmountDue();
-                $newQuote['amount_paid'] = $quote->getAmountPaid();
+                $newQuote['quotation_number'] = $quote->getQuoteNumber();
                 $newQuote['currency_rate'] = $quote->getCurrencyRate();
                 $newQuote['date'] = $quote->getDate();
-                $newQuote['due_date'] = $quote->getDueDate();
+                $newQuote['expiry_date'] = $quote->getExpiryDate();
                 $newQuote['gst_inclusive'] = $quote->getLineAmountTypes();
                 $newQuote['updated_at'] = $quote->getUpdatedDateUTC();
+                $newQuote['title'] = $quote->getTitle();
+                $newQuote['summary'] = $quote->getSummary();
+                $newQuote['terms'] = $quote->getTerms();
                 $newQuote = $this->parseContact($quote->getContact(), $newQuote);
                 $newQuote = $this->parseLineItems($quote->getLineItems(), $newQuote);
 

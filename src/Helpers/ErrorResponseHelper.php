@@ -78,6 +78,46 @@ class ErrorResponseHelper
                         'detail'=> $detail
                     ];
                     break;
+                case 'Quote':
+                    if (strpos($response, 'An existing Quote with the specified QuoteID could not be found') !== false) {
+                        return [
+                            'message' => 'No model found from given ID',
+                            'status' => $status,
+                            'exception' => $response,
+                            'error_code' => $errorCode,
+                            'status_code' => $statusCode,
+                            'detail'=> $detail
+                        ];
+                    } elseif(strpos($response, 'This document cannot be edited') !== false || strpos($response, 'Quote not of valid status for modification') !== false ||
+                        strpos($response, 'The document date cannot be before the period lock date') !== false ||
+                        strpos($response, 'Quote not of valid status for modification') !== false) {
+                        return [
+                            'message' => 'Model cannot be edited',
+                            'status' => $status,
+                            'exception' => $response,
+                            'error_code' => $errorCode,
+                            'status_code' => $statusCode,
+                            'detail'=> $detail
+                        ];
+                    } elseif (strpos($response, 'TokenExpired') !== false || strpos($response, 'You are not permitted to access this resource') !== false) {
+                        return [
+                            'message' => 'The access token has expired',
+                            'status' => $status,
+                            'exception' => $response,
+                            'error_code' => $errorCode,
+                            'status_code' => $statusCode,
+                            'detail'=> $detail
+                        ];
+                    }
+                    return [
+                        'message' => $response,
+                        'status' => $status,
+                        'exception' => $response,
+                        'error_code' => $errorCode,
+                        'status_code' => $statusCode,
+                        'detail'=> $detail
+                    ];
+                    break;
                 case 'Invoice':
                     if (strpos($response, 'An existing Invoice with the specified InvoiceID could not be found') !== false) {
                         return [
