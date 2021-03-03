@@ -14,16 +14,16 @@ class GetTaxRateTest extends BaseTest
         try {
             $params = [
 //                'accounting_ids' => [""],
-                'search_params' => [
-                    'TaxType' => 'INPUT',
-                ],
+//                'search_params' => [
+//                    'TaxType' => 'INPUT',
+//                ],
 //                'search_filters' => [
 //                    'TaxType' => [
 //                        'INPUT'
 //                    ]
 //                ],
-                'exact_search_value' => true,
-//                'page' => 1
+//                'exact_search_value' => true,
+                'page' => 1
             ];
 
             $response = $this->gateway->getTaxRate($params)->send();

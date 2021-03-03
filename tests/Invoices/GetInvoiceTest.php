@@ -19,7 +19,7 @@ class GetInvoiceTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-                'accounting_ids' => [""],
+                'accounting_ids' => ["77c081a6-552b-4c24-924b-06bd07db8000"],
                 'page' => 1
             ];
 
