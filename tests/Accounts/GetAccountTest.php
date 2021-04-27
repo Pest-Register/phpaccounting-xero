@@ -22,20 +22,20 @@ class GetAccountTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-                'search_params' => [
-                    'Name' => 'Sales',
-                ],
-                'search_filters' => [
-                    'Type' => [
-                        'BANK',
-                        'CURRLIAB',
-                        'EQUITY',
-                        'REVENUE'
-                    ]
-                ],
-                'match_all_filters' => false,
-//                'accounting_ids' => [""],
-//                'page' => 1
+//                'search_params' => [
+//                    'Name' => 'Sales',
+//                ],
+//                'search_filters' => [
+//                    'Type' => [
+//                        'BANK',
+//                        'CURRLIAB',
+//                        'EQUITY',
+//                        'REVENUE'
+//                    ]
+//                ],
+//                'match_all_filters' => false,
+                'accounting_ids' => ["34464278-2cad-4382-9225-74771a041abb"],
+                'page' => 1
             ];
 
             $response = $this->gateway->getAccount($params)->send();

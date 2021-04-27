@@ -19,13 +19,13 @@ class CreatePaymentTest extends BaseTest
                 'is_reconciled' => false,
                 'date' => '2019-27-06 00:00:00',
                 'contact' => [
-                    'accounting_id' => '3878fbf4-7a62-421e-87f7-fbfa577317fb'
+                    'accounting_id' => '9686b659-42f3-4993-8d09-1977f429b3cc'
                 ],
                 'invoice' => [
-                    'accounting_id' => '30a87092-31b5-4a2c-831e-327486533dd2'
+                    'accounting_id' => 'dfa9ab00-a59f-4f51-9f4f-408c63622331'
                 ],
                 'account' => [
-                    'accounting_id' => '13918178-849a-4823-9a31-57b7eac713d7'
+                    'accounting_id' => '719bcd89-7863-4e2f-aea1-925025e039fe'
                 ]
             ];
 

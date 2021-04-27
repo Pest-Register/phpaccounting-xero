@@ -6,6 +6,7 @@ use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 use vendor\project\StatusTest;
 use XeroPHP\Models\Accounting\Invoice;
+use XeroPHP\Models\Accounting\Payment;
 
 /**
  * Get Invoice(s) Response
@@ -118,6 +119,30 @@ class GetInvoiceResponse extends AbstractResponse
         return $invoice;
     }
 
+
+    private function parsePayments($data, $invoice){
+        if ($data) {
+            $payments = [];
+            foreach($data as $payment) {
+                $newPayment = [];
+                $newPayment['accounting_id'] = $payment->getPaymentID();
+                $newPayment['date'] = $payment->getDate();
+                $newPayment['amount'] = $payment->getAmount();
+                $newPayment['reference_id'] = $payment->getReference();
+                $newPayment['currency_rate'] = $payment->getCurrencyRate() ?: 1.0;
+                $newPayment['type'] = $payment->getPaymentType();
+                $newPayment['status'] = $payment->getStatus();
+                $newPayment['is_reconciled'] = $payment->getIsReconciled();
+                $newPayment['updated_at'] = $payment->getUpdatedDateUTC();
+                array_push($payments, $newPayment);
+            }
+
+            $invoice['payments'] = $payments;
+        }
+
+        return $invoice;
+    }
+
     /**
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
@@ -144,6 +169,7 @@ class GetInvoiceResponse extends AbstractResponse
             $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
             $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
             $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
+            $newInvoice = $this->parsePayments($invoice->getPayments(), $newInvoice);
 
             array_push($invoices, $newInvoice);
 

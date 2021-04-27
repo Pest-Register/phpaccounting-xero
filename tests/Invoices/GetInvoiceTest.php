@@ -9,6 +9,7 @@
 namespace Tests\Invoices;
 
 
+use Illuminate\Support\Facades\Log;
 use Tests\BaseTest;
 
 class GetInvoiceTest extends BaseTest
@@ -19,15 +20,15 @@ class GetInvoiceTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-                'accounting_ids' => ["77c081a6-552b-4c24-924b-06bd07db8000"],
+                'accounting_ids' => ["dfa9ab00-a59f-4f51-9f4f-408c63622331"],
                 'page' => 1
             ];
 
             $response = $this->gateway->getInvoice($params)->send();
             if ($response->isSuccessful()) {
-                var_dump($response->getInvoices());
+                echo print_r($response->getInvoices(), true);
             } else {
-                var_dump($response->getErrorMessage());
+                 var_dump($response->getErrorMessage());
             }
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());
