@@ -193,6 +193,7 @@ class GetInvoiceResponse extends AbstractResponse
                 $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
                 $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
                 $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
+                $newInvoice = $this->parsePayments($invoice->getPayments(), $newInvoice);
 
                 array_push($invoices, $newInvoice);
             }
