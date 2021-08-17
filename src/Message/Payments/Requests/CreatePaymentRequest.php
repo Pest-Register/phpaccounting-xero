@@ -232,7 +232,7 @@ class CreatePaymentRequest extends AbstractRequest
         try {
             $this->validate('account', 'amount', 'date');
         } catch (InvalidRequestException $exception) {
-            return $exception;;
+            return $exception;
         }
 
         $this->issetParam('Account', 'account');

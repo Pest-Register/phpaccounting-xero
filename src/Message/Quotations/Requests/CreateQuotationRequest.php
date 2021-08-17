@@ -343,7 +343,7 @@ class CreateQuotationRequest extends AbstractRequest
                 } else if($key === 'Status') {
                     $methodName = 'set'.$key;
                     $quote->$methodName($value);
-                    if ($value === 'AUTHORISED') {
+                    if ($value === 'DRAFT') {
                         $quote->setSentToContact(false);
                     }
                 } else {
