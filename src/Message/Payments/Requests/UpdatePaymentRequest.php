@@ -30,6 +30,24 @@ use XeroPHP\Remote\Exception\OrganisationOfflineException;
  */
 class UpdatePaymentRequest extends AbstractRequest
 {
+    /**
+     * Set AccountingID from Parameter Bag (PaymentID generic interface)
+     * @see https://developer.xero.com/documentation/api/payments
+     * @param $value
+     * @return UpdatePaymentRequest
+     */
+    public function setAccountingID($value) {
+        return $this->setParameter('accounting_id', $value);
+    }
+
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (PaymentID generic interface)
+     * @see https://developer.xero.com/documentation/api/payments
+     * @return mixed
+     */
+    public function getAccountingID() {
+        return  $this->getParameter('accounting_id');
+    }
 
     /**
      * Get Amount Parameter from Parameter Bag

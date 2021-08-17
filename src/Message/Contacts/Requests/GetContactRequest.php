@@ -42,6 +42,25 @@ class GetContactRequest extends AbstractRequest
         return $this->setParameter('page', $value);
     }
 
+    /**
+     * Set AccountingID from Parameter Bag (ContactID generic interface)
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @param $value
+     * @return GetContactRequest
+     */
+    public function setAccountingID($value) {
+        return $this->setParameter('accounting_id', $value);
+    }
+
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (ContactID generic interface)
+     * @see https://developer.xero.com/documentation/api/contacts
+     * @return mixed
+     */
+    public function getAccountingID() {
+        return  $this->getParameter('accounting_id');
+    }
+
 
     /**
      * Set SearchFilters from Parameter Bag (interface for query-based searching)
@@ -208,8 +227,10 @@ class GetContactRequest extends AbstractRequest
         try {
             $xero = $this->createXeroApplication();
 
-
-            if ($this->getAccountingIDs()) {
+            if ($this->getAccountingID()) {
+                $contacts = $xero->loadByGUID(Contact::class, $this->getAccountingID());
+            }
+            elseif ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $contacts = $xero->loadByGUID(Contact::class, $this->getAccountingIDs());
                 } else {
