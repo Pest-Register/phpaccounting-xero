@@ -22,7 +22,24 @@ use XeroPHP\Remote\Exception\OrganisationOfflineException;
  */
 class GetTaxRateRequest extends AbstractRequest
 {
+    /**
+     * Set AccountingID from Parameter Bag (TaxRateID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param $value
+     * @return GetTaxRateRequest
+     */
+    public function setAccountingID($value) {
+        return $this->setParameter('accounting_id', $value);
+    }
 
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (QuoteID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function getAccountingID() {
+        return  $this->getParameter('accounting_id');
+    }
     /**
      * Set AccountingID from Parameter Bag (TaxRateID generic interface)
      * @see https://developer.xero.com/documentation/api/invoices
@@ -209,7 +226,10 @@ class GetTaxRateRequest extends AbstractRequest
         try {
             $xero = $this->createXeroApplication();
 
-            if ($this->getAccountingIDs()) {
+            if ($this->getAccountingID()) {
+                $taxes = $xero->loadByGUID(TaxRate::class, $this->getAccountingID());
+            }
+            elseif ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $taxes = $xero->loadByGUID(TaxRate::class, $this->getAccountingIDs());
                 }

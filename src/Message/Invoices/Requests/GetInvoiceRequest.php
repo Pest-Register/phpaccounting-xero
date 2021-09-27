@@ -28,6 +28,25 @@ class GetInvoiceRequest extends AbstractRequest
      * @param $value
      * @return GetInvoiceRequest
      */
+    public function setAccountingID($value) {
+        return $this->setParameter('accounting_id', $value);
+    }
+
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (InvoiceID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function getAccountingID() {
+        return  $this->getParameter('accounting_id');
+    }
+
+    /**
+     * Set AccountingID from Parameter Bag (InvoiceID generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param $value
+     * @return GetInvoiceRequest
+     */
     public function setAccountingIDs($value) {
         return $this->setParameter('accounting_ids', $value);
     }
@@ -75,8 +94,10 @@ class GetInvoiceRequest extends AbstractRequest
         try {
             $xero = $this->createXeroApplication();
 
-
-            if ($this->getAccountingIDs()) {
+            if ($this->getAccountingID()) {
+                $invoices = $xero->loadByGUID(Invoice::class, $this->getAccountingID());
+            }
+            elseif ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $invoices = $xero->loadByGUID(Invoice::class, $this->getAccountingIDs());
                 }

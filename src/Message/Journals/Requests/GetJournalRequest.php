@@ -25,6 +25,24 @@ class GetJournalRequest extends AbstractRequest
      * @param $value
      * @return GetJournalRequest
      */
+    public function setAccountingID($value) {
+        return $this->setParameter('accounting_id', $value);
+    }
+
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (JournalID generic interface)
+     * @see https://developer.xero.com/documentation/api/journals
+     * @return mixed
+     */
+    public function getAccountingID() {
+        return  $this->getParameter('accounting_id');
+    }
+    /**
+     * Set AccountingID from Parameter Bag (JournalID generic interface)
+     * @see https://developer.xero.com/documentation/api/journals
+     * @param $value
+     * @return GetJournalRequest
+     */
     public function setAccountingIDs($value) {
         return $this->setParameter('accounting_ids', $value);
     }
@@ -65,15 +83,17 @@ class GetJournalRequest extends AbstractRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|GetManualJournalResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|GetJournalResponse
      */
     public function sendData($data)
     {
         try {
             $xero = $this->createXeroApplication();
 
-
-            if ($this->getAccountingIDs()) {
+            if ($this->getAccountingID()) {
+                $journals = $xero->loadByGUID(Journal::class, $this->getAccountingID());
+            }
+            elseif ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $journals = $xero->loadByGUID(Journal::class, $this->getAccountingIDs());
                 }

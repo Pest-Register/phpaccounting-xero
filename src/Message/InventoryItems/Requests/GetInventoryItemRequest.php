@@ -42,6 +42,25 @@ class GetInventoryItemRequest extends AbstractRequest
     }
 
     /**
+     * Set AccountingID from Parameter Bag (ItemId generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @param $value
+     * @return GetInventoryItemRequest
+     */
+    public function setAccountingID($value) {
+        return $this->setParameter('accounting_id', $value);
+    }
+
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (ItemId generic interface)
+     * @see https://developer.xero.com/documentation/api/invoices
+     * @return mixed
+     */
+    public function getAccountingID() {
+        return  $this->getParameter('accounting_id');
+    }
+
+    /**
      * Set SearchParams from Parameter Bag (interface for query-based searching)
      * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
      * @param $value
@@ -109,7 +128,10 @@ class GetInventoryItemRequest extends AbstractRequest
     {
         try {
             $xero = $this->createXeroApplication();
-            if ($this->getAccountingIDs()) {
+            if ($this->getAccountingID()) {
+                $items = $xero->loadByGUID(Item::class, $this->getAccountingID());
+            }
+            elseif ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $items = $xero->loadByGUID(Item::class, $this->getAccountingIDs());
                 }

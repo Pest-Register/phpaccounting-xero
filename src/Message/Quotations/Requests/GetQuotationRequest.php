@@ -25,6 +25,25 @@ use XeroPHP\Remote\Exception\UnauthorizedException;
 class GetQuotationRequest extends AbstractRequest
 {
     /**
+     * Set AccountingID from Parameter Bag (ContactID generic interface)
+     * @see https://developer.xero.com/documentation/api/quotes
+     * @param $value
+     * @return GetQuotationRequest
+     */
+    public function setAccountingID($value) {
+        return $this->setParameter('accounting_id', $value);
+    }
+
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (QuoteID generic interface)
+     * @see https://developer.xero.com/documentation/api/quotes
+     * @return mixed
+     */
+    public function getAccountingID() {
+        return  $this->getParameter('accounting_id');
+    }
+
+    /**
      * Set AccountingID from Parameter Bag (QuoteID generic interface)
      * @see https://developer.xero.com/documentation/api/quotes
      * @param $value
@@ -72,7 +91,10 @@ class GetQuotationRequest extends AbstractRequest
         try {
             $xero = $this->createXeroApplication();
 
-            if ($this->getAccountingIDs()) {
+            if ($this->getAccountingID()) {
+                $quotes = $xero->loadByGUID(Quote::class, $this->getAccountingID());
+            }
+            elseif ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $quotes = $xero->loadByGUID(Quote::class, $this->getAccountingIDs());
                 }

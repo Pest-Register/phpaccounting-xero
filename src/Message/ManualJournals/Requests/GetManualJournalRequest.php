@@ -22,6 +22,24 @@ class GetManualJournalRequest extends AbstractRequest
 {
     /**
      * Set AccountingID from Parameter Bag (JournalID generic interface)
+     * @see https://developer.xero.com/documentation/api/journals
+     * @param $value
+     * @return GetManualJournalRequest
+     */
+    public function setAccountingID($value) {
+        return $this->setParameter('accounting_id', $value);
+    }
+
+    /**
+     * Get Accounting ID Parameter from Parameter Bag (JournalID generic interface)
+     * @see https://developer.xero.com/documentation/api/journals
+     * @return mixed
+     */
+    public function getAccountingID() {
+        return  $this->getParameter('accounting_id');
+    }
+    /**
+     * Set AccountingID from Parameter Bag (JournalID generic interface)
      * @see https://developer.xero.com/documentation/api/manual-journals
      * @param $value
      * @return GetManualJournalRequest
@@ -73,8 +91,10 @@ class GetManualJournalRequest extends AbstractRequest
         try {
             $xero = $this->createXeroApplication();
 
-
-            if ($this->getAccountingIDs()) {
+            if ($this->getAccountingID()) {
+                $journals = $xero->loadByGUID(ManualJournal::class, $this->getAccountingID());
+            }
+            elseif ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $journals = $xero->loadByGUID(ManualJournal::class, $this->getAccountingIDs());
                 }
