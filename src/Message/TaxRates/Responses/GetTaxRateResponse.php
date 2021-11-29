@@ -76,6 +76,7 @@ class GetTaxRateResponse extends AbstractResponse
         if ($this->data instanceof TaxRate){
             $taxRate = $this->data;
             $newTaxRate = [];
+            $newTaxRate['accounting_id'] = $taxRate->getTaxType();
             $newTaxRate['name'] = $taxRate->getName();
             $newTaxRate['tax_type'] = $taxRate->getTaxType();
             $newTaxRate['rate'] = $taxRate->getEffectiveRate();
@@ -89,6 +90,7 @@ class GetTaxRateResponse extends AbstractResponse
         } else {
             foreach ($this->data as $taxRate) {
                 $newTaxRate = [];
+                $newTaxRate['accounting_id'] = $taxRate->getTaxType();
                 $newTaxRate['name'] = $taxRate->getName();
                 $newTaxRate['tax_type'] = $taxRate->getTaxType();
                 $newTaxRate['rate'] = $taxRate->getEffectiveRate();
