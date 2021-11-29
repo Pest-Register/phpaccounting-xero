@@ -77,6 +77,7 @@ class GetTaxRateResponse extends AbstractResponse
             $taxRate = $this->data;
             $newTaxRate = [];
             $newTaxRate['accounting_id'] = $taxRate->getTaxType();
+            $newTaxRate['code'] = $taxRate->getTaxType();
             $newTaxRate['name'] = $taxRate->getName();
             $newTaxRate['tax_type'] = $taxRate->getTaxType();
             $newTaxRate['rate'] = $taxRate->getEffectiveRate();
@@ -91,6 +92,7 @@ class GetTaxRateResponse extends AbstractResponse
             foreach ($this->data as $taxRate) {
                 $newTaxRate = [];
                 $newTaxRate['accounting_id'] = $taxRate->getTaxType();
+                $newTaxRate['code'] = $taxRate->getTaxType();
                 $newTaxRate['name'] = $taxRate->getName();
                 $newTaxRate['tax_type'] = $taxRate->getTaxType();
                 $newTaxRate['rate'] = $taxRate->getEffectiveRate();

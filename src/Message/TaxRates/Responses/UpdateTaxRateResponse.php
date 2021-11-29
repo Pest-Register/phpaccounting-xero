@@ -77,6 +77,7 @@ class UpdateTaxRateResponse extends AbstractResponse
         foreach ($this->data as $taxRate) {
             $newTaxRate = [];
             $newTaxRate['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $taxRate);
+            $newTaxRate['code'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $taxRate);
             $newTaxRate['name'] = IndexSanityCheckHelper::indexSanityCheck('Name', $taxRate);
             $newTaxRate['tax_type'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $taxRate);
             $newTaxRate['rate'] = IndexSanityCheckHelper::indexSanityCheck('EffectiveRate', $taxRate);
