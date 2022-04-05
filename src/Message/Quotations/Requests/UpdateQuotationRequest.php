@@ -359,9 +359,6 @@ class UpdateQuotationRequest extends AbstractRequest
                 } else if($key === 'Status') {
                     $methodName = 'set'.$key;
                     $quote->$methodName($value);
-                    if ($value === 'AUTHORISED') {
-                        $quote->setSentToContact(false);
-                    }
                 } else {
                     $methodName = 'set'. $key;
                     $quote->$methodName($value);

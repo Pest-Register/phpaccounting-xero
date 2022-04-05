@@ -343,9 +343,6 @@ class CreateQuotationRequest extends AbstractRequest
                 } else if($key === 'Status') {
                     $methodName = 'set'.$key;
                     $quote->$methodName($value);
-                    if ($value === 'DRAFT') {
-                        $quote->setSentToContact(false);
-                    }
                 } else {
                     $methodName = 'set'. $key;
                     $quote->$methodName($value);
