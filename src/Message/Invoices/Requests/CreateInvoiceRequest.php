@@ -239,7 +239,7 @@ class CreateInvoiceRequest extends AbstractRequest
         try {
             $this->validate('type', 'contact', 'invoice_data');
         } catch (InvalidRequestException $exception) {
-            return $exception;;
+            return $exception;
         }
 
         $this->issetParam('Type', 'type');
@@ -282,9 +282,12 @@ class CreateInvoiceRequest extends AbstractRequest
                 } elseif ($key === 'Contact') {
                     $this->addContactToInvoice($invoice, $value);
                 } elseif ($key === 'Date' || $key === 'DueDate') {
+                    // If either date or due date are empty, Xero will set default values
                     $methodName = 'set'. $key;
-                    $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
-                    $invoice->$methodName($date);
+                    if ($value) {
+                        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
+                        $invoice->$methodName($date);
+                    }
                 } else if ($key === 'LineAmountType') {
                     $methodName = 'set'.$key;
                     if ($value === 'EXCLUSIVE') {

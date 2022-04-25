@@ -254,7 +254,7 @@ class UpdateQuotationRequest extends AbstractRequest
     /**
      * Add Contact to Quote
      * @param Quote $quote Xero Quote Object
-     * @param array $data Array of Contact Objects
+     * @param array|string $data Array of Contact Objects
      */
     private function addContactToQuotation(Quote $quote, $data){
         $contact = new Contact();
@@ -343,9 +343,12 @@ class UpdateQuotationRequest extends AbstractRequest
                 } elseif ($key === 'Contact') {
                     $this->addContactToQuotation($quote, $value);
                 } elseif ($key === 'Date' || $key === 'ExpiryDate') {
+                    // If either date or expiry date are empty, Xero will set default values
                     $methodName = 'set'.$key;
-                    $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
-                    $quote->$methodName($date);
+                    if ($value) {
+                        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
+                        $quote->$methodName($date);
+                    };
                 } else if ($key === 'LineAmountType') {
                     $methodName = 'set'.$key;
                     if ($value === 'EXCLUSIVE') {

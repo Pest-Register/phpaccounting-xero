@@ -6,7 +6,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\UpdateInvoiceResponse;
-use PHPAccounting\Xero\Message\Invoices\Responses\UpdatePaymentResponse;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Invoice\LineItem;
@@ -219,7 +218,7 @@ class UpdateInvoiceRequest extends AbstractRequest
     /**
      * Add Contact to Invoice
      * @param Invoice $invoice Xero Invoice Object
-     * @param array $data Array of Contact Objects
+     * @param array|string $data Array of Contact Objects
      */
     private function addContactToInvoice(Invoice $invoice, $data){
         $contact = new Contact();
@@ -261,7 +260,7 @@ class UpdateInvoiceRequest extends AbstractRequest
         try {
             $this->validate('type', 'contact', 'invoice_data', 'accounting_id');
         } catch (InvalidRequestException $exception) {
-            return $exception;;
+            return $exception;
         }
 
         $this->issetParam('InvoiceID', 'accounting_id');
@@ -304,9 +303,12 @@ class UpdateInvoiceRequest extends AbstractRequest
                 } elseif ($key === 'Contact') {
                     $this->addContactToInvoice($invoice, $value);
                 } elseif ($key === 'Date' || $key === 'DueDate') {
+                    // If either date or due date are empty, Xero will set default values
                     $methodName = 'set'. $key;
-                    $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
-                    $invoice->$methodName($date);
+                    if ($value) {
+                        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
+                        $invoice->$methodName($date);
+                    }
                 } else if ($key === 'LineAmountType') {
                     $methodName = 'set'.$key;
                     if ($value === 'EXCLUSIVE') {

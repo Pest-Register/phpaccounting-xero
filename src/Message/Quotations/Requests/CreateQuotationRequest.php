@@ -328,8 +328,11 @@ class CreateQuotationRequest extends AbstractRequest
                     $this->addContactToQuotation($quote, $value);
                 } elseif ($key === 'Date' || $key === 'ExpiryDate') {
                     $methodName = 'set'.$key;
-                    $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
-                    $quote->$methodName($date);
+                    // If either date or expiry date are empty, Xero will set default values
+                    if ($value) {
+                        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
+                        $quote->$methodName($date);
+                    }
                 } else if ($key === 'LineAmountType') {
                     $methodName = 'set'.$key;
                     if ($value === 'EXCLUSIVE') {
