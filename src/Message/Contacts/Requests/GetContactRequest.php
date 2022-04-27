@@ -15,6 +15,8 @@ use XeroPHP\Remote\Exception\NotImplementedException;
 use XeroPHP\Remote\Exception\RateLimitExceededException;
 use XeroPHP\Remote\Exception\NotAvailableException;
 use XeroPHP\Remote\Exception\OrganisationOfflineException;
+
+use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 /**
  * Get Contact(s)
  * @package PHPAccounting\XERO\Message\Contacts\Requests
@@ -156,67 +158,6 @@ class GetContactRequest extends AbstractRequest
     }
 
     /**
-     * Builds search / filter query based on search parameters and filters
-     * @param Application $xero
-     * @return \XeroPHP\Remote\Query
-     */
-    private function buildSearchQuery(Application $xero) {
-        // Set contains query for partial matching
-        $query = $xero->load(Contact::class);
-        $queryCounter = 0;
-        if ($this->getSearchParams())
-        {
-            foreach($this->getSearchParams() as $key => $value)
-            {
-                if($this->getExactSearchValue())
-                {
-                    $searchQuery = $key.'="'.$value.'"';
-                }
-                else {
-                    $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
-                }
-
-                if ($queryCounter == 0)
-                {
-                    $query = $query->where($searchQuery);
-                } else {
-                    $query = $query->orWhere($searchQuery);
-                }
-                $queryCounter++;
-            }
-        }
-        // If there are specific filters, add them to query
-        $queryCounter = 0;
-        if ($this->getSearchFilters())
-        {
-            foreach($this->getSearchFilters() as $key => $value)
-            {
-                $queryString = '';
-                $filterKey = $key;
-                foreach($value as $filterValue)
-                {
-                    $searchQuery = $filterKey.'="'.$filterValue.'"';
-                    if ($queryCounter == 0)
-                    {
-                        $queryString = '('.$searchQuery;
-                    } else {
-                        if ($this->getMatchAllFilters())
-                        {
-                            $queryString.= ' AND '.$searchQuery;
-                        }
-                        else {
-                            $queryString.= ' OR '.$searchQuery;
-                        }
-                    }
-                    $queryCounter++;
-                }
-                $queryString.=")";
-                $query->andWhere($queryString);
-            }
-        }
-        return $query;
-    }
-    /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
      * @return \Omnipay\Common\Message\ResponseInterface|GetContactResponse
@@ -239,8 +180,15 @@ class GetContactRequest extends AbstractRequest
             } else {
                 if($this->getSearchParams() || $this->getSearchFilters())
                 {
-                    $query = $this->buildSearchQuery($xero);
-                    $contacts = $query->execute();
+                    $query = SearchBuilder::buildSearchQuery(
+                        $xero,
+                        Contact::class,
+                        $this->getSearchParams(),
+                        $this->getExactSearchValue(),
+                        $this->getSearchFilters(),
+                        $this->getMatchAllFilters()
+                    );
+                    $contacts = $query->page($this->getPage())->execute();
                 } else {
                     $contacts = $xero->load(Contact::class)->page($this->getPage())->execute();
                 }

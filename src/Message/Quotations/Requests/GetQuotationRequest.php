@@ -3,6 +3,7 @@
 
 namespace PHPAccounting\Xero\Message\Quotations\Requests;
 
+use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\Quotations\Responses\GetQuotationResponse;
 use XeroPHP\Models\Accounting\Quote;
@@ -86,6 +87,77 @@ class GetQuotationRequest extends AbstractRequest
         return 1;
     }
 
+
+    /**
+     * Set SearchFilters from Parameter Bag (interface for query-based searching)
+     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
+     * @param $value
+     * @return GetQuotationRequest
+     */
+    public function setSearchFilters($value) {
+        return $this->setParameter('search_filters', $value);
+    }
+
+    /**
+     * Return Search Filters for query-based searching
+     * @return array
+     */
+    public function getSearchFilters() {
+        return $this->getParameter('search_filters');
+    }
+
+    /**
+     * Set SearchParams from Parameter Bag (interface for query-based searching)
+     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
+     * @param $value
+     * @return GetQuotationRequest
+     */
+    public function setSearchParams($value) {
+        return $this->setParameter('search_params', $value);
+    }
+
+    /**
+     * Return Search Parameters for query-based searching
+     * @return array
+     */
+    public function getSearchParams() {
+        return $this->getParameter('search_params');
+    }
+
+    /**
+     * Set boolean to determine partial or exact query based searches
+     * @param $value
+     * @return GetQuotationRequest
+     */
+    public function setExactSearchValue($value) {
+        return $this->setParameter('exact_search_value', $value);
+    }
+
+    /**
+     * Get boolean to determine partial or exact query based searches
+     * @return mixed
+     */
+    public function getExactSearchValue() {
+        return $this->getParameter('exact_search_value');
+    }
+
+    /**
+     * Set boolean to determine whether all filters need to be matched
+     * @param $value
+     * @return GetQuotationRequest
+     */
+    public function setMatchAllFilters($value) {
+        return $this->setParameter('match_all_filters', $value);
+    }
+
+    /**
+     * Get boolean to determine whether all filters need to be matched
+     * @return mixed
+     */
+    public function getMatchAllFilters() {
+        return $this->getParameter('match_all_filters');
+    }
+
     public function sendData($data)
     {
         try {
@@ -102,7 +174,20 @@ class GetQuotationRequest extends AbstractRequest
                     $quotes = $xero->loadByGUIDs(Quote::class, $this->getAccountingIDs());
                 }
             } else {
-                $quotes = $xero->load(Quote::class)->page($this->getPage())->execute();
+                if($this->getSearchParams() || $this->getSearchFilters())
+                {
+                    $query = SearchBuilder::buildSearchQuery(
+                        $xero,
+                        Quote::class,
+                        $this->getSearchParams(),
+                        $this->getExactSearchValue(),
+                        $this->getSearchFilters(),
+                        $this->getMatchAllFilters()
+                    );
+                    $quotes = $query->page($this->getPage())->execute();
+                } else {
+                    $quotes = $xero->load(Quote::class)->page($this->getPage())->execute();
+                }
             }
             $response = $quotes;
 

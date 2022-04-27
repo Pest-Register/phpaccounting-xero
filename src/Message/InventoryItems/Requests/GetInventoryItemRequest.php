@@ -1,6 +1,7 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
+use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\GetInventoryItemResponse;
 use XeroPHP\Models\Accounting\Item;
@@ -61,6 +62,48 @@ class GetInventoryItemRequest extends AbstractRequest
     }
 
     /**
+     * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
+     * @return mixed comma-delimited-string
+     */
+    public function getAccountingIDs() {
+        if ($this->getParameter('accounting_ids')) {
+            return implode(', ',$this->getParameter('accounting_ids'));
+        }
+        return null;
+    }
+
+    /**
+     * Return Page Value for Pagination
+     * @return integer
+     */
+    public function getPage() {
+        if ($this->getParameter('page')) {
+            return $this->getParameter('page');
+        }
+
+        return 1;
+    }
+
+
+    /**
+     * Set SearchFilters from Parameter Bag (interface for query-based searching)
+     * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
+     * @param $value
+     * @return GetInventoryItemRequest
+     */
+    public function setSearchFilters($value) {
+        return $this->setParameter('search_filters', $value);
+    }
+
+    /**
+     * Return Search Filters for query-based searching
+     * @return array
+     */
+    public function getSearchFilters() {
+        return $this->getParameter('search_filters');
+    }
+
+    /**
      * Set SearchParams from Parameter Bag (interface for query-based searching)
      * @see https://developer.xero.com/documentation/api/requests-and-responses#get-modified
      * @param $value
@@ -96,26 +139,20 @@ class GetInventoryItemRequest extends AbstractRequest
     }
 
     /**
-     * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
-     * @return mixed comma-delimited-string
+     * Set boolean to determine whether all filters need to be matched
+     * @param $value
+     * @return GetInventoryItemRequest
      */
-    public function getAccountingIDs() {
-        if ($this->getParameter('accounting_ids')) {
-            return implode(', ',$this->getParameter('accounting_ids'));
-        }
-        return null;
+    public function setMatchAllFilters($value) {
+        return $this->setParameter('match_all_filters', $value);
     }
 
     /**
-     * Return Page Value for Pagination
-     * @return integer
+     * Get boolean to determine whether all filters need to be matched
+     * @return mixed
      */
-    public function getPage() {
-        if ($this->getParameter('page')) {
-            return $this->getParameter('page');
-        }
-
-        return 1;
+    public function getMatchAllFilters() {
+        return $this->getParameter('match_all_filters');
     }
 
     /**
@@ -139,33 +176,19 @@ class GetInventoryItemRequest extends AbstractRequest
                     $items = $xero->loadByGUIDs(Item::class, $this->getAccountingIDs());
                 }
             } else {
-                if($this->getSearchParams())
+                if($this->getSearchParams() || $this->getSearchFilters())
                 {
-
-                    // Set contains query for partial matching
-                    $query = $xero->load(Item::class);
-                    $queryCounter = 0;
-                    foreach($this->getSearchParams() as $key => $value)
-                    {
-                        if($this->getExactSearchValue())
-                        {
-                            $searchQuery = $key.'="'.$value.'"';
-                        }
-                        else {
-                            $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
-                        }
-
-                        if ($queryCounter == 0)
-                        {
-                            $query = $query->where($searchQuery);
-                        } else {
-                            $query = $query->orWhere($searchQuery);
-                        }
-                        $queryCounter++;
-                    }
-                    $items = $query->execute();
+                    $query = SearchBuilder::buildSearchQuery(
+                        $xero,
+                        Item::class,
+                        $this->getSearchParams(),
+                        $this->getExactSearchValue(),
+                        $this->getSearchFilters(),
+                        $this->getMatchAllFilters()
+                    );
+                    $items = $query->page($this->getPage())->execute();
                 } else {
-                    $items = $xero->load(Item::class)->execute();
+                    $items = $xero->load(Item::class)->page($this->getPage())->execute();
                 }
             }
             $response = $items;
