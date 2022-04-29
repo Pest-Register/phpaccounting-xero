@@ -186,9 +186,9 @@ class GetInventoryItemRequest extends AbstractRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
-                    $items = $query->page($this->getPage())->execute();
+                    $items = $query->execute();
                 } else {
-                    $items = $xero->load(Item::class)->page($this->getPage())->execute();
+                    $items = $xero->load(Item::class)->execute();
                 }
             }
             $response = $items;

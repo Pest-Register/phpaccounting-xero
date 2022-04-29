@@ -182,9 +182,9 @@ class GetContactGroupRequest extends AbstractRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
-                    $contactGroups = $query->page($this->getPage())->execute();
+                    $contactGroups = $query->execute();
                 } else {
-                    $contactGroups = $xero->load(ContactGroup::class)->page($this->getPage())->execute();
+                    $contactGroups = $xero->load(ContactGroup::class)->execute();
                 }
             }
             $response = $contactGroups;
