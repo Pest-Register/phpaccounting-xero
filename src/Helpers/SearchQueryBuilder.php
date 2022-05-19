@@ -40,13 +40,31 @@ class SearchQueryBuilder
         $queryCounter = 0;
         if ($searchFilters)
         {
+            echo print_r($searchFilters, true);
             foreach($searchFilters as $key => $value)
             {
                 $queryString = '';
                 $filterKey = $key;
-                foreach($value as $filterValue)
-                {
-                    $searchQuery = $filterKey.'="'.$filterValue.'"';
+                if (is_array($value)) {
+                    foreach($value as $filterValue)
+                    {
+                        $searchQuery = $filterKey.'="'.$filterValue.'"';
+                        if ($queryCounter == 0)
+                        {
+                            $queryString = '('.$searchQuery;
+                        } else {
+                            if ($exactFilter)
+                            {
+                                $queryString.= ' AND '.$searchQuery;
+                            }
+                            else {
+                                $queryString.= ' OR '.$searchQuery;
+                            }
+                        }
+                        $queryCounter++;
+                    }
+                } else {
+                    $searchQuery = $filterKey.'="'.$value.'"';
                     if ($queryCounter == 0)
                     {
                         $queryString = '('.$searchQuery;
