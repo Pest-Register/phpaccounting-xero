@@ -40,7 +40,6 @@ class SearchQueryBuilder
         $queryCounter = 0;
         if ($searchFilters)
         {
-            echo print_r($searchFilters, true);
             foreach($searchFilters as $key => $value)
             {
                 $queryString = '';

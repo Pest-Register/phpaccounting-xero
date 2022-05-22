@@ -13,16 +13,16 @@ class GetTaxRateTest extends BaseTest
         $this->setUp();
         try {
             $params = [
-//                'accounting_ids' => [""],
-//                'search_params' => [
-//                    'TaxType' => 'INPUT',
-//                ],
-//                'search_filters' => [
-//                    'TaxType' => [
-//                        'INPUT'
-//                    ]
-//                ],
-//                'exact_search_value' => true,
+                'accounting_ids' => [""],
+                'search_params' => [
+                    'TaxType' => 'INPUT',
+                ],
+                'search_filters' => [
+                    'TaxType' => [
+                        'INPUT'
+                    ]
+                ],
+                'exact_search_value' => true,
                 'page' => 1
             ];
 
