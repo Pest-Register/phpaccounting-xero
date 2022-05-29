@@ -18,6 +18,7 @@ use XeroPHP\Remote\Exception\OrganisationOfflineException;
 use XeroPHP\Remote\Exception\RateLimitExceededException;
 use XeroPHP\Remote\Exception\ReportPermissionMissingException;
 use XeroPHP\Remote\Exception\UnauthorizedException;
+use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
 
 /**
  * Get Quotation(s)
@@ -201,7 +202,7 @@ class GetQuotationRequest extends AbstractRequest
             ];
 
             return $this->createResponse($response);
-        } catch (UnauthorizedException $exception) {
+        } catch (UnauthorizedException|XeroProviderException $exception) {
             $response = [
                 'status' => 'error',
                 'type' => 'Unauthorized',

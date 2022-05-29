@@ -6,6 +6,7 @@ use PHPAccounting\Xero\Message\AbstractRequest;
 use PHPAccounting\Xero\Message\TaxRates\Responses\UpdateTaxRateResponse;
 use XeroPHP\Models\Accounting\TaxRate;
 use XeroPHP\Remote\Exception\UnauthorizedException;
+use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
 use XeroPHP\Remote\Exception\BadRequestException;
 use XeroPHP\Remote\Exception\ForbiddenException;
 use XeroPHP\Remote\Exception\ReportPermissionMissingException;
@@ -194,7 +195,7 @@ class UpdateTaxRateRequest extends AbstractRequest
             ];
 
             return $this->createResponse($response);
-        } catch (UnauthorizedException $exception) {
+        } catch (UnauthorizedException|XeroProviderException $exception) {
             $response = [
                 'status' => 'error',
                 'type' => 'Unauthorized',

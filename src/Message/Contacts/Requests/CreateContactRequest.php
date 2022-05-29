@@ -10,6 +10,7 @@ use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Models\Accounting\Phone;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use XeroPHP\Remote\Exception\UnauthorizedException;
+use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
 use XeroPHP\Remote\Exception\BadRequestException;
 use XeroPHP\Remote\Exception\ForbiddenException;
 use XeroPHP\Remote\Exception\ReportPermissionMissingException;
@@ -345,7 +346,7 @@ class CreateContactRequest extends AbstractRequest
             ];
 
             return $this->createResponse($response);
-        } catch (UnauthorizedException $exception) {
+        } catch (UnauthorizedException|XeroProviderException $exception) {
             $response = [
                 'status' => 'error',
                 'type' => 'Unauthorized',
