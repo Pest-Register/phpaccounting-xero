@@ -47,7 +47,12 @@ class SearchQueryBuilder
                 if (is_array($value)) {
                     foreach($value as $filterValue)
                     {
-                        $searchQuery = $filterKey.'="'.$filterValue.'"';
+                        if (str_ends_with($filterKey, 'ID')) {
+                            $searchQuery = $filterKey.'=GUID("'.$filterValue.'")';
+                        } else {
+                            $searchQuery = $filterKey.'="'.$filterValue.'"';
+                        }
+
                         if ($queryCounter == 0)
                         {
                             $queryString = '('.$searchQuery;
@@ -63,7 +68,11 @@ class SearchQueryBuilder
                         $queryCounter++;
                     }
                 } else {
-                    $searchQuery = $filterKey.'="'.$value.'"';
+                    if (str_ends_with($filterKey, 'ID')) {
+                        $searchQuery = $filterKey.'=GUID("'.$value.'")';
+                    } else {
+                        $searchQuery = $filterKey.'="'.$value.'"';
+                    }
                     if ($queryCounter == 0)
                     {
                         $queryString = '('.$searchQuery;
