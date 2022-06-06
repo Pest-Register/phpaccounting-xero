@@ -15,6 +15,7 @@ use XeroPHP\Models\Accounting\Overpayment;
 use XeroPHP\Models\Accounting\Payment;
 use XeroPHP\Models\Accounting\Prepayment;
 use XeroPHP\Remote\Exception\UnauthorizedException;
+use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
 use XeroPHP\Remote\Exception\BadRequestException;
 use XeroPHP\Remote\Exception\ForbiddenException;
 use XeroPHP\Remote\Exception\ReportPermissionMissingException;
@@ -397,7 +398,7 @@ class UpdatePaymentRequest extends AbstractRequest
             ];
 
             return $this->createResponse($response);
-        } catch (UnauthorizedException $exception) {
+        } catch (UnauthorizedException|XeroProviderException $exception) {
             $response = [
                 'status' => 'error',
                 'type' => 'Unauthorized',
