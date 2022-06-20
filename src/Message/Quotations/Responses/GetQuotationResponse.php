@@ -135,7 +135,7 @@ class GetQuotationResponse extends AbstractResponse
             $newQuote['currency_rate'] = $quote->getCurrencyRate();
             $newQuote['date'] = $quote->getDate();
             $newQuote['expiry_date'] = $quote->getExpiryDate();
-            $newQuote['gst_inclusive'] = $quote->getLineAmountTypes();
+            $newQuote['gst_inclusive'] = ucfirst($quote->getLineAmountTypes());
             $newQuote['updated_at'] = $quote->getUpdatedDateUTC();
             $newQuote['title'] = $quote->getTitle();
             $newQuote['summary'] = $quote->getSummary();
@@ -158,7 +158,7 @@ class GetQuotationResponse extends AbstractResponse
                 $newQuote['currency_rate'] = $quote->getCurrencyRate();
                 $newQuote['date'] = $quote->getDate();
                 $newQuote['expiry_date'] = $quote->getExpiryDate();
-                $newQuote['gst_inclusive'] = $quote->getLineAmountTypes();
+                $newQuote['gst_inclusive'] = ucfirst($quote->getLineAmountTypes());
                 $newQuote['updated_at'] = $quote->getUpdatedDateUTC();
                 $newQuote['title'] = $quote->getTitle();
                 $newQuote['summary'] = $quote->getSummary();
