@@ -32,25 +32,6 @@ class CreateQuotationRequest extends AbstractRequest
 {
 
     /**
-     * Get Subtotal Parameter from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/quotes
-     * @return mixed
-     */
-    public function getSubtotal(){
-        return $this->getParameter('subtotal');
-    }
-
-    /**
-     * Set Subtotal Parameter from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/quotes
-     * @param string $value GST Inclusive
-     * @return CreateQuotationRequest
-     */
-    public function setSubtotal($value){
-        return $this->setParameter('subtotal', $value);
-    }
-
-    /**
      * Get GST Inclusive Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
      * @return mixed
@@ -308,7 +289,6 @@ class CreateQuotationRequest extends AbstractRequest
         $this->issetParam('Date', 'date');
         $this->issetParam('ExpiryDate', 'expiry_date');
         $this->issetParam('Contact', 'contact');
-        $this->issetParam('SubTotal', 'subtotal');
         $this->issetParam('LineItems', 'quotation_data');
         $this->issetParam('QuoteNumber', 'quotation_number');
         $this->issetParam('Reference', 'quotation_reference');

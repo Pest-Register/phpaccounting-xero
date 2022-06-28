@@ -26,24 +26,6 @@ use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
 
 class UpdateQuotationRequest extends AbstractRequest
 {
-    /**
-     * Get Subtotal Parameter from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/quotes
-     * @return mixed
-     */
-    public function getSubtotal(){
-        return $this->getParameter('subtotal');
-    }
-
-    /**
-     * Set Subtotal Parameter from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/quotes
-     * @param string $value GST Inclusive
-     * @return UpdateQuotationRequest
-     */
-    public function setSubtotal($value){
-        return $this->setParameter('subtotal', $value);
-    }
 
     /**
      * Get GST Inclusive Parameter from Parameter Bag
