@@ -30,6 +30,26 @@ use XeroPHP\Remote\Exception\OrganisationOfflineException;
  */
 class CreateQuotationRequest extends AbstractRequest
 {
+
+    /**
+     * Get Subtotal Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/quotes
+     * @return mixed
+     */
+    public function getSubtotal(){
+        return $this->getParameter('subtotal');
+    }
+
+    /**
+     * Set Subtotal Parameter from Parameter Bag
+     * @see https://developer.xero.com/documentation/api/quotes
+     * @param string $value GST Inclusive
+     * @return CreateQuotationRequest
+     */
+    public function setSubtotal($value){
+        return $this->setParameter('subtotal', $value);
+    }
+
     /**
      * Get GST Inclusive Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
@@ -288,6 +308,7 @@ class CreateQuotationRequest extends AbstractRequest
         $this->issetParam('Date', 'date');
         $this->issetParam('ExpiryDate', 'expiry_date');
         $this->issetParam('Contact', 'contact');
+        $this->issetParam('SubTotal', 'subtotal');
         $this->issetParam('LineItems', 'quotation_data');
         $this->issetParam('QuoteNumber', 'quotation_number');
         $this->issetParam('Reference', 'quotation_reference');
@@ -328,8 +349,8 @@ class CreateQuotationRequest extends AbstractRequest
                 } elseif ($key === 'Contact') {
                     $this->addContactToQuotation($quote, $value);
                 } elseif ($key === 'Date' || $key === 'ExpiryDate') {
-                    $methodName = 'set'.$key;
                     // If either date or expiry date are empty, Xero will set default values
+                    $methodName = 'set'.$key;
                     if ($value) {
                         $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value->toDateTimeString());
                         $quote->$methodName($date);
