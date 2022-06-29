@@ -69,6 +69,20 @@ class CreateInvoiceResponse extends AbstractResponse
         return null;
     }
 
+    private function parseTaxCalculation($data)  {
+        if ($data) {
+            switch($data) {
+                case 'Exclusive':
+                    return 'EXCLUSIVE';
+                case 'Inclusive':
+                    return 'INCLUSIVE';
+                case 'NoTax':
+                    return 'NONE';
+            }
+        }
+        return 'NONE';
+    }
+
     /**
      * Add LineItems to Invoice
      * @param $data Array of LineItems
@@ -140,7 +154,7 @@ class CreateInvoiceResponse extends AbstractResponse
             $newInvoice['discount_total'] = IndexSanityCheckHelper::indexSanityCheck('TotalDiscount', $invoice);
             $newInvoice['date'] = IndexSanityCheckHelper::indexSanityCheck('Date', $invoice);
             $newInvoice['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $invoice);
-            $newInvoice['gst_inclusive'] = IndexSanityCheckHelper::indexSanityCheck('LineAmountTypes', $invoice);
+            $newInvoice['gst_inclusive'] = $this->parseTaxCalculation(IndexSanityCheckHelper::indexSanityCheck('LineAmountTypes', $invoice));
 
             if (IndexSanityCheckHelper::indexSanityCheck('Contact', $invoice)) {
                 $newInvoice = $this->parseContact($invoice['Contact'], $newInvoice);

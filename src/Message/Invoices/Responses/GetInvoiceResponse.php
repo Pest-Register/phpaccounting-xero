@@ -119,8 +119,22 @@ class GetInvoiceResponse extends AbstractResponse
         return $invoice;
     }
 
+    private function parseTaxCalculation($data)  {
+        if ($data) {
+            switch($data) {
+                case 'Exclusive':
+                    return 'EXCLUSIVE';
+                case 'Inclusive':
+                    return 'INCLUSIVE';
+                case 'NoTax':
+                    return 'NONE';
+            }
+        }
+        return 'NONE';
+    }
 
-    private function parsePayments($data, $invoice){
+
+    private function parsePayments($data, $invoice) {
         if ($data) {
             $payments = [];
             foreach($data as $payment) {
@@ -165,7 +179,7 @@ class GetInvoiceResponse extends AbstractResponse
             $newInvoice['currency_rate'] = $invoice->getCurrencyRate();
             $newInvoice['date'] = $invoice->getDate();
             $newInvoice['due_date'] = $invoice->getDueDate();
-            $newInvoice['gst_inclusive'] = $invoice->getLineAmountTypes();
+            $newInvoice['gst_inclusive'] = $this->parseTaxCalculation($invoice->getLineAmountTypes());
             $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
             $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
             $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
@@ -189,7 +203,7 @@ class GetInvoiceResponse extends AbstractResponse
                 $newInvoice['currency_rate'] = $invoice->getCurrencyRate();
                 $newInvoice['date'] = $invoice->getDate();
                 $newInvoice['due_date'] = $invoice->getDueDate();
-                $newInvoice['gst_inclusive'] = $invoice->getLineAmountTypes();
+                $newInvoice['gst_inclusive'] = $this->parseTaxCalculation($invoice->getLineAmountTypes());
                 $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
                 $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
                 $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);

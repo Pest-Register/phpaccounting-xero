@@ -112,6 +112,24 @@ class UpdateQuotationResponse extends AbstractResponse
         return $quote;
     }
 
+    private function parseTaxCalculation($data)  {
+        if ($data) {
+            switch($data) {
+                case 'Exclusive':
+                    return 'EXCLUSIVE';
+                case 'Inclusive':
+                    return 'INCLUSIVE';
+                case 'NoTax':
+                case 'NOTAX':
+                    return 'NONE';
+                case 'EXCLUSIVE':
+                case 'INCLUSIVE':
+                    return $data;
+            }
+        }
+        return 'NONE';
+    }
+
     /**
      * Return all Quotes with Generic Schema Variable Assignment
      * @return array
@@ -132,7 +150,7 @@ class UpdateQuotationResponse extends AbstractResponse
             $newQuote['date'] = IndexSanityCheckHelper::indexSanityCheck('Date', $quote);
             $newQuote['expiry_date'] = IndexSanityCheckHelper::indexSanityCheck('ExpiryDate', $quote);
             $newQuote['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $quote);
-            $newQuote['gst_inclusive'] = IndexSanityCheckHelper::indexSanityCheck('LineAmountTypes', $quote);
+            $newQuote['gst_inclusive'] = $this->parseTaxCalculation(IndexSanityCheckHelper::indexSanityCheck('LineAmountTypes', $quote));
             $newQuote['title'] = IndexSanityCheckHelper::indexSanityCheck('Title', $quote);
             $newQuote['terms'] = IndexSanityCheckHelper::indexSanityCheck('Terms', $quote);
             $newQuote['summary'] = IndexSanityCheckHelper::indexSanityCheck('Summary', $quote);

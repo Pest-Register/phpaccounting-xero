@@ -116,12 +116,31 @@ class GetQuotationResponse extends AbstractResponse
         return $invoice;
     }
 
+    private function parseTaxCalculation($data)  {
+        if ($data) {
+            switch($data) {
+                case 'Exclusive':
+                    return 'EXCLUSIVE';
+                case 'Inclusive':
+                    return 'INCLUSIVE';
+                case 'NoTax':
+                case 'NOTAX':
+                    return 'NONE';
+                case 'EXCLUSIVE':
+                case 'INCLUSIVE':
+                    return $data;
+            }
+        }
+        return 'NONE';
+    }
+
     /**
      * Return all Quotes with Generic Schema Variable Assignment
      * @return array
      */
     public function getQuotations(){
         $quotes = [];
+
         if ($this->data instanceof Quote){
             $quote = $this->data;
             $newQuote = [];
@@ -135,7 +154,7 @@ class GetQuotationResponse extends AbstractResponse
             $newQuote['currency_rate'] = $quote->getCurrencyRate();
             $newQuote['date'] = $quote->getDate();
             $newQuote['expiry_date'] = $quote->getExpiryDate();
-            $newQuote['gst_inclusive'] = ucfirst($quote->getLineAmountTypes());
+            $newQuote['gst_inclusive'] = $this->parseTaxCalculation($quote->getLineAmountTypes());
             $newQuote['updated_at'] = $quote->getUpdatedDateUTC();
             $newQuote['title'] = $quote->getTitle();
             $newQuote['summary'] = $quote->getSummary();
@@ -158,7 +177,7 @@ class GetQuotationResponse extends AbstractResponse
                 $newQuote['currency_rate'] = $quote->getCurrencyRate();
                 $newQuote['date'] = $quote->getDate();
                 $newQuote['expiry_date'] = $quote->getExpiryDate();
-                $newQuote['gst_inclusive'] = ucfirst($quote->getLineAmountTypes());
+                $newQuote['gst_inclusive'] = $this->parseTaxCalculation($quote->getLineAmountTypes());
                 $newQuote['updated_at'] = $quote->getUpdatedDateUTC();
                 $newQuote['title'] = $quote->getTitle();
                 $newQuote['summary'] = $quote->getSummary();
