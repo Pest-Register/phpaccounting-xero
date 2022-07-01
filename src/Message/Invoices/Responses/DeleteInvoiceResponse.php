@@ -69,6 +69,27 @@ class DeleteInvoiceResponse extends AbstractResponse
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'DRAFT':
+                case 'PAID':
+                    return $data;
+                case 'SUBMITTED':
+                case 'AUTHORISED':
+                    return 'OPEN';
+                case 'VOIDED':
+                    return 'DELETED';
+            }
+        }
+        return null;
+    }
+
+    /**
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
@@ -77,7 +98,7 @@ class DeleteInvoiceResponse extends AbstractResponse
         foreach ($this->data as $invoice) {
             $newInvoice = [];
             $newInvoice['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('InvoiceID', $invoice);
-            $newInvoice['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $invoice);
+            $newInvoice['status'] = $this->parseStatus(IndexSanityCheckHelper::indexSanityCheck('Status', $invoice));
             $newInvoice['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $invoice);
             array_push($invoices, $newInvoice);
         }

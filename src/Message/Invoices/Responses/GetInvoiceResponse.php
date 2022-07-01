@@ -133,6 +133,27 @@ class GetInvoiceResponse extends AbstractResponse
         return 'NONE';
     }
 
+    /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'DRAFT':
+                case 'PAID':
+                    return $data;
+                case 'SUBMITTED':
+                case 'AUTHORISED':
+                    return 'OPEN';
+                case 'VOIDED':
+                    return 'DELETED';
+            }
+        }
+        return null;
+    }
+
 
     private function parsePayments($data, $invoice) {
         if ($data) {
@@ -167,7 +188,7 @@ class GetInvoiceResponse extends AbstractResponse
             $invoice = $this->data;
             $newInvoice = [];
             $newInvoice['accounting_id'] = $invoice->getInvoiceID();
-            $newInvoice['status'] = $invoice->getStatus();
+            $newInvoice['status'] = $this->parseStatus($invoice->getStatus());
             $newInvoice['sub_total'] = $invoice->getSubTotal();
             $newInvoice['total_tax'] = $invoice->getTotalTax();
             $newInvoice['total'] = $invoice->getTotal();
@@ -185,13 +206,17 @@ class GetInvoiceResponse extends AbstractResponse
             $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
             $newInvoice = $this->parsePayments($invoice->getPayments(), $newInvoice);
 
+            if (($newInvoice['amount_paid'] > 0 && $newInvoice['amount_due'] > 0) && $newInvoice['status'] !== 'DELETED') {
+                $newInvoice['status'] = 'PARTIAL';
+            }
+
             array_push($invoices, $newInvoice);
 
         } else {
             foreach ($this->data as $invoice) {
                 $newInvoice = [];
                 $newInvoice['accounting_id'] = $invoice->getInvoiceID();
-                $newInvoice['status'] = $invoice->getStatus();
+                $newInvoice['status'] = $this->parseStatus($invoice->getStatus());
                 $newInvoice['sub_total'] = $invoice->getSubTotal();
                 $newInvoice['total_tax'] = $invoice->getTotalTax();
                 $newInvoice['total'] = $invoice->getTotal();
@@ -208,6 +233,10 @@ class GetInvoiceResponse extends AbstractResponse
                 $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
                 $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
                 $newInvoice = $this->parsePayments($invoice->getPayments(), $newInvoice);
+
+                if (($newInvoice['amount_paid'] > 0 && $newInvoice['amount_due'] > 0) && $newInvoice['status'] !== 'DELETED') {
+                    $newInvoice['status'] = 'PARTIAL';
+                }
 
                 array_push($invoices, $newInvoice);
             }

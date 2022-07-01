@@ -112,6 +112,11 @@ class CreateQuotationResponse extends AbstractResponse
         return $quote;
     }
 
+    /**
+     * Parse tax calculation method
+     * @param $data
+     * @return string
+     */
     private function parseTaxCalculation($data)  {
         if ($data) {
             switch($data) {
@@ -131,6 +136,27 @@ class CreateQuotationResponse extends AbstractResponse
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'DRAFT':
+                case 'DELETED':
+                case 'SENT':
+                case 'DECLINED':
+                case 'ACCEPTED':
+                    return $data;
+                case 'INVOICED':
+                    return 'ACCEPTED';
+            }
+        }
+        return null;
+    }
+
+    /**
      * Return all Quotes with Generic Schema Variable Assignment
      * @return array
      */
@@ -139,7 +165,7 @@ class CreateQuotationResponse extends AbstractResponse
         foreach ($this->data as $quote) {
             $newQuote = [];
             $newQuote['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('QuoteID', $quote);
-            $newQuote['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $quote);
+            $newQuote['status'] = $this->parseStatus(IndexSanityCheckHelper::indexSanityCheck('Status', $quote));
             $newQuote['sub_total'] = IndexSanityCheckHelper::indexSanityCheck('SubTotal', $quote);
             $newQuote['total_tax'] = IndexSanityCheckHelper::indexSanityCheck('TotalTax', $quote);
             $newQuote['total'] = IndexSanityCheckHelper::indexSanityCheck('Total', $quote);

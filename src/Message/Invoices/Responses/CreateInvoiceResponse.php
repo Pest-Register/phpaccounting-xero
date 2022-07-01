@@ -133,6 +133,27 @@ class CreateInvoiceResponse extends AbstractResponse
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'DRAFT':
+                case 'PAID':
+                    return $data;
+                case 'SUBMITTED':
+                case 'AUTHORISED':
+                    return 'OPEN';
+                case 'VOIDED':
+                    return 'DELETED';
+            }
+        }
+        return null;
+    }
+
+    /**
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
@@ -141,7 +162,7 @@ class CreateInvoiceResponse extends AbstractResponse
         foreach ($this->data as $invoice) {
             $newInvoice = [];
             $newInvoice['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('InvoiceID', $invoice);
-            $newInvoice['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $invoice);
+            $newInvoice['status'] = $this->parseStatus(IndexSanityCheckHelper::indexSanityCheck('Status', $invoice));
             $newInvoice['sub_total'] = IndexSanityCheckHelper::indexSanityCheck('SubTotal', $invoice);
             $newInvoice['total_tax'] = IndexSanityCheckHelper::indexSanityCheck('TotalTax', $invoice);
             $newInvoice['total'] = IndexSanityCheckHelper::indexSanityCheck('Total', $invoice);
@@ -161,6 +182,10 @@ class CreateInvoiceResponse extends AbstractResponse
             }
             if (IndexSanityCheckHelper::indexSanityCheck('LineItems', $invoice)) {
                 $newInvoice = $this->parseLineItems($invoice['LineItems'], $newInvoice);
+            }
+
+            if (($newInvoice['amount_paid'] > 0 && $newInvoice['amount_due'] > 0) && $newInvoice['status'] !== 'DELETED') {
+                $newInvoice['status'] = 'PARTIAL';
             }
 
             array_push($invoices, $newInvoice);

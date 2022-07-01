@@ -67,6 +67,27 @@ class DeleteQuotationResponse extends AbstractResponse
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'DRAFT':
+                case 'DELETED':
+                case 'SENT':
+                case 'DECLINED':
+                case 'ACCEPTED':
+                    return $data;
+                case 'INVOICED':
+                    return 'ACCEPTED';
+            }
+        }
+        return null;
+    }
+
+    /**
      * Return all Quotes with Generic Schema Variable Assignment
      * @return array
      */
@@ -75,7 +96,7 @@ class DeleteQuotationResponse extends AbstractResponse
         foreach ($this->data as $quote) {
             $newQuote = [];
             $newQuote['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('QuoteID', $quote);
-            $newQuote['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $quote);
+            $newQuote['status'] = $this->parseStatus(IndexSanityCheckHelper::indexSanityCheck('Status', $quote));
             $newQuote['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $quote);
             array_push($quotes, $newQuote);
         }

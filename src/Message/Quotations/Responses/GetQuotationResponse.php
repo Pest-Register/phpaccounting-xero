@@ -116,6 +116,11 @@ class GetQuotationResponse extends AbstractResponse
         return $invoice;
     }
 
+    /**
+     * Parse tax calculation method
+     * @param $data
+     * @return string
+     */
     private function parseTaxCalculation($data)  {
         if ($data) {
             switch($data) {
@@ -135,6 +140,27 @@ class GetQuotationResponse extends AbstractResponse
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'DRAFT':
+                case 'DELETED':
+                case 'SENT':
+                case 'DECLINED':
+                case 'ACCEPTED':
+                    return $data;
+                case 'INVOICED':
+                    return 'ACCEPTED';
+            }
+        }
+        return null;
+    }
+
+    /**
      * Return all Quotes with Generic Schema Variable Assignment
      * @return array
      */
@@ -145,7 +171,7 @@ class GetQuotationResponse extends AbstractResponse
             $quote = $this->data;
             $newQuote = [];
             $newQuote['accounting_id'] = $quote->getQuoteID();
-            $newQuote['status'] = $quote->getStatus();
+            $newQuote['status'] = $this->parseStatus($quote->getStatus());
             $newQuote['sub_total'] = $quote->getSubTotal();
             $newQuote['total_tax'] = $quote->getTotalTax();
             $newQuote['total'] = $quote->getTotal();
@@ -168,7 +194,7 @@ class GetQuotationResponse extends AbstractResponse
             foreach ($this->data as $quote) {
                 $newQuote = [];
                 $newQuote['accounting_id'] = $quote->getQuoteID();
-                $newQuote['status'] = $quote->getStatus();
+                $newQuote['status'] = $this->parseStatus($quote->getStatus());
                 $newQuote['sub_total'] = $quote->getSubTotal();
                 $newQuote['total_tax'] = $quote->getTotalTax();
                 $newQuote['total'] = $quote->getTotal();
