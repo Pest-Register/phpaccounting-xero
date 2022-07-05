@@ -19,9 +19,13 @@ class SearchQueryBuilder
         {
             foreach($searchParams as $key => $value)
             {
-                if($exactSearch)
+                if($exactSearch || is_bool($value))
                 {
-                    $searchQuery = $key.'="'.$value.'"';
+                    if (is_bool($value)) {
+                        $searchQuery = $key.'='.($value ? 'true' : 'false');
+                    } else {
+                        $searchQuery = $key.'="'.$value.'"';
+                    }
                 }
                 else {
                     $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
@@ -50,7 +54,11 @@ class SearchQueryBuilder
                         if (str_ends_with($filterKey, 'ID')) {
                             $searchQuery = $filterKey.'=GUID("'.$filterValue.'")';
                         } else {
-                            $searchQuery = $filterKey.'="'.$filterValue.'"';
+                            if (is_bool($filterValue)) {
+                                $searchQuery = $filterKey.'='.($filterValue ? 'true' : 'false');
+                            } else {
+                                $searchQuery = $filterKey.'="'.$filterValue.'"';
+                            }
                         }
 
                         if ($queryCounter == 0)
@@ -71,7 +79,11 @@ class SearchQueryBuilder
                     if (str_ends_with($filterKey, 'ID')) {
                         $searchQuery = $filterKey.'=GUID("'.$value.'")';
                     } else {
-                        $searchQuery = $filterKey.'="'.$value.'"';
+                        if (is_bool($value)) {
+                            $searchQuery = $filterKey.'='.($value ? 'true' : 'false');
+                        } else {
+                            $searchQuery = $filterKey.'="'.$value.'"';
+                        }
                     }
                     if ($queryCounter == 0)
                     {
