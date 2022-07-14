@@ -175,8 +175,8 @@ class GetInvoiceRequest extends AbstractRequest
                 if(strpos($this->getAccountingIDs(), ',') === false) {
                     $invoices = $xero->loadByGUID(Invoice::class, $this->getAccountingIDs());
                 }
-                 else {
-                     $invoices = $xero->loadByGUIDs(Invoice::class, $this->getAccountingIDs());
+                else {
+                    $invoices = $xero->loadByGUIDs(Invoice::class, $this->getAccountingIDs());
                  }
             } else {
                 if($this->getSearchParams() || $this->getSearchFilters())

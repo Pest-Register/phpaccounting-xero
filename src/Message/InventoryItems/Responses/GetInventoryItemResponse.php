@@ -93,6 +93,10 @@ class GetInventoryItemResponse extends AbstractResponse
         return $item;
     }
 
+    private function parseType($data) {
+        return $data;
+    }
+
     /**
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
@@ -106,7 +110,7 @@ class GetInventoryItemResponse extends AbstractResponse
             $newItem['code'] = $item->getCode();
             $newItem['name'] = $item->getName();
             $newItem['description'] = $item->getDescription();
-            $newItem['type'] = 'UNSPECIFIED';
+            $newItem['type'] = $this->parseType(null);
             $newItem['is_buying'] = $item->getIsPurchased();
             $newItem['is_selling'] = $item->getIsSold();
             $newItem['is_tracked'] = $item->getIsTrackedAsInventory();
@@ -127,7 +131,7 @@ class GetInventoryItemResponse extends AbstractResponse
                 $newItem['code'] = $item->getCode();
                 $newItem['name'] = $item->getName();
                 $newItem['description'] = $item->getDescription();
-                $newItem['type'] = 'UNSPECIFIED';
+                $newItem['type'] = $this->parseType(null);
                 $newItem['is_buying'] = $item->getIsPurchased();
                 $newItem['is_selling'] = $item->getIsSold();
                 $newItem['is_tracked'] = $item->getIsTrackedAsInventory();

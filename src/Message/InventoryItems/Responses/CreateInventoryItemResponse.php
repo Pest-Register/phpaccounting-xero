@@ -93,6 +93,10 @@ class CreateInventoryItemResponse extends AbstractResponse
         return $item;
     }
 
+    private function parseType($data) {
+        return $data;
+    }
+
     /**
      * Return all Payments with Generic Schema Variable Assignment
      * @return array
@@ -105,7 +109,7 @@ class CreateInventoryItemResponse extends AbstractResponse
             $newItem['code'] = IndexSanityCheckHelper::indexSanityCheck('Code', $item);
             $newItem['name'] = IndexSanityCheckHelper::indexSanityCheck('Name', $item);
             $newItem['description'] = IndexSanityCheckHelper::indexSanityCheck('Description', $item);
-            $newItem['type'] = 'UNSPECIFIED';
+            $newItem['type'] = $this->parseType(null);
             $newItem['is_buying'] = IndexSanityCheckHelper::indexSanityCheck('IsPurchased', $item);
             $newItem['is_selling'] = IndexSanityCheckHelper::indexSanityCheck('IsSold', $item);
             $newItem['is_tracked'] = IndexSanityCheckHelper::indexSanityCheck('IsTracked', $item);
