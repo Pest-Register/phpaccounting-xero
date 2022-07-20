@@ -166,7 +166,6 @@ class GetQuotationResponse extends AbstractResponse
      */
     public function getQuotations(){
         $quotes = [];
-
         if ($this->data instanceof Quote){
             $quote = $this->data;
             $newQuote = [];

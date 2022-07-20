@@ -207,6 +207,27 @@ class CreateInvoiceRequest extends AbstractRequest
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'DRAFT':
+                    return 'AUTHORISED';
+                case 'DELETED':
+                    return 'VOIDED';
+                case 'PAID':
+                case 'SUBMITTED':
+                case 'AUTHORISED':
+                    return $data;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Add Line Items to Invoice
      * @param Invoice $invoice Xero Invoice Object
      * @param array $data Array of Line Items
@@ -250,8 +271,11 @@ class CreateInvoiceRequest extends AbstractRequest
         $this->issetParam('LineItems', 'invoice_data');
         $this->issetParam('InvoiceNumber', 'invoice_number');
         $this->issetParam('Reference', 'invoice_reference');
-        $this->issetParam('Status', 'status');
         $this->issetParam('LineAmountType', 'gst_inclusive');
+
+        if ($this->getStatus()) {
+            $this->data['status'] = $this->parseStatus($this->getStatus());
+        }
         return $this->data;
     }
 
@@ -262,7 +286,7 @@ class CreateInvoiceRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        if($data instanceof InvalidRequestException) {
+        if ($data instanceof InvalidRequestException) {
             $response = [
                 'status' => 'error',
                 'type' => 'InvalidRequestException',
@@ -274,7 +298,6 @@ class CreateInvoiceRequest extends AbstractRequest
         }
         try {
             $xero = $this->createXeroApplication();
-
 
             $invoice = new Invoice($xero);
             foreach ($data as $key => $value){

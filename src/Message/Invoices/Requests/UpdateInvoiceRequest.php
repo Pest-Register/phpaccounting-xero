@@ -228,6 +228,28 @@ class UpdateInvoiceRequest extends AbstractRequest
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                // Return Authorised as an auto-approval from PR
+                case 'DRAFT':
+                    return 'AUTHORISED';
+                case 'DELETED':
+                    return 'VOIDED';
+                case 'PAID':
+                case 'SUBMITTED':
+                case 'AUTHORISED':
+                    return $data;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Add LineItems to Invoice
      * @param Invoice $invoice Xero Invoice Object
      * @param array $data Array of LineItem Object mappings (Array)
@@ -272,8 +294,11 @@ class UpdateInvoiceRequest extends AbstractRequest
         $this->issetParam('LineItems', 'invoice_data');
         $this->issetParam('InvoiceNumber', 'invoice_number');
         $this->issetParam('Reference', 'invoice_reference');
-        $this->issetParam('Status', 'status');
         $this->issetParam('LineAmountType', 'gst_inclusive');
+
+        if ($this->getStatus()) {
+            $this->data['status'] = $this->parseStatus($this->getStatus());
+        }
         return $this->data;
     }
 
