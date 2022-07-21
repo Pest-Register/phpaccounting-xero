@@ -265,6 +265,27 @@ class UpdateQuotationRequest extends AbstractRequest
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'REJECTED':
+                    return 'DECLINED';
+                case 'DRAFT':
+                case 'DELETED':
+                case 'PAID':
+                case 'SUBMITTED':
+                case 'AUTHORISED':
+                    return $data;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Add Line Items to Quote
      * @param Quote $quote
      * @param array $data Array of Line Items
@@ -308,11 +329,14 @@ class UpdateQuotationRequest extends AbstractRequest
         $this->issetParam('LineItems', 'quotation_data');
         $this->issetParam('QuoteNumber', 'quotation_number');
         $this->issetParam('Reference', 'quotation_reference');
-        $this->issetParam('Status', 'status');
         $this->issetParam('LineAmountType', 'gst_inclusive');
         $this->issetParam('Title', 'title');
         $this->issetParam('Summary', 'summary');
         $this->issetParam('Terms', 'terms');
+
+        if ($this->getStatus()) {
+            $this->data['status'] = $this->parseStatus($this->getStatus());
+        }
         return $this->data;
     }
 

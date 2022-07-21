@@ -146,9 +146,10 @@ class UpdateQuotationResponse extends AbstractResponse
                 case 'DRAFT':
                 case 'DELETED':
                 case 'SENT':
-                case 'DECLINED':
                 case 'ACCEPTED':
                     return $data;
+                case 'DECLINED':
+                    return 'REJECTED';
                 case 'INVOICED':
                     return 'ACCEPTED';
             }
