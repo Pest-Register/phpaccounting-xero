@@ -236,12 +236,12 @@ class UpdateInvoiceRequest extends AbstractRequest
         if ($data) {
             switch($data) {
                 // Return Authorised as an auto-approval from PR
-                case 'DRAFT':
                 case 'OPEN':
                     return 'AUTHORISED';
                 case 'DELETED':
                     return 'VOIDED';
                 case 'PAID':
+                case 'DRAFT':
                 case 'SUBMITTED':
                 case 'AUTHORISED':
                     return $data;

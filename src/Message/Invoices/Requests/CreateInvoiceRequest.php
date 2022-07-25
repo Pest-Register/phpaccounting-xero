@@ -214,12 +214,13 @@ class CreateInvoiceRequest extends AbstractRequest
     private function parseStatus($data) {
         if ($data) {
             switch($data) {
-                case 'DRAFT':
+                // Return Authorised as an auto-approval from PR
                 case 'OPEN':
                     return 'AUTHORISED';
                 case 'DELETED':
                     return 'VOIDED';
                 case 'PAID':
+                case 'DRAFT':
                 case 'SUBMITTED':
                 case 'AUTHORISED':
                     return $data;
