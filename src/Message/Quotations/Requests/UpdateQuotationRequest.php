@@ -274,11 +274,10 @@ class UpdateQuotationRequest extends AbstractRequest
             switch($data) {
                 case 'REJECTED':
                     return 'DECLINED';
+                case 'SENT':
                 case 'DRAFT':
                 case 'DELETED':
-                case 'PAID':
-                case 'SUBMITTED':
-                case 'AUTHORISED':
+                case 'ACCEPTED':
                     return $data;
             }
         }
@@ -335,7 +334,7 @@ class UpdateQuotationRequest extends AbstractRequest
         $this->issetParam('Terms', 'terms');
 
         if ($this->getStatus()) {
-            $this->data['status'] = $this->parseStatus($this->getStatus());
+            $this->data['Status'] = $this->parseStatus($this->getStatus());
         }
         return $this->data;
     }

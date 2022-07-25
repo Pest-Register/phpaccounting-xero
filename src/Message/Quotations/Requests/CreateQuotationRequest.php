@@ -281,11 +281,10 @@ class CreateQuotationRequest extends AbstractRequest
             switch($data) {
                 case 'REJECTED':
                     return 'DECLINED';
+                case 'SENT':
                 case 'DRAFT':
                 case 'DELETED':
-                case 'PAID':
-                case 'SUBMITTED':
-                case 'AUTHORISED':
+                case 'ACCEPTED':
                     return $data;
             }
         }
