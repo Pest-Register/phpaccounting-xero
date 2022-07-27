@@ -298,7 +298,7 @@ class UpdateInvoiceRequest extends AbstractRequest
         $this->issetParam('LineAmountType', 'gst_inclusive');
 
         if ($this->getStatus()) {
-            $this->data['status'] = $this->parseStatus($this->getStatus());
+            $this->data['Status'] = $this->parseStatus($this->getStatus());
         }
         return $this->data;
     }
