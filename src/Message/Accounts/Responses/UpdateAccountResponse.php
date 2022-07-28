@@ -81,7 +81,7 @@ class UpdateAccountResponse extends AbstractResponse
             $newAccount['is_bank_account'] = (IndexSanityCheckHelper::indexSanityCheck('Type', $account) === 'BANK');
             $newAccount['enable_payments_to_account'] = IndexSanityCheckHelper::indexSanityCheck('EnablePaymentsToAccount', $account);;
             $newAccount['show_inexpense_claims'] = IndexSanityCheckHelper::indexSanityCheck('ShowInexpenseClaims', $account);
-            $newAccount['tax_type'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $account);
+            $newAccount['tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $account);
             $newAccount['bank_account_number'] = IndexSanityCheckHelper::indexSanityCheck('BankAccountNumber', $account);
             $newAccount['bank_account_type'] = IndexSanityCheckHelper::indexSanityCheck('BankAccountType', $account);
             $newAccount['currency_code'] = IndexSanityCheckHelper::indexSanityCheck('CurrencyCode', $account);

@@ -104,7 +104,7 @@ class UpdateInvoiceResponse extends AbstractResponse
                 $newLineItem['item_code'] = IndexSanityCheckHelper::indexSanityCheck('ItemCode', $lineItem);
                 $newLineItem['amount'] = IndexSanityCheckHelper::indexSanityCheck('LineAmount', $lineItem);
                 $newLineItem['tax_amount'] = IndexSanityCheckHelper::indexSanityCheck('TaxAmount', $lineItem);
-                $newLineItem['tax_type'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $lineItem);
+                $newLineItem['tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $lineItem);
                 $newLineItem['code'] = IndexSanityCheckHelper::indexSanityCheck('AccountCode', $lineItem);
                 array_push($lineItems, $newLineItem);
             }

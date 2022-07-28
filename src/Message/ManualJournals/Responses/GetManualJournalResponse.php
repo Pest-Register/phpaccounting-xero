@@ -77,7 +77,7 @@ class GetManualJournalResponse extends AbstractResponse
                 $newJournalItem['description'] = $journalItem->getDescription();
                 $newJournalItem['gross_amount'] = $journalItem->getLineAmount();
                 $newJournalItem['tax_amount'] = $journalItem->getTaxAmount();
-                $newJournalItem['tax_type'] = $journalItem->getTaxType();
+                $newJournalItem['tax_type_id'] = $journalItem->getTaxType();
                 $newJournalItem['is_credit'] = ($journalItem->getLineAmount() < 0 ? false : true);
                 if ($journalItem->getTaxAmount()) {
                     $newJournalItem['net_amount'] = $journalItem->getTaxAmount() + $journalItem->getLineAmount();

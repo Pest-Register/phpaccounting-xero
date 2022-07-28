@@ -87,7 +87,7 @@ class GetAccountResponse extends AbstractResponse
             $newAccount['is_bank_account'] = ($account->getType() === 'BANK');
             $newAccount['enable_payments_to_account'] = $account->getEnablePaymentsToAccount();
             $newAccount['show_inexpense_claims'] = $account->getShowInexpenseClaims();
-            $newAccount['tax_type'] = $account->getTaxType();
+            $newAccount['tax_type_id'] = $account->getTaxType();
             $newAccount['bank_account_number'] = $account->getBankAccountNumber();
             $newAccount['bank_account_type'] = $account->getBankAccountType();
             $newAccount['currency_code'] = $account->getCurrencyCode();
@@ -106,7 +106,7 @@ class GetAccountResponse extends AbstractResponse
                 $newAccount['is_bank_account'] = ($account->getType() === 'BANK');
                 $newAccount['enable_payments_to_account'] = $account->getEnablePaymentsToAccount();
                 $newAccount['show_inexpense_claims'] = $account->getShowInexpenseClaims();
-                $newAccount['tax_type'] = $account->getTaxType();
+                $newAccount['tax_type_id'] = $account->getTaxType();
                 $newAccount['bank_account_number'] = $account->getBankAccountNumber();
                 $newAccount['bank_account_type'] = $account->getBankAccountType();
                 $newAccount['currency_code'] = $account->getCurrencyCode();

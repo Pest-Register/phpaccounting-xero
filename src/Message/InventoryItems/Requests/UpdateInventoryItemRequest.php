@@ -224,7 +224,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
                 $purchase->setAccountCode($purchaseDetails['buying_account_code']);
             }
             $purchase->setUnitPrice($purchaseDetails['buying_unit_price']);
-            $purchase->setTaxType($purchaseDetails['buying_tax_type_code']);
+            $purchase->setTaxType($purchaseDetails['buying_tax_type_id']);
             $item->setPurchaseDetails($purchase);
         }
     }
@@ -234,7 +234,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
             $sale = new Item\Sale();
             $sale->setAccountCode($salesDetails['selling_account_code']);
             $sale->setUnitPrice($salesDetails['selling_unit_price']);
-            $sale->setTaxType($salesDetails['selling_tax_type_code']);
+            $sale->setTaxType($salesDetails['selling_tax_type_id']);
             $item->setSalesDetails($sale);
         }
     }
@@ -246,7 +246,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
     public function getSalesDetailsData($data) {
         $data['UnitPrice'] = IndexSanityCheckHelper::indexSanityCheck('selling_unit_price', $data);
         $data['AccountCode'] = IndexSanityCheckHelper::indexSanityCheck('selling_account_code', $data);
-        $data['TaxType'] = IndexSanityCheckHelper::indexSanityCheck('selling_tax_type_code', $data);
+        $data['TaxType'] = IndexSanityCheckHelper::indexSanityCheck('selling_tax_type_id', $data);
 
         return $data;
     }
@@ -258,7 +258,7 @@ class UpdateInventoryItemRequest extends AbstractRequest
     public function getBuyingDetailsData($data) {
         $data['UnitPrice'] = IndexSanityCheckHelper::indexSanityCheck('buying_unit_price', $data);
         $data['AccountCode'] = IndexSanityCheckHelper::indexSanityCheck('buying_account_code', $data);
-        $data['TaxType'] = IndexSanityCheckHelper::indexSanityCheck('buying_tax_type_code', $data);
+        $data['TaxType'] = IndexSanityCheckHelper::indexSanityCheck('buying_tax_type_id', $data);
         $data['COGSAccountCode'] = IndexSanityCheckHelper::indexSanityCheck('tracked_buying_account_code', $data);
 
         return $data;

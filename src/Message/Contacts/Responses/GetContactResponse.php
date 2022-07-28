@@ -199,8 +199,8 @@ class GetContactResponse extends AbstractResponse
             $newContact['is_individual'] = !$contact->getIsSupplier();
             $newContact['bank_account_details'] = $contact->getBankAccountDetails();
             $newContact['tax_number'] = $contact->getTaxNumber();
-            $newContact['accounts_receivable_tax_type'] = $contact->getAccountsReceivableTaxType();
-            $newContact['accounts_payable_tax_type'] = $contact->getAccountsPayableTaxType();
+            $newContact['accounts_receivable_tax_type_id'] = $contact->getAccountsReceivableTaxType();
+            $newContact['accounts_payable_tax_type_id'] = $contact->getAccountsPayableTaxType();
             $newContact['default_currency'] = $contact->getDefaultCurrency();
             $newContact['updated_at'] = $contact->getUpdatedDateUTC();
             $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
@@ -220,8 +220,8 @@ class GetContactResponse extends AbstractResponse
                 $newContact['is_individual'] = !$contact->getIsSupplier();
                 $newContact['bank_account_details'] = $contact->getBankAccountDetails();
                 $newContact['tax_number'] = $contact->getTaxNumber();
-                $newContact['accounts_receivable_tax_type'] = $contact->getAccountsReceivableTaxType();
-                $newContact['accounts_payable_tax_type'] = $contact->getAccountsPayableTaxType();
+                $newContact['accounts_receivable_tax_type_id'] = $contact->getAccountsReceivableTaxType();
+                $newContact['accounts_payable_tax_type_id'] = $contact->getAccountsPayableTaxType();
                 $newContact['default_currency'] = $contact->getDefaultCurrency();
                 $newContact['updated_at'] = $contact->getUpdatedDateUTC();
                 $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);

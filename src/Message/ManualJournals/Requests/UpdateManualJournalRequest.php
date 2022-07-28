@@ -118,7 +118,7 @@ class UpdateManualJournalRequest extends AbstractRequest
         foreach($data as $lineData) {
             $lineItem = new JournalLine();
             $lineItem = IndexSanityInsertionHelper::indexSanityInsert('gross_amount', $lineData, $lineItem, 'setLineAmount');
-            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('tax_type', $lineData, $lineItem, 'setTaxType');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('tax_type_id', $lineData, $lineItem, 'setTaxType');
             $lineItem = IndexSanityInsertionHelper::indexSanityInsert('description', $lineData, $lineItem, 'setDescription');
             $lineItem = IndexSanityInsertionHelper::indexSanityInsert('account_code', $lineData, $lineItem, 'setAccountCode');
             $journal->addJournalLine($lineItem);

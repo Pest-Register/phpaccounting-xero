@@ -47,8 +47,8 @@ class CreateTaxRateRequest extends AbstractRequest
      * @see https://developer.xero.com/documentation/api/tax-rates
      * @return mixed
      */
-    public function getTaxType(){
-        return $this->getParameter('tax_type');
+    public function getTaxTypeID(){
+        return $this->getParameter('tax_type_id');
     }
 
     /**
@@ -57,8 +57,8 @@ class CreateTaxRateRequest extends AbstractRequest
      * @param string $value Tax Rate Tax Type
      * @return CreateTaxRateRequest
      */
-    public function setTaxType($value){
-        return $this->setParameter('tax_type', $value);
+    public function setTaxTypeID($value){
+        return $this->setParameter('tax_type_id', $value);
     }
 
     /**
@@ -153,7 +153,7 @@ class CreateTaxRateRequest extends AbstractRequest
     public function getData()
     {
         $this->issetParam('Name', 'name');
-        $this->issetParam('TaxType', 'tax_type');
+        $this->issetParam('TaxType', 'tax_type_id');
         $this->issetParam('Status', 'status');
         $this->issetParam('ReportTaxType', 'report_tax_type');
         $this->data['TaxComponents'] = ($this->getTaxComponents() != null ? $this->getTaxComponentsDetails($this->getTaxComponents()) : null);

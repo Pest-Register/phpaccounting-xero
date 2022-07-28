@@ -196,8 +196,8 @@ class CreateContactResponse extends AbstractResponse
             $newContact['is_individual'] = (IndexSanityCheckHelper::indexSanityCheck('IsSupplier', $contact) === 'true' ? true : false);
             $newContact['bank_account_details'] = IndexSanityCheckHelper::indexSanityCheck('BankAccountDetails', $contact);;
             $newContact['tax_number'] = IndexSanityCheckHelper::indexSanityCheck('TaxNumber', $contact);;
-            $newContact['accounts_receivable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('ReceivableTaxType', $contact);;
-            $newContact['accounts_payable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('AccountsPayableTaxType', $contact);;
+            $newContact['accounts_receivable_tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('ReceivableTaxType', $contact);;
+            $newContact['accounts_payable_tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('AccountsPayableTaxType', $contact);;
             $newContact['default_currency'] = IndexSanityCheckHelper::indexSanityCheck('DefaultCurrency', $contact);
             $newContact['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $contact);
             if (IndexSanityCheckHelper::indexSanityCheck('ContactGroups', $contact)) {

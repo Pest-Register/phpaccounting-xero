@@ -78,7 +78,7 @@ class CreateTaxRateResponse extends AbstractResponse
             $newTaxRate['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $taxRate);
             $newTaxRate['code'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $taxRate);
             $newTaxRate['name'] = IndexSanityCheckHelper::indexSanityCheck('Name', $taxRate);
-            $newTaxRate['tax_type'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $taxRate);
+            $newTaxRate['tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $taxRate);
             $newTaxRate['rate'] = IndexSanityCheckHelper::indexSanityCheck('EffectiveRate', $taxRate);
             $newTaxRate['is_asset'] = IndexSanityCheckHelper::indexSanityCheck('CanApplyToAssets', $taxRate);
             $newTaxRate['is_equity'] = IndexSanityCheckHelper::indexSanityCheck('CanApplyToEquity', $taxRate);

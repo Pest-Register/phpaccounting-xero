@@ -79,7 +79,7 @@ class GetTaxRateResponse extends AbstractResponse
             $newTaxRate['accounting_id'] = $taxRate->getTaxType();
             $newTaxRate['code'] = $taxRate->getTaxType();
             $newTaxRate['name'] = $taxRate->getName();
-            $newTaxRate['tax_type'] = $taxRate->getTaxType();
+            $newTaxRate['tax_type_id'] = $taxRate->getTaxTypeID();
             $newTaxRate['rate'] = $taxRate->getEffectiveRate();
             $newTaxRate['is_asset'] = $taxRate->getCanApplyToAssets();
             $newTaxRate['is_equity'] = $taxRate->getCanApplyToEquity();
@@ -94,7 +94,7 @@ class GetTaxRateResponse extends AbstractResponse
                 $newTaxRate['accounting_id'] = $taxRate->getTaxType();
                 $newTaxRate['code'] = $taxRate->getTaxType();
                 $newTaxRate['name'] = $taxRate->getName();
-                $newTaxRate['tax_type'] = $taxRate->getTaxType();
+                $newTaxRate['tax_type_id'] = $taxRate->getTaxTypeID();
                 $newTaxRate['rate'] = $taxRate->getEffectiveRate();
                 $newTaxRate['is_asset'] = $taxRate->getCanApplyToAssets();
                 $newTaxRate['is_equity'] = $taxRate->getCanApplyToEquity();

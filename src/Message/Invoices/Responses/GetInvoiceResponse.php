@@ -91,7 +91,7 @@ class GetInvoiceResponse extends AbstractResponse
                 $newLineItem['discount_amount'] = $lineItem->getDiscountAmount();
                 $newLineItem['item_code'] = $lineItem->getItemCode();
                 $newLineItem['tax_amount'] = $lineItem->getTaxAmount();
-                $newLineItem['tax_type'] = $lineItem->getTaxType();
+                $newLineItem['tax_type_id'] = $lineItem->getTaxType();
                 $newLineItem['code'] = $lineItem->getAccountCode();
                 array_push($lineItems, $newLineItem);
             }

@@ -128,8 +128,8 @@ class CreateAccountRequest extends AbstractRequest
      * @see https://developer.xero.com/documentation/api/accounts
      * @return mixed
      */
-    public function getTaxType(){
-        return $this->getParameter('tax_type');
+    public function getTaxTypeID(){
+        return $this->getParameter('tax_type_id');
     }
 
     /**
@@ -138,8 +138,8 @@ class CreateAccountRequest extends AbstractRequest
      * @param string $value Account Tax Type
      * @return CreateAccountRequest
      */
-    public function setTaxType($value){
-        return $this->setParameter('tax_type', $value);
+    public function setTaxTypeID($value){
+        return $this->setParameter('tax_type_id', $value);
     }
 
     /**
@@ -258,7 +258,7 @@ class CreateAccountRequest extends AbstractRequest
         $this->issetParam('Type', 'type');
         $this->issetParam('Status', 'status');
         $this->issetParam('Description', 'description');
-        $this->issetParam('TaxType', 'tax_type');
+        $this->issetParam('TaxType', 'tax_type_id');
         $this->issetParam('EnablePaymentsToAccount', 'enable_payments_to_account');
         $this->issetParam('ShowInexpenseClaims', 'show_inexpense_claims');
         $this->issetParam('BankAccountType', 'bank_account_type');

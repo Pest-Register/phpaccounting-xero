@@ -258,8 +258,8 @@ class UpdateContactRequest extends AbstractRequest
         $this->issetParam('Website', 'website');
         $this->issetParam('BankAccountDetails', 'bank_account_details');
         $this->issetParam('TaxNumber', 'tax_number');
-        $this->issetParam('AccountsReceivableTaxType', 'accounts_receivable_tax_type');
-        $this->issetParam('AccountsPayableTaxType', 'accounts_payable_tax_type');
+        $this->issetParam('AccountsReceivableTaxType', 'accounts_receivable_tax_type_id');
+        $this->issetParam('AccountsPayableTaxType', 'accounts_payable_tax_type_id');
         $this->issetParam('DefaultCurrency', 'default_currency');
         $this->issetParam('ContactStatus','status');
 

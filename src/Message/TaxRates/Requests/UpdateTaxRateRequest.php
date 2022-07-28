@@ -46,8 +46,8 @@ class UpdateTaxRateRequest extends AbstractRequest
      * @see https://developer.xero.com/documentation/api/tax-rates
      * @return mixed
      */
-    public function getTaxType(){
-        return $this->getParameter('tax_type');
+    public function getTaxTypeID(){
+        return $this->getParameter('tax_type_id');
     }
 
     /**
@@ -56,8 +56,8 @@ class UpdateTaxRateRequest extends AbstractRequest
      * @param string $value Tax Rate Tax Type
      * @return UpdateTaxRateRequest
      */
-    public function setTaxType($value){
-        return $this->setParameter('tax_type', $value);
+    public function setTaxTypeID($value){
+        return $this->setParameter('tax_type_id', $value);
     }
 
     /**
@@ -153,9 +153,9 @@ class UpdateTaxRateRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('name', 'tax_type', 'tax_components', 'status', 'report_tax_type');
+        $this->validate('name', 'tax_type_id', 'tax_components', 'status', 'report_tax_type');
         $this->issetParam('Name', 'name');
-        $this->issetParam('TaxType', 'tax_type');
+        $this->issetParam('TaxType', 'tax_type_id');
         $this->issetParam('Status', 'status');
         $this->issetParam('ReportTaxType', 'report_tax_type');
         $this->data['TaxComponents'] = ($this->getTaxComponents() != null ? $this->getTaxComponentsDetails($this->getTaxComponents()) : null);

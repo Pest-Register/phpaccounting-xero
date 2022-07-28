@@ -246,7 +246,7 @@ class CreateInvoiceRequest extends AbstractRequest
             $lineItem = IndexSanityInsertionHelper::indexSanityInsert('quantity', $lineData, $lineItem, 'setQuantity');
             $lineItem = IndexSanityInsertionHelper::indexSanityInsert('unit_amount', $lineData, $lineItem, 'setUnitAmount');
             $lineItem = IndexSanityInsertionHelper::indexSanityInsert('tax_amount', $lineData, $lineItem, 'setTaxAmount');
-            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('tax_type', $lineData, $lineItem, 'setTaxType');
+            $lineItem = IndexSanityInsertionHelper::indexSanityInsert('tax_type_id', $lineData, $lineItem, 'setTaxType');
             $invoice->addLineItem($lineItem);
         }
     }

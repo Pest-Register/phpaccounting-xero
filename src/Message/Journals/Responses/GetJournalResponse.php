@@ -81,7 +81,7 @@ class GetJournalResponse extends AbstractResponse
                 $newJournalItem['net_amount'] = $journalItem->getNetAmount();
                 $newJournalItem['gross_amount'] = $journalItem->getGrossAmount();
                 $newJournalItem['tax_amount'] = $journalItem->getTaxAmount();
-                $newJournalItem['tax_type'] = $journalItem->getTaxType();
+                $newJournalItem['tax_type_id'] = $journalItem->getTaxType();
 
                 if ((float) $journalItem->getGrossAmount() < 0 ) {
                     $newJournalItem['is_credit'] = false;

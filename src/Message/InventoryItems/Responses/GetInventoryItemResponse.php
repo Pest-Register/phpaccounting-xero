@@ -76,7 +76,7 @@ class GetInventoryItemResponse extends AbstractResponse
                 $item['buying_account_code'] = $data->getAccountCode();
             }
 
-            $item['buying_tax_type_code'] = $data->getTaxType();
+            $item['buying_tax_type_id'] = $data->getTaxType();
             $item['buying_unit_price'] = $data->getUnitPrice();
         }
 
@@ -86,7 +86,7 @@ class GetInventoryItemResponse extends AbstractResponse
     public function parseSellingDetails($data, $item) {
         if ($data) {
             $item['selling_account_code'] = $data->getAccountCode();
-            $item['selling_tax_type_code'] = $data->getTaxType();
+            $item['selling_tax_type_id'] = $data->getTaxType();
             $item['selling_unit_price'] = $data->getUnitPrice();
         }
 

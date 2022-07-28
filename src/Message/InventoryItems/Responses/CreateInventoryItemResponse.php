@@ -76,7 +76,7 @@ class CreateInventoryItemResponse extends AbstractResponse
                 $item['buying_account_code'] = IndexSanityCheckHelper::indexSanityCheck('AccountCode', $data);
             }
 
-            $item['buying_tax_type_code'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $data);
+            $item['buying_tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $data);
             $item['buying_unit_price'] = IndexSanityCheckHelper::indexSanityCheck('UnitPrice', $data);
         }
 
@@ -86,7 +86,7 @@ class CreateInventoryItemResponse extends AbstractResponse
     public function parseSalesDetails($data, $item) {
         if ($data) {
             $item['selling_account_code'] = IndexSanityCheckHelper::indexSanityCheck('AccountCode', $data);
-            $item['selling_tax_type_code'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $data);
+            $item['selling_tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $data);
             $item['selling_unit_price'] = IndexSanityCheckHelper::indexSanityCheck('UnitPrice', $data);
         }
 
