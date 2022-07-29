@@ -99,7 +99,6 @@ class SearchQueryBuilder
                 }
             }
         }
-        echo print_r($query, true);
         return $query;
     }
 }
