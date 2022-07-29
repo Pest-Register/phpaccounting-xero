@@ -48,6 +48,7 @@ class SearchQueryBuilder
             {
                 $queryString = '';
                 $filterKey = $key;
+                $innerQueryCounter = 0;
                 if (is_array($value)) {
                     foreach($value as $filterValue)
                     {
@@ -61,7 +62,7 @@ class SearchQueryBuilder
                             }
                         }
 
-                        if ($queryCounter == 0)
+                        if ($innerQueryCounter == 0)
                         {
                             $queryString = '('.$searchQuery;
                         } else {
@@ -73,8 +74,9 @@ class SearchQueryBuilder
                                 $queryString.= ' OR '.$searchQuery;
                             }
                         }
-                        $queryCounter++;
+                        $innerQueryCounter++;
                     }
+                    $queryString .= ')';
                 } else {
                     if (str_ends_with($filterKey, 'ID')) {
                         $searchQuery = $filterKey.'=GUID("'.$value.'")';
@@ -85,24 +87,19 @@ class SearchQueryBuilder
                             $searchQuery = $filterKey.'="'.$value.'"';
                         }
                     }
-                    if ($queryCounter == 0)
-                    {
-                        $queryString = '('.$searchQuery;
-                    } else {
-                        if ($exactFilter)
-                        {
-                            $queryString.= ' AND '.$searchQuery;
-                        }
-                        else {
-                            $queryString.= ' OR '.$searchQuery;
-                        }
-                    }
+                    $queryString = $searchQuery;
                     $queryCounter++;
                 }
-                $queryString.=")";
-                $query->andWhere($queryString);
+                if ($exactFilter)
+                {
+                    $query->andWhere($queryString);
+                }
+                else {
+                    $query->orWhere($queryString);
+                }
             }
         }
+        echo print_r($query, true);
         return $query;
     }
 }
