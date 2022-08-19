@@ -65,7 +65,7 @@ class DeleteInvoiceRequest extends AbstractRequest
         try {
             $this->validate('accounting_id');
         } catch (InvalidRequestException $exception) {
-            return $exception;;
+            return $exception;
         }
         $this->issetParam('InvoiceID', 'accounting_id');
         $this->issetParam('Status', 'status');
