@@ -4,11 +4,12 @@ namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
 use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
-use PHPAccounting\Xero\Message\AbstractRequest;
+use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Invoices\Responses\CreateInvoiceResponse;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Invoice\LineItem;
+use XeroPHP\Remote\Exception;
 use XeroPHP\Remote\Exception\UnauthorizedException;
 use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
 use XeroPHP\Remote\Exception\BadRequestException;
@@ -24,8 +25,10 @@ use XeroPHP\Remote\Exception\OrganisationOfflineException;
  * Create Invoice
  * @package PHPAccounting\XERO\Message\Invoices\Requests
  */
-class CreateInvoiceRequest extends AbstractRequest
+class CreateInvoiceRequest extends AbstractXeroRequest
 {
+    public string $model = 'Invoice';
+
     /**
      * Get GST Inclusive Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/invoices
@@ -288,14 +291,8 @@ class CreateInvoiceRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        if ($data instanceof InvalidRequestException) {
-            $response = [
-                'status' => 'error',
-                'type' => 'InvalidRequestException',
-                'detail' => $data->getMessage(),
-                'error_code' => $data->getCode(),
-                'status_code' => $data->getCode(),
-            ];
+        if($data instanceof InvalidRequestException) {
+            $response = parent::handleRequestException($data, 'InvalidRequestException');
             return $this->createResponse($response);
         }
         try {
@@ -336,107 +333,8 @@ class CreateInvoiceRequest extends AbstractRequest
                 }
             }
             $response = $xero->save($invoice);
-        } catch (BadRequestException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'BadRequest',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (UnauthorizedException|XeroProviderException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Unauthorized',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (ForbiddenException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Forbidden',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (ReportPermissionMissingException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'ReportPermissionMissingException',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotFoundException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotFound',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (InternalErrorException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Internal',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotImplementedException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotImplemented',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (RateLimitExceededException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'RateLimitExceeded',
-                'rate_problem' => $exception->getRateLimitProblem(),
-                'retry' => $exception->getRetryAfter(),
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotAvailableException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotAvailable',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (OrganisationOfflineException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'OrganisationOffline',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
+        } catch (Exception $exception) {
+            $response = parent::handleRequestException($exception, get_class($exception));
             return $this->createResponse($response);
         }
         return $this->createResponse($response->getElements());

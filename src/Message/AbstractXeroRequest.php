@@ -2,10 +2,12 @@
 namespace PHPAccounting\Xero\Message;
 
 use Calcinai\OAuth2\Client\Provider\Xero;
+use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
 use XeroPHP\Application;
+use XeroPHP\Remote\Exception\RateLimitExceededException;
 
-class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
+class AbstractXeroRequest extends AbstractRequest
 {
 
     /**
@@ -80,7 +82,7 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * Set Access Token
      * @param $value
-     * @return AbstractRequest
+     * @return AbstractXeroRequest
      */
 
     public function setAccessToken($value){
@@ -125,6 +127,28 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * Handle exception messages, codes and additional details
+     * @param $exception
+     * @param $type
+     * @return array
+     */
+    public function handleRequestException($exception, $type): array
+    {
+        $response = [
+            'status' => 'error',
+            'type' => $type,
+            'detail' => $exception->getMessage(),
+            'error_code' => $exception->getCode(),
+            'status_code' => $exception->getCode(),
+        ];
+        if ($type == RateLimitExceededException::class) {
+            $response['rate_problem'] = $exception->getRateLimitProblem();
+            $response['retry'] = $exception->getRetryAfter();
+        }
+        return $response;
+    }
+
+    /**
      * Send the request with specified data
      *
      * @param  mixed $data The data to send
@@ -132,7 +156,6 @@ class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function sendData($data)
     {
-        parent::sendData($data);
-        // TODO: Implement sendData() method.
+//        parent::sendData($data);
     }
 }

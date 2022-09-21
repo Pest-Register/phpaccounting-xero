@@ -1,28 +1,22 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\TaxRates\Requests;
-use PHPAccounting\Xero\Message\AbstractRequest;
+
+use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
+use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\TaxRates\Responses\GetTaxRateResponse;
-use XeroPHP\Application;
 use XeroPHP\Models\Accounting\TaxRate;
-use XeroPHP\Models\Accounting\TaxType;
-use XeroPHP\Remote\Exception\UnauthorizedException;
-use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
-use XeroPHP\Remote\Exception\BadRequestException;
-use XeroPHP\Remote\Exception\ForbiddenException;
-use XeroPHP\Remote\Exception\ReportPermissionMissingException;
-use XeroPHP\Remote\Exception\NotFoundException;
-use XeroPHP\Remote\Exception\InternalErrorException;
-use XeroPHP\Remote\Exception\NotImplementedException;
-use XeroPHP\Remote\Exception\RateLimitExceededException;
-use XeroPHP\Remote\Exception\NotAvailableException;
-use XeroPHP\Remote\Exception\OrganisationOfflineException;
+use XeroPHP\Remote\Exception;
+
 /**
  * Get Tax Rate(s)
  * @package PHPAccounting\XERO\Message\InventoryItems\Requests
  */
-class GetTaxRateRequest extends AbstractRequest
+class GetTaxRateRequest extends AbstractXeroRequest
 {
+    public string $model = 'TaxRate';
+
     /**
      * Set AccountingID from Parameter Bag (TaxRateID generic interface)
      * @see https://developer.xero.com/documentation/api/invoices
@@ -155,68 +149,6 @@ class GetTaxRateRequest extends AbstractRequest
     }
 
     /**
-     * Builds search / filter query based on search parameters and filters
-     * @param Application $xero
-     * @return \XeroPHP\Remote\Query
-     */
-    private function buildSearchQuery(Application $xero) {
-        // Set contains query for partial matching
-        $query = $xero->load(TaxRate::class);
-        $queryCounter = 0;
-        if ($this->getSearchParams())
-        {
-            foreach($this->getSearchParams() as $key => $value)
-            {
-                if($this->getExactSearchValue())
-                {
-                    $searchQuery = $key.'="'.$value.'"';
-                }
-                else {
-                    $searchQuery = $key.'.ToLower().Contains("'.strtolower($value).'")';
-                }
-
-                if ($queryCounter == 0)
-                {
-                    $query = $query->where($searchQuery);
-                } else {
-                    $query = $query->orWhere($searchQuery);
-                }
-                $queryCounter++;
-            }
-        }
-        // If there are specific filters, add them to query
-        $queryCounter = 0;
-        if ($this->getSearchFilters())
-        {
-            foreach($this->getSearchFilters() as $key => $value)
-            {
-                $queryString = '';
-                $filterKey = $key;
-                foreach($value as $filterValue)
-                {
-                    $searchQuery = $filterKey.'="'.$filterValue.'"';
-                    if ($queryCounter == 0)
-                    {
-                        $queryString = '('.$searchQuery;
-                    } else {
-                        if ($this->getMatchAllFilters())
-                        {
-                            $queryString.= ' AND '.$searchQuery;
-                        }
-                        else {
-                            $queryString.= ' OR '.$searchQuery;
-                        }
-                    }
-                    $queryCounter++;
-                }
-                $queryString.=")";
-                $query->andWhere($queryString);
-            }
-        }
-        return $query;
-    }
-
-    /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
      * @return GetTaxRateResponse
@@ -224,6 +156,11 @@ class GetTaxRateRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = parent::handleRequestException($data, 'InvalidRequestException');
+            return $this->createResponse($response);
+        }
+
         try {
             $xero = $this->createXeroApplication();
 
@@ -240,7 +177,14 @@ class GetTaxRateRequest extends AbstractRequest
             } else {
                 if($this->getSearchParams() || $this->getSearchFilters())
                 {
-                    $query = $this->buildSearchQuery($xero);
+                    $query = SearchBuilder::buildSearchQuery(
+                        $xero,
+                        TaxRate::class,
+                        $this->getSearchParams(),
+                        $this->getExactSearchValue(),
+                        $this->getSearchFilters(),
+                        $this->getMatchAllFilters()
+                    );
                     $taxes = $query->execute();
                 } else {
                     $taxes = $xero->load(TaxRate::class)->execute();
@@ -248,107 +192,8 @@ class GetTaxRateRequest extends AbstractRequest
             }
             $response = $taxes;
 
-        } catch (BadRequestException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'BadRequest',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (UnauthorizedException|XeroProviderException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Unauthorized',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (ForbiddenException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Forbidden',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (ReportPermissionMissingException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'ReportPermissionMissingException',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotFoundException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotFound',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (InternalErrorException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Internal',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotImplementedException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotImplemented',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (RateLimitExceededException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'RateLimitExceeded',
-                'rate_problem' => $exception->getRateLimitProblem(),
-                'retry' => $exception->getRetryAfter(),
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotAvailableException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotAvailable',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (OrganisationOfflineException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'OrganisationOffline',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
+        } catch (Exception $exception) {
+            $response = parent::handleRequestException($exception, get_class($exception));
             return $this->createResponse($response);
         }
         return $this->createResponse($response);

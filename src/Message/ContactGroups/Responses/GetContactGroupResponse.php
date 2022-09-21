@@ -2,71 +2,23 @@
 
 namespace PHPAccounting\Xero\Message\ContactGroups\Responses;
 
-use Omnipay\Common\Message\AbstractResponse;
-use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
+use PHPAccounting\Xero\Message\AbstractXeroResponse;
 use XeroPHP\Models\Accounting\ContactGroup;
 
 /**
  * Get ContactGroup(s) Response
  * @package PHPAccounting\XERO\Message\ContactGroups\Responses
  */
-class GetContactGroupResponse extends AbstractResponse
+class GetContactGroupResponse extends AbstractXeroResponse
 {
 
-    /**
-     * Check Response for Error or Success
-     * @return boolean
-     */
-    public function isSuccessful()
+    private function parseData($contactgroup): array
     {
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return !$this->data['status'] == 'error';
-            }
-            if ($this->data instanceof \XeroPHP\Remote\Collection) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            } elseif (is_array($this->data)) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Fetch Error Message from Response
-     * @return array
-     */
-    public function getErrorMessage(){
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse(
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    isset($this->data['type']) ? $this->data['type'] : null,
-                    isset($this->data['status']) ? $this->data['status'] : null,
-                    isset($this->data['error_code']) ? $this->data['error_code'] : null,
-                    isset($this->data['status_code']) ? $this->data['status_code'] : null,
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    $this->data,
-                    'Contact Group');
-            }
-            if (count($this->data) === 0) {
-                return [
-                    'message' => 'NULL Returned from API or End of Pagination',
-                    'exception' => 'NULL Returned from API or End of Pagination',
-                    'error_code' => null,
-                    'status_code' => null,
-                    'detail' => null
-                ];
-            }
-        }
-        return null;
+        $newContactGroup = [];
+        $newContactGroup['accounting_id'] = $contactgroup->getContactGroupID();
+        $newContactGroup['name'] = $contactgroup->getName();
+        $newContactGroup['status'] = $contactgroup->getStatus();
+        return $newContactGroup;
     }
 
     /**
@@ -76,19 +28,12 @@ class GetContactGroupResponse extends AbstractResponse
     public function getContactGroups(){
         $contactGroups = [];
         if ($this->data instanceof ContactGroup){
-            $contactGroup = $this->data;
-            $newContactGroup = [];
-            $newContactGroup['accounting_id'] = $contactGroup->getContactGroupID();
-            $newContactGroup['name'] = $contactGroup->getName();
-            $newContactGroup['status'] = $contactGroup->getStatus();
+            $newContactGroup = $this->parseData($this->data);
             array_push($contactGroups, $newContactGroup);
         }
         else {
             foreach ($this->data as $contactGroup) {
-                $newContactGroup = [];
-                $newContactGroup['accounting_id'] = $contactGroup->getContactGroupID();
-                $newContactGroup['name'] = $contactGroup->getName();
-                $newContactGroup['status'] = $contactGroup->getStatus();
+                $newContactGroup = $this->parseData($contactGroup);
                 array_push($contactGroups, $newContactGroup);
             }
         }

@@ -4,6 +4,7 @@ namespace PHPAccounting\Xero\Message\Invoices\Responses;
 
 use Omnipay\Common\Message\AbstractResponse;
 use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
+use PHPAccounting\Xero\Message\AbstractXeroResponse;
 use vendor\project\StatusTest;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Models\Accounting\Payment;
@@ -12,63 +13,8 @@ use XeroPHP\Models\Accounting\Payment;
  * Get Invoice(s) Response
  * @package PHPAccounting\XERO\Message\Invoices\Responses
  */
-class GetInvoiceResponse extends AbstractResponse
+class GetInvoiceResponse extends AbstractXeroResponse
 {
-    /**
-     * Check Response for Error or Success
-     * @return boolean
-     */
-    public function isSuccessful()
-    {
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return !$this->data['status'] == 'error';
-            }
-            if ($this->data instanceof \XeroPHP\Remote\Collection) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            } elseif (is_array($this->data)) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Fetch Error Message from Response
-     * @return array
-     */
-    public function getErrorMessage(){
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse(
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    isset($this->data['type']) ? $this->data['type'] : null,
-                    isset($this->data['status']) ? $this->data['status'] : null,
-                    isset($this->data['error_code']) ? $this->data['error_code'] : null,
-                    isset($this->data['status_code']) ? $this->data['status_code'] : null,
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    $this->data,
-                    'Invoice');
-            }
-            if (count($this->data) === 0) {
-                return [
-                    'message' => 'NULL Returned from API or End of Pagination',
-                    'exception' => 'NULL Returned from API or End of Pagination',
-                    'error_code' => null,
-                    'status_code' => null,
-                    'detail' => null
-                ];
-            }
-        }
-        return null;
-    }
 
     /**
      * Add LineItems to Invoice
@@ -179,69 +125,54 @@ class GetInvoiceResponse extends AbstractResponse
     }
 
     /**
+     *
+     * @param $invoice
+     * @return mixed
+     */
+    private function parseData($invoice) {
+        $newInvoice = [];
+        $newInvoice['accounting_id'] = $invoice->getInvoiceID();
+        $newInvoice['status'] = $this->parseStatus($invoice->getStatus());
+        $newInvoice['sub_total'] = $invoice->getSubTotal();
+        $newInvoice['total_tax'] = $invoice->getTotalTax();
+        $newInvoice['total'] = $invoice->getTotal();
+        $newInvoice['currency'] = $invoice->getCurrencyCode();
+        $newInvoice['type'] = $invoice->getType();
+        $newInvoice['invoice_number'] = $invoice->getInvoiceNumber();
+        $newInvoice['amount_due'] = $invoice->getAmountDue();
+        $newInvoice['amount_paid'] = $invoice->getAmountPaid();
+        $newInvoice['currency_rate'] = $invoice->getCurrencyRate();
+        $newInvoice['date'] = $invoice->getDate();
+        $newInvoice['due_date'] = $invoice->getDueDate();
+        $newInvoice['gst_inclusive'] = $this->parseTaxCalculation($invoice->getLineAmountTypes());
+        $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
+        $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
+        $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
+        $newInvoice = $this->parsePayments($invoice->getPayments(), $newInvoice);
+
+        if (($newInvoice['amount_paid'] > 0 && $newInvoice['amount_due'] > 0) && $newInvoice['status'] !== 'DELETED') {
+            $newInvoice['status'] = 'PARTIAL';
+        }
+
+        return $newInvoice;
+    }
+
+    /**
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
     public function getInvoices(){
         $invoices = [];
         if ($this->data instanceof Invoice){
-            $invoice = $this->data;
-            $newInvoice = [];
-            $newInvoice['accounting_id'] = $invoice->getInvoiceID();
-            $newInvoice['status'] = $this->parseStatus($invoice->getStatus());
-            $newInvoice['sub_total'] = $invoice->getSubTotal();
-            $newInvoice['total_tax'] = $invoice->getTotalTax();
-            $newInvoice['total'] = $invoice->getTotal();
-            $newInvoice['currency'] = $invoice->getCurrencyCode();
-            $newInvoice['type'] = $invoice->getType();
-            $newInvoice['invoice_number'] = $invoice->getInvoiceNumber();
-            $newInvoice['amount_due'] = $invoice->getAmountDue();
-            $newInvoice['amount_paid'] = $invoice->getAmountPaid();
-            $newInvoice['currency_rate'] = $invoice->getCurrencyRate();
-            $newInvoice['date'] = $invoice->getDate();
-            $newInvoice['due_date'] = $invoice->getDueDate();
-            $newInvoice['gst_inclusive'] = $this->parseTaxCalculation($invoice->getLineAmountTypes());
-            $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
-            $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
-            $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
-            $newInvoice = $this->parsePayments($invoice->getPayments(), $newInvoice);
-
-            if (($newInvoice['amount_paid'] > 0 && $newInvoice['amount_due'] > 0) && $newInvoice['status'] !== 'DELETED') {
-                $newInvoice['status'] = 'PARTIAL';
-            }
-
+            $newInvoice = $this->parseData($this->data);
             array_push($invoices, $newInvoice);
 
         } else {
             foreach ($this->data as $invoice) {
-                $newInvoice = [];
-                $newInvoice['accounting_id'] = $invoice->getInvoiceID();
-                $newInvoice['status'] = $this->parseStatus($invoice->getStatus());
-                $newInvoice['sub_total'] = $invoice->getSubTotal();
-                $newInvoice['total_tax'] = $invoice->getTotalTax();
-                $newInvoice['total'] = $invoice->getTotal();
-                $newInvoice['currency'] = $invoice->getCurrencyCode();
-                $newInvoice['type'] = $invoice->getType();
-                $newInvoice['invoice_number'] = $invoice->getInvoiceNumber();
-                $newInvoice['amount_due'] = $invoice->getAmountDue();
-                $newInvoice['amount_paid'] = $invoice->getAmountPaid();
-                $newInvoice['currency_rate'] = $invoice->getCurrencyRate();
-                $newInvoice['date'] = $invoice->getDate();
-                $newInvoice['due_date'] = $invoice->getDueDate();
-                $newInvoice['gst_inclusive'] = $this->parseTaxCalculation($invoice->getLineAmountTypes());
-                $newInvoice['updated_at'] = $invoice->getUpdatedDateUTC();
-                $newInvoice = $this->parseContact($invoice->getContact(), $newInvoice);
-                $newInvoice = $this->parseLineItems($invoice->getLineItems(), $newInvoice);
-                $newInvoice = $this->parsePayments($invoice->getPayments(), $newInvoice);
-
-                if (($newInvoice['amount_paid'] > 0 && $newInvoice['amount_due'] > 0) && $newInvoice['status'] !== 'DELETED') {
-                    $newInvoice['status'] = 'PARTIAL';
-                }
-
+                $newInvoice = $this->parseData($invoice);
                 array_push($invoices, $newInvoice);
             }
         }
-
 
         return $invoices;
     }
