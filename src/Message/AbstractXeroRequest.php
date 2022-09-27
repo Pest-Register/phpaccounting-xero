@@ -19,7 +19,7 @@ abstract class AbstractXeroRequest extends AbstractRequest
 
     protected $data = [];
 
-    abstract public function sendData($data): ResponseInterface;
+    abstract public function sendData($data);
 
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
@@ -27,7 +27,7 @@ abstract class AbstractXeroRequest extends AbstractRequest
      *
      * @return mixed
      */
-    abstract public function getData(): ResponseInterface;
+    abstract public function getData();
 
     /**
      * Get Access Token
