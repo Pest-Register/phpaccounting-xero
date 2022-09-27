@@ -7,7 +7,7 @@ use Omnipay\Common\Message\ResponseInterface;
 use XeroPHP\Application;
 use XeroPHP\Remote\Exception\RateLimitExceededException;
 
-class AbstractXeroRequest extends AbstractRequest
+abstract class AbstractXeroRequest extends AbstractRequest
 {
 
     /**
@@ -18,6 +18,16 @@ class AbstractXeroRequest extends AbstractRequest
     protected $xeroInstance;
 
     protected $data = [];
+
+    abstract public function sendData($data): ResponseInterface;
+
+    /**
+     * Get the raw data array for this message. The format of this varies from gateway to
+     * gateway, but will usually be either an associative array, or a SimpleXMLElement.
+     *
+     * @return mixed
+     */
+    abstract public function getData(): ResponseInterface;
 
     /**
      * Get Access Token
@@ -111,20 +121,6 @@ class AbstractXeroRequest extends AbstractRequest
     {
         return 'POST';
     }
-    /**
-     * @return array
-     */
-
-    /**
-     * Get the raw data array for this message. The format of this varies from gateway to
-     * gateway, but will usually be either an associative array, or a SimpleXMLElement.
-     *
-     * @return mixed
-     */
-    public function getData()
-    {
-        // TODO: Implement getData() method.
-    }
 
     /**
      * Handle exception messages, codes and additional details
@@ -146,16 +142,5 @@ class AbstractXeroRequest extends AbstractRequest
             $response['retry'] = $exception->getRetryAfter();
         }
         return $response;
-    }
-
-    /**
-     * Send the request with specified data
-     *
-     * @param  mixed $data The data to send
-     * @return ResponseInterface
-     */
-    public function sendData($data)
-    {
-//        parent::sendData($data);
     }
 }
