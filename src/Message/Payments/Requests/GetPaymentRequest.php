@@ -207,4 +207,9 @@ class GetPaymentRequest extends AbstractXeroRequest
     {
         return $this->response = new GetPaymentResponse($this, $data);
     }
+
+    public function getData()
+    {
+        // TODO: Implement getData() method.
+    }
 }

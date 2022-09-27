@@ -210,4 +210,8 @@ class GetContactRequest extends AbstractXeroRequest
         return $this->response = new GetContactResponse($this, $data);
     }
 
+    public function getData()
+    {
+        // TODO: Implement getData() method.
+    }
 }

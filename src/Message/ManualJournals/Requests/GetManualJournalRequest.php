@@ -120,4 +120,9 @@ class GetManualJournalRequest extends AbstractXeroRequest
     {
         return $this->response = new GetManualJournalResponse($this, $data);
     }
+
+    public function getData()
+    {
+        // TODO: Implement getData() method.
+    }
 }

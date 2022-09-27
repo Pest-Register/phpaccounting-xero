@@ -10,17 +10,7 @@ use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Models\Accounting\Phone;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use XeroPHP\Remote\Exception;
-use XeroPHP\Remote\Exception\UnauthorizedException;
-use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
-use XeroPHP\Remote\Exception\BadRequestException;
-use XeroPHP\Remote\Exception\ForbiddenException;
-use XeroPHP\Remote\Exception\ReportPermissionMissingException;
-use XeroPHP\Remote\Exception\NotFoundException;
-use XeroPHP\Remote\Exception\InternalErrorException;
-use XeroPHP\Remote\Exception\NotImplementedException;
-use XeroPHP\Remote\Exception\RateLimitExceededException;
-use XeroPHP\Remote\Exception\NotAvailableException;
-use XeroPHP\Remote\Exception\OrganisationOfflineException;
+
 /**
  * Create Contact(s)
  * @package PHPAccounting\XERO\Message\Contacts\Requests

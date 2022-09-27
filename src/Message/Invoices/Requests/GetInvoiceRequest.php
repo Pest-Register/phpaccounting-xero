@@ -5,20 +5,8 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use PHPAccounting\Xero\Message\Invoices\Responses\GetInvoiceResponse;
-use XeroPHP\Application;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Remote\Exception;
-use XeroPHP\Remote\Exception\UnauthorizedException;
-use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
-use XeroPHP\Remote\Exception\BadRequestException;
-use XeroPHP\Remote\Exception\ForbiddenException;
-use XeroPHP\Remote\Exception\ReportPermissionMissingException;
-use XeroPHP\Remote\Exception\NotFoundException;
-use XeroPHP\Remote\Exception\InternalErrorException;
-use XeroPHP\Remote\Exception\NotImplementedException;
-use XeroPHP\Remote\Exception\RateLimitExceededException;
-use XeroPHP\Remote\Exception\NotAvailableException;
-use XeroPHP\Remote\Exception\OrganisationOfflineException;
 
 use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 /**
@@ -218,5 +206,10 @@ class GetInvoiceRequest extends AbstractXeroRequest
     public function createResponse($data)
     {
         return $this->response = new GetInvoiceResponse($this, $data);
+    }
+
+    public function getData()
+    {
+        // TODO: Implement getData() method.
     }
 }

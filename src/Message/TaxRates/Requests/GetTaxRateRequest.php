@@ -208,4 +208,9 @@ class GetTaxRateRequest extends AbstractXeroRequest
     {
         return $this->response = new GetTaxRateResponse($this, $data);
     }
+
+    public function getData()
+    {
+        // TODO: Implement getData() method.
+    }
 }

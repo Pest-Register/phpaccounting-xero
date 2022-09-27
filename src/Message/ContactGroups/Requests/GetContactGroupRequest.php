@@ -6,6 +6,7 @@ use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\GetContactGroupResponse;
 use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Remote\Exception;
+
 /**
  * Get Contact Group(s)
  * @package PHPAccounting\XERO\Message\ContactGroups\Requests
@@ -197,5 +198,10 @@ class GetContactGroupRequest extends AbstractXeroRequest
     public function createResponse($data)
     {
         return $this->response = new GetContactGroupResponse($this, $data);
+    }
+
+    public function getData()
+    {
+        // TODO: Implement getData() method.
     }
 }

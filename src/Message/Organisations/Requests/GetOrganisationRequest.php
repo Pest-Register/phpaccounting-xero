@@ -71,4 +71,9 @@ class GetOrganisationRequest extends AbstractXeroRequest
     {
         return $this->response = new GetOrganisationResponse($this, $data);
     }
+
+    public function getData()
+    {
+        // TODO: Implement getData() method.
+    }
 }

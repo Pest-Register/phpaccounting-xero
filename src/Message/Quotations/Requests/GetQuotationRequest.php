@@ -204,4 +204,9 @@ class GetQuotationRequest extends AbstractXeroRequest
     {
         return $this->response = new GetQuotationResponse($this, $data);
     }
+
+    public function getData()
+    {
+        // TODO: Implement getData() method.
+    }
 }

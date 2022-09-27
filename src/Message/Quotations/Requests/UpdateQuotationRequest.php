@@ -7,23 +7,11 @@ namespace PHPAccounting\Xero\Message\Quotations\Requests;
 use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
-use PHPAccounting\Xero\Message\Quotations\Responses\CreateQuotationResponse;
 use PHPAccounting\Xero\Message\Quotations\Responses\UpdateQuotationResponse;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\LineItem;
 use XeroPHP\Models\Accounting\Quote;
 use XeroPHP\Remote\Exception;
-use XeroPHP\Remote\Exception\BadRequestException;
-use XeroPHP\Remote\Exception\ForbiddenException;
-use XeroPHP\Remote\Exception\InternalErrorException;
-use XeroPHP\Remote\Exception\NotAvailableException;
-use XeroPHP\Remote\Exception\NotFoundException;
-use XeroPHP\Remote\Exception\NotImplementedException;
-use XeroPHP\Remote\Exception\OrganisationOfflineException;
-use XeroPHP\Remote\Exception\RateLimitExceededException;
-use XeroPHP\Remote\Exception\ReportPermissionMissingException;
-use XeroPHP\Remote\Exception\UnauthorizedException;
-use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
 
 class UpdateQuotationRequest extends AbstractXeroRequest
 {
