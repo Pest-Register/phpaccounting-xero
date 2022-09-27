@@ -196,4 +196,9 @@ class GetAccountRequest extends AbstractXeroRequest
     {
         return $this->response = new GetAccountResponse($this, $data);
     }
+
+    public function getData()
+    {
+        return;
+    }
 }
