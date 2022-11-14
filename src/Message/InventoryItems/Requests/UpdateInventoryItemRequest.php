@@ -7,7 +7,7 @@ use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Requests\Traits\InventoryItemRequestTrait;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\UpdateInventoryItemResponse;
-use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Item;
 use XeroPHP\Remote\Exception;
 

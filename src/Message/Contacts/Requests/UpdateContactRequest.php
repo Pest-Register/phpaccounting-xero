@@ -5,7 +5,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Requests\Traits\ContactRequestTrait;
 use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
-use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Address;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Phone;

@@ -5,7 +5,7 @@ namespace PHPAccounting\Xero\Message\Contacts\Requests;
 use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\DeleteContactResponse;
-use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Remote\Exception;;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPAccounting\Xero\Message\Traits;
+namespace PHPAccounting\Xero\Traits;
 
 trait GetRequestTrait
 {

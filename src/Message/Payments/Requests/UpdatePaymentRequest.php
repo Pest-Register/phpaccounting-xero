@@ -6,7 +6,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Payments\Requests\Traits\PaymentRequestTrait;
 use PHPAccounting\Xero\Message\Payments\Responses\UpdatePaymentResponse;
-use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Account;
 use XeroPHP\Models\Accounting\CreditNote;
 use XeroPHP\Models\Accounting\Invoice;

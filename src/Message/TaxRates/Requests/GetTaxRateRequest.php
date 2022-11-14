@@ -6,7 +6,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\TaxRates\Responses\GetTaxRateResponse;
-use PHPAccounting\Xero\Message\Traits\GetRequestTrait;
+use PHPAccounting\Xero\Traits\GetRequestTrait;
 use XeroPHP\Models\Accounting\TaxRate;
 use XeroPHP\Remote\Exception;
 

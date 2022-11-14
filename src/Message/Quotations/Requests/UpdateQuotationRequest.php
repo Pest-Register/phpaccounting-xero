@@ -9,7 +9,7 @@ use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Quotations\Requests\Traits\QuotationRequestTrait;
 use PHPAccounting\Xero\Message\Quotations\Responses\UpdateQuotationResponse;
-use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\LineItem;
 use XeroPHP\Models\Accounting\Quote;

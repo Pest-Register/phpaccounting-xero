@@ -5,7 +5,7 @@ namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
 use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\DeleteInventoryItemResponse;
-use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Item;
 use XeroPHP\Remote\Exception;
 

@@ -5,7 +5,7 @@ namespace PHPAccounting\Xero\Message\Accounts\Requests;
 use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Accounts\Responses\GetAccountResponse;
-use PHPAccounting\Xero\Message\Traits\GetRequestTrait;
+use PHPAccounting\Xero\Traits\GetRequestTrait;
 use XeroPHP\Models\Accounting\Account;
 use XeroPHP\Remote\Exception;
 

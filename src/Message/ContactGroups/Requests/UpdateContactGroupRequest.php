@@ -5,7 +5,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Requests\Traits\ContactGroupRequestTrait;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\CreateContactGroupResponse;
-use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Remote\Exception;
 

@@ -4,7 +4,7 @@ namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\GetContactGroupResponse;
-use PHPAccounting\Xero\Message\Traits\GetRequestTrait;
+use PHPAccounting\Xero\Traits\GetRequestTrait;
 use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Remote\Exception;
 

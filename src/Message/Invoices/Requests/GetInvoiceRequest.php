@@ -5,7 +5,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use PHPAccounting\Xero\Message\Invoices\Responses\GetInvoiceResponse;
-use PHPAccounting\Xero\Message\Traits\GetRequestTrait;
+use PHPAccounting\Xero\Traits\GetRequestTrait;
 use XeroPHP\Models\Accounting\Invoice;
 use XeroPHP\Remote\Exception;
 

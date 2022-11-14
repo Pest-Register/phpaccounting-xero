@@ -7,7 +7,7 @@ use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Quotations\Responses\GetQuotationResponse;
-use PHPAccounting\Xero\Message\Traits\GetRequestTrait;
+use PHPAccounting\Xero\Traits\GetRequestTrait;
 use XeroPHP\Models\Accounting\Quote;
 use XeroPHP\Remote\Exception;
 

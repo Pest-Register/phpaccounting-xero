@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\TaxRates\Requests;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
-use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 
 /**
  * Delete Inventory Item
