@@ -5,6 +5,7 @@ namespace PHPAccounting\Xero\Message\Accounts\Requests;
 use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Accounts\Responses\DeleteAccountResponse;
+use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Account;
 use XeroPHP\Remote\Exception;
 
@@ -14,26 +15,9 @@ use XeroPHP\Remote\Exception;
  */
 class DeleteAccountRequest extends AbstractXeroRequest
 {
+    use AccountingIDRequestTrait;
+
     public string $model = 'Account';
-
-    /**
-     * Set AccountingID from Parameter Bag (AccountID generic interface)
-     * @see https://developer.xero.com/documentation/api/accounts
-     * @param $value
-     * @return DeleteAccountRequest
-     */
-    public function setAccountingID($value) {
-        return $this->setParameter('accounting_id', $value);
-    }
-
-    /**
-     * Get Accounting ID Parameter from Parameter Bag (AccountID generic interface)
-     * @see https://developer.xero.com/documentation/api/accounts
-     * @return mixed
-     */
-    public function getAccountingID() {
-        return  $this->getParameter('accounting_id');
-    }
 
     /**
      * Get the raw data array for this message. The format of this varies from gateway to

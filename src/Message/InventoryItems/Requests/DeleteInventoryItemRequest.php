@@ -5,6 +5,7 @@ namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
 use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\DeleteInventoryItemResponse;
+use PHPAccounting\Xero\Message\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Item;
 use XeroPHP\Remote\Exception;
 
@@ -14,26 +15,9 @@ use XeroPHP\Remote\Exception;
  */
 class DeleteInventoryItemRequest extends AbstractXeroRequest
 {
+    use AccountingIDRequestTrait;
+
     public string $model = 'InventoryItem';
-
-    /**
-     * Set AccountingID from Parameter Bag (InvoiceID generic interface)
-     * @see https://developer.xero.com/documentation/api/invoices
-     * @param $value
-     * @return DeleteInventoryItemRequest
-     */
-    public function setAccountingID($value) {
-        return $this->setParameter('accounting_id', $value);
-    }
-
-    /**
-     * Get Accounting ID Parameter from Parameter Bag (InvoiceID generic interface)
-     * @see https://developer.xero.com/documentation/api/invoices
-     * @return mixed
-     */
-    public function getAccountingID() {
-        return  $this->getParameter('accounting_id');
-    }
 
     /**
      * Set Status Parameter from Parameter Bag
