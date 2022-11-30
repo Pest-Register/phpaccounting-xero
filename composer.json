@@ -29,7 +29,7 @@
         }
     ],
     "require": {
-        "php-http/guzzle6-adapter": "*",
+        "php-http/guzzle7-adapter": "*",
         "ext-json": "*",
         "omnipay/common": "^3.0",
         "calcinai/xero-php": "^2.0.1",
