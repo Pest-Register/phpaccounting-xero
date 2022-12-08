@@ -54,7 +54,11 @@ class GetInventoryItemRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
-                    $items = $query->execute();
+                    if ($this->getPage()) {
+                        $items = $query->page($this->getPage())->execute();
+                    } else {
+                        $items = $query->execute();
+                    }
                 } else {
                     $items = $xero->load(Item::class)->execute();
                 }

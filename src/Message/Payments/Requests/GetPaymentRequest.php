@@ -55,7 +55,11 @@ class GetPaymentRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
-                    $payments = $query->page($this->getPage())->execute();
+                    if ($this->getPage()) {
+                        $payments = $query->page($this->getPage())->execute();
+                    } else {
+                        $payments = $query->execute();
+                    }
                 } else {
                     $payments = $xero->load(Payment::class)->page($this->getPage())->execute();
                 }

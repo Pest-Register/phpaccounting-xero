@@ -56,7 +56,11 @@ class GetInvoiceRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
-                    $invoices = $query->page($this->getPage())->execute();
+                    if ($this->getPage()) {
+                        $invoices = $query->page($this->getPage())->execute();
+                    } else {
+                        $invoices = $query->execute();
+                    }
                 } else {
                     $invoices = $xero->load(Invoice::class)->page($this->getPage())->execute();
                 }

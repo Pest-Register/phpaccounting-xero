@@ -55,7 +55,11 @@ class GetContactRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
-                    $contacts = $query->page($this->getPage())->execute();
+                    if ($this->getPage()) {
+                        $contacts = $query->page($this->getPage())->execute();
+                    } else {
+                        $contacts = $query->execute();
+                    }
                 } else {
                     $contacts = $xero->load(Contact::class)->page($this->getPage())->execute();
                 }

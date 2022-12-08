@@ -50,7 +50,11 @@ class GetAccountRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
-                    $accounts = $query->execute();
+                    if ($this->getPage()) {
+                        $accounts = $query->page($this->getPage())->execute();
+                    } else {
+                        $accounts = $query->execute();
+                    }
                 } else {
                     $accounts = $xero->load(Account::class)->execute();
                 }

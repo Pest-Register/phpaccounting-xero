@@ -51,7 +51,11 @@ class GetQuotationRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
-                    $quotes = $query->page($this->getPage())->execute();
+                    if ($this->getPage()) {
+                        $quotes = $query->page($this->getPage())->execute();
+                    } else {
+                        $quotes = $query->execute();
+                    }
                 } else {
                     $quotes = $xero->load(Quote::class)->page($this->getPage())->execute();
                 }
