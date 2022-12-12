@@ -33,7 +33,7 @@
         "ext-json": "*",
         "omnipay/common": "^3.0",
         "calcinai/xero-php": "^2.0.1",
-        "fzaninotto/faker": "^1.8",
+        "fakerphp/faker": "^1.9.1",
         "ext-simplexml": "*"
     },
     "prefer-stable": true
