@@ -1,86 +1,24 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\Payments\Requests;
-use PHPAccounting\Xero\Message\AbstractRequest;
+
+use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
+use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Payments\Responses\GetPaymentResponse;
+use PHPAccounting\Xero\Traits\GetRequestTrait;
 use XeroPHP\Models\Accounting\Payment;
-use XeroPHP\Remote\Exception\UnauthorizedException;
-use XeroPHP\Remote\Exception\BadRequestException;
-use XeroPHP\Remote\Exception\ForbiddenException;
-use XeroPHP\Remote\Exception\ReportPermissionMissingException;
-use XeroPHP\Remote\Exception\NotFoundException;
-use XeroPHP\Remote\Exception\InternalErrorException;
-use XeroPHP\Remote\Exception\NotImplementedException;
-use XeroPHP\Remote\Exception\RateLimitExceededException;
-use XeroPHP\Remote\Exception\NotAvailableException;
-use XeroPHP\Remote\Exception\OrganisationOfflineException;
+use XeroPHP\Remote\Exception;
+
 /**
  * Get Invoice(s)
  * @package PHPAccounting\XERO\Message\Invoices\Requests
  */
-class GetPaymentRequest extends AbstractRequest
+class GetPaymentRequest extends AbstractXeroRequest
 {
-    /**
-     * Set AccountingID from Parameter Bag (PaymentID generic interface)
-     * @see https://developer.xero.com/documentation/api/payments
-     * @param $value
-     * @return GetPaymentRequest
-     */
-    public function setAccountingID($value) {
-        return $this->setParameter('accounting_id', $value);
-    }
+    use GetRequestTrait;
 
-    /**
-     * Get Accounting ID Parameter from Parameter Bag (PaymentID generic interface)
-     * @see https://developer.xero.com/documentation/api/payments
-     * @return mixed
-     */
-    public function getAccountingID() {
-        return  $this->getParameter('accounting_id');
-    }
-
-    /**
-     * Set AccountingID from Parameter Bag (InvoiceID generic interface)
-     * @see https://developer.xero.com/documentation/api/invoices
-     * @param $value
-     * @return GetPaymentRequest
-     */
-    public function setAccountingIDs($value) {
-        return $this->setParameter('accounting_ids', $value);
-    }
-
-    /**
-     * Set Page Value for Pagination from Parameter Bag
-     * @see https://developer.xero.com/documentation/api/invoices
-     * @param $value
-     * @return GetPaymentRequest
-     */
-    public function setPage($value) {
-        return $this->setParameter('page', $value);
-    }
-
-    /**
-     * Return Comma Delimited String of Accounting IDs (ContactGroupIDs)
-     * @return mixed comma-delimited-string
-     */
-    public function getAccountingIDs() {
-        if ($this->getParameter('accounting_ids')) {
-            return implode(', ',$this->getParameter('accounting_ids'));
-        }
-        return null;
-    }
-
-    /**
-     * Return Page Value for Pagination
-     * @return integer
-     */
-    public function getPage() {
-        if ($this->getParameter('page')) {
-            return $this->getParameter('page');
-        }
-
-        return 1;
-    }
+    public string $model = 'Payment';
 
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
@@ -89,125 +27,47 @@ class GetPaymentRequest extends AbstractRequest
      */
     public function sendData($data)
     {
+        if($data instanceof InvalidRequestException) {
+            $response = parent::handleRequestException($data, 'InvalidRequestException');
+            return $this->createResponse($response);
+        }
         try {
             $xero = $this->createXeroApplication();
 
             if ($this->getAccountingID()) {
-                $accounts = $xero->loadByGUID(Payment::class, $this->getAccountingID());
+                $payments = $xero->loadByGUID(Payment::class, $this->getAccountingID());
             }
             elseif ($this->getAccountingIDs()) {
                 if(strpos($this->getAccountingIDs(), ',') === false) {
-                    $accounts = $xero->loadByGUID(Payment::class, $this->getAccountingIDs());
+                    $payments = $xero->loadByGUID(Payment::class, $this->getAccountingIDs());
                 }
                 else {
-                    $accounts = $xero->loadByGUIDs(Payment::class, $this->getAccountingIDs());
+                    $payments = $xero->loadByGUIDs(Payment::class, $this->getAccountingIDs());
                 }
             } else {
-                $accounts = $xero->load(Payment::class)->execute();
+                if($this->getSearchParams() || $this->getSearchFilters())
+                {
+                    $query = SearchBuilder::buildSearchQuery(
+                        $xero,
+                        Payment::class,
+                        $this->getSearchParams(),
+                        $this->getExactSearchValue(),
+                        $this->getSearchFilters(),
+                        $this->getMatchAllFilters()
+                    );
+                    if ($this->getPage()) {
+                        $payments = $query->page($this->getPage())->execute();
+                    } else {
+                        $payments = $query->execute();
+                    }
+                } else {
+                    $payments = $xero->load(Payment::class)->page($this->getPage())->execute();
+                }
             }
-            $response = $accounts;
+            $response = $payments;
 
-        } catch (BadRequestException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'BadRequest',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (UnauthorizedException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Unauthorized',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (ForbiddenException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Forbidden',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (ReportPermissionMissingException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'ReportPermissionMissingException',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotFoundException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotFound',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (InternalErrorException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'Internal',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotImplementedException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotImplemented',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (RateLimitExceededException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'RateLimitExceeded',
-                'rate_problem' => $exception->getRateLimitProblem(),
-                'retry' => $exception->getRetryAfter(),
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (NotAvailableException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'NotAvailable',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
-            return $this->createResponse($response);
-        } catch (OrganisationOfflineException $exception) {
-            $response = [
-                'status' => 'error',
-                'type' => 'OrganisationOffline',
-                'detail' => $exception->getMessage(),
-                'error_code' => $exception->getCode(),
-                'status_code' => $exception->getCode(),
-            ];
-
+        } catch (Exception $exception) {
+            $response = parent::handleRequestException($exception, get_class($exception));
             return $this->createResponse($response);
         }
         return $this->createResponse($response);
@@ -221,5 +81,10 @@ class GetPaymentRequest extends AbstractRequest
     public function createResponse($data)
     {
         return $this->response = new GetPaymentResponse($this, $data);
+    }
+
+    public function getData()
+    {
+        // TODO: Implement getData() method.
     }
 }

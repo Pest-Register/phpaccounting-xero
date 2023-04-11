@@ -5,8 +5,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Dylan",
-            "email": "dylan@pestregister.com"
+            "name": "Max",
+            "email": "max@pestregister.com"
         }
     ],
     "require-dev": {
@@ -29,11 +29,11 @@
         }
     ],
     "require": {
-        "php-http/guzzle6-adapter": "*",
+        "php-http/guzzle7-adapter": "*",
         "ext-json": "*",
         "omnipay/common": "^3.0",
         "calcinai/xero-php": "^2.0.1",
-        "fzaninotto/faker": "^1.8",
+        "fakerphp/faker": "^1.9.1",
         "ext-simplexml": "*"
     },
     "prefer-stable": true

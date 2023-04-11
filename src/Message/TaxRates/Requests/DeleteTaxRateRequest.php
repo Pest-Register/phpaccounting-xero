@@ -1,32 +1,18 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\TaxRates\Requests;
-use PHPAccounting\Xero\Message\AbstractRequest;
+use PHPAccounting\Xero\Message\AbstractXeroRequest;
+use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
+
 /**
  * Delete Inventory Item
  * @package PHPAccounting\XERO\Message\InventoryItems\Requests
  */
-class DeleteTaxRateRequest extends AbstractRequest
+class DeleteTaxRateRequest extends AbstractXeroRequest
 {
-    /**
-     * Set AccountingID from Parameter Bag (InvoiceID generic interface)
-     * @see https://developer.xero.com/documentation/api/invoices
-     * @param $value
-     * @return DeleteTaxRateRequest
-     */
-    public function setAccountingID($value) {
-        return $this->setParameter('accounting_id', $value);
-    }
+    use AccountingIDRequestTrait;
 
-    /**
-     * Get Accounting ID Parameter from Parameter Bag (InvoiceID generic interface)
-     * @see https://developer.xero.com/documentation/api/invoices
-     * @return mixed
-     */
-    public function getAccountingID() {
-        return  $this->getParameter('accounting_id');
-    }
-
+    public string $model = 'TaxRate';
 
     /**
      * Get the raw data array for this message. The format of this varies from gateway to

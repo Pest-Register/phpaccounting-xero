@@ -2,71 +2,28 @@
 
 namespace PHPAccounting\Xero\Message\Invoices\Responses;
 
-use Omnipay\Common\Message\AbstractResponse;
-use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
+use PHPAccounting\Xero\Message\AbstractXeroResponse;
 
 /**
  * Create Invoice(s) Response
  * @package PHPAccounting\XERO\Message\Invoices\Responses
  */
-class CreateInvoiceResponse extends AbstractResponse
+class CreateInvoiceResponse extends AbstractXeroResponse
 {
 
-    /**
-     * Check Response for Error or Success
-     * @return boolean
-     */
-    public function isSuccessful()
-    {
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return !$this->data['status'] == 'error';
-            }
-            if ($this->data instanceof \XeroPHP\Remote\Collection) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            } elseif (is_array($this->data)) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Fetch Error Message from Response
-     * @return array
-     */
-    public function getErrorMessage(){
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse(
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    isset($this->data['type']) ? $this->data['type'] : null,
-                    isset($this->data['status']) ? $this->data['status'] : null,
-                    isset($this->data['error_code']) ? $this->data['error_code'] : null,
-                    isset($this->data['status_code']) ? $this->data['status_code'] : null,
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    $this->data,
-                    'Invoice');
-            }
-            if (count($this->data) === 0) {
-                return [
-                    'message' => 'NULL Returned from API or End of Pagination',
-                    'exception' => 'NULL Returned from API or End of Pagination',
-                    'error_code' => null,
-                    'status_code' => null,
-                    'detail' => null
-                ];
+    private function parseTaxCalculation($data)  {
+        if ($data) {
+            switch($data) {
+                case 'Exclusive':
+                    return 'EXCLUSIVE';
+                case 'Inclusive':
+                    return 'INCLUSIVE';
+                case 'NoTax':
+                    return 'NONE';
             }
         }
-        return null;
+        return 'NONE';
     }
 
     /**
@@ -90,7 +47,7 @@ class CreateInvoiceResponse extends AbstractResponse
                 $newLineItem['amount'] = IndexSanityCheckHelper::indexSanityCheck('LineAmount', $lineItem);
                 $newLineItem['item_code'] = IndexSanityCheckHelper::indexSanityCheck('ItemCode', $lineItem);
                 $newLineItem['tax_amount'] = IndexSanityCheckHelper::indexSanityCheck('TaxAmount', $lineItem);
-                $newLineItem['tax_type'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $lineItem);
+                $newLineItem['tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $lineItem);
                 $newLineItem['code'] = IndexSanityCheckHelper::indexSanityCheck('AccountCode', $lineItem);
                 array_push($lineItems, $newLineItem);
             }
@@ -119,6 +76,27 @@ class CreateInvoiceResponse extends AbstractResponse
     }
 
     /**
+     * Parse status
+     * @param $data
+     * @return string|null
+     */
+    private function parseStatus($data) {
+        if ($data) {
+            switch($data) {
+                case 'DRAFT':
+                case 'PAID':
+                    return $data;
+                case 'SUBMITTED':
+                case 'AUTHORISED':
+                    return 'OPEN';
+                case 'VOIDED':
+                    return 'DELETED';
+            }
+        }
+        return null;
+    }
+
+    /**
      * Return all Invoices with Generic Schema Variable Assignment
      * @return array
      */
@@ -127,7 +105,7 @@ class CreateInvoiceResponse extends AbstractResponse
         foreach ($this->data as $invoice) {
             $newInvoice = [];
             $newInvoice['accounting_id'] = IndexSanityCheckHelper::indexSanityCheck('InvoiceID', $invoice);
-            $newInvoice['status'] = IndexSanityCheckHelper::indexSanityCheck('Status', $invoice);
+            $newInvoice['status'] = $this->parseStatus(IndexSanityCheckHelper::indexSanityCheck('Status', $invoice));
             $newInvoice['sub_total'] = IndexSanityCheckHelper::indexSanityCheck('SubTotal', $invoice);
             $newInvoice['total_tax'] = IndexSanityCheckHelper::indexSanityCheck('TotalTax', $invoice);
             $newInvoice['total'] = IndexSanityCheckHelper::indexSanityCheck('Total', $invoice);
@@ -140,13 +118,17 @@ class CreateInvoiceResponse extends AbstractResponse
             $newInvoice['discount_total'] = IndexSanityCheckHelper::indexSanityCheck('TotalDiscount', $invoice);
             $newInvoice['date'] = IndexSanityCheckHelper::indexSanityCheck('Date', $invoice);
             $newInvoice['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $invoice);
-            $newInvoice['gst_inclusive'] = IndexSanityCheckHelper::indexSanityCheck('LineAmountTypes', $invoice);
+            $newInvoice['gst_inclusive'] = $this->parseTaxCalculation(IndexSanityCheckHelper::indexSanityCheck('LineAmountTypes', $invoice));
 
             if (IndexSanityCheckHelper::indexSanityCheck('Contact', $invoice)) {
                 $newInvoice = $this->parseContact($invoice['Contact'], $newInvoice);
             }
             if (IndexSanityCheckHelper::indexSanityCheck('LineItems', $invoice)) {
                 $newInvoice = $this->parseLineItems($invoice['LineItems'], $newInvoice);
+            }
+
+            if (($newInvoice['amount_paid'] > 0 && $newInvoice['amount_due'] > 0) && $newInvoice['status'] !== 'DELETED') {
+                $newInvoice['status'] = 'PARTIAL';
             }
 
             array_push($invoices, $newInvoice);

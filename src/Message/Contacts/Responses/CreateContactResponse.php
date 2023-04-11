@@ -1,72 +1,15 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
-use Omnipay\Common\Message\AbstractResponse;
-use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
+use PHPAccounting\Xero\Message\AbstractXeroResponse;
 
 /**
  * Create Contact(s) Response
  * @package PHPAccounting\XERO\Message\Contacts\Responses
  */
-class CreateContactResponse extends AbstractResponse
+class CreateContactResponse extends AbstractXeroResponse
 {
-
-    /**
-     * Check Response for Error or Success
-     * @return boolean
-     */
-    public function isSuccessful()
-    {
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return !$this->data['status'] == 'error';
-            }
-            if ($this->data instanceof \XeroPHP\Remote\Collection) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            } elseif (is_array($this->data)) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Fetch Error Message from Response
-     * @return array
-     */
-    public function getErrorMessage(){
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse(
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    isset($this->data['type']) ? $this->data['type'] : null,
-                    isset($this->data['status']) ? $this->data['status'] : null,
-                    isset($this->data['error_code']) ? $this->data['error_code'] : null,
-                    isset($this->data['status_code']) ? $this->data['status_code'] : null,
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    $this->data,
-                    'Contact');
-            }
-            if (count($this->data) === 0) {
-                return [
-                    'message' => 'NULL Returned from API or End of Pagination',
-                    'exception' => 'NULL Returned from API or End of Pagination',
-                    'error_code' => null,
-                    'status_code' => null,
-                    'detail' => null
-                ];
-            }
-        }
-        return null;
-    }
 
     /**
      * Add ContactGroups to Contact
@@ -115,9 +58,17 @@ class CreateContactResponse extends AbstractResponse
             $addresses = [];
             foreach($data as $address) {
                 $newAddress = [];
-                if (array_key_exists('AddressType', $address)) {
-                    $newAddress['address_type'] = $this->convertAddressType($address['AddressType']);
+                $addressType = '';
+                if (is_array($address)){
+                    if (array_key_exists('AddressType', $address)) {
+                        $addressType = $address['AddressType'];
+                    }
                 }
+                else if (is_object($address)) {
+                    if (property_exists($address, 'AddressType')) {}
+                    $addressType = $address->AddressType;
+                }
+                $newAddress['address_type'] = $this->convertAddressType($addressType);
                 $newAddress['address_line_1'] = IndexSanityCheckHelper::indexSanityCheck('AddressLine1',$address);;
                 $newAddress['city'] = IndexSanityCheckHelper::indexSanityCheck('City',$address);
                 $newAddress['postal_code'] = IndexSanityCheckHelper::indexSanityCheck('PostalCode',$address);
@@ -192,12 +143,11 @@ class CreateContactResponse extends AbstractResponse
             $newContact['last_name'] = IndexSanityCheckHelper::indexSanityCheck('LastName', $contact);
             $newContact['email_address'] =IndexSanityCheckHelper::indexSanityCheck('EmailAddress', $contact);;
             $newContact['website'] = IndexSanityCheckHelper::indexSanityCheck('Website', $contact);;
-            $newContact['types'] =
             $newContact['is_individual'] = (IndexSanityCheckHelper::indexSanityCheck('IsSupplier', $contact) === 'true' ? true : false);
             $newContact['bank_account_details'] = IndexSanityCheckHelper::indexSanityCheck('BankAccountDetails', $contact);;
             $newContact['tax_number'] = IndexSanityCheckHelper::indexSanityCheck('TaxNumber', $contact);;
-            $newContact['accounts_receivable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('ReceivableTaxType', $contact);;
-            $newContact['accounts_payable_tax_type'] = IndexSanityCheckHelper::indexSanityCheck('AccountsPayableTaxType', $contact);;
+            $newContact['accounts_receivable_tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('ReceivableTaxType', $contact);;
+            $newContact['accounts_payable_tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('AccountsPayableTaxType', $contact);;
             $newContact['default_currency'] = IndexSanityCheckHelper::indexSanityCheck('DefaultCurrency', $contact);
             $newContact['updated_at'] = IndexSanityCheckHelper::indexSanityCheck('UpdatedDateUTC', $contact);
             if (IndexSanityCheckHelper::indexSanityCheck('ContactGroups', $contact)) {

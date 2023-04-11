@@ -1,68 +1,11 @@
 <?php
 namespace PHPAccounting\Xero\Message\ManualJournals\Responses;
 
-
-use Omnipay\Common\Message\AbstractResponse;
-use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
+use PHPAccounting\Xero\Message\AbstractXeroResponse;
 
-class UpdateManualJournalResponse extends AbstractResponse
+class UpdateManualJournalResponse extends AbstractXeroResponse
 {
-    /**
-     * Check Response for Error or Success
-     * @return boolean
-     */
-    public function isSuccessful()
-    {
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return !$this->data['status'] == 'error';
-            }
-            if ($this->data instanceof \XeroPHP\Remote\Collection) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            } elseif (is_array($this->data)) {
-                if (count($this->data) == 0) {
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Fetch Error Message from Response
-     * @return array
-     */
-    public function getErrorMessage(){
-        if ($this->data) {
-            if(array_key_exists('status', $this->data)){
-                return ErrorResponseHelper::parseErrorResponse(
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    isset($this->data['type']) ? $this->data['type'] : null,
-                    isset($this->data['status']) ? $this->data['status'] : null,
-                    isset($this->data['error_code']) ? $this->data['error_code'] : null,
-                    isset($this->data['status_code']) ? $this->data['status_code'] : null,
-                    isset($this->data['detail']) ? $this->data['detail'] : null,
-                    $this->data,
-                    'Manual Journal');
-            }
-            if (count($this->data) === 0) {
-                return [
-                    'message' => 'NULL Returned from API or End of Pagination',
-                    'exception' => 'NULL Returned from API or End of Pagination',
-                    'error_code' => null,
-                    'status_code' => null,
-                    'detail' => null
-                ];
-            }
-        }
-        return null;
-    }
 
     /**
      * @param $data
@@ -78,12 +21,20 @@ class UpdateManualJournalResponse extends AbstractResponse
                 $newLineItem['line_amount'] = IndexSanityCheckHelper::indexSanityCheck('LineAmount', $lineItem);
                 $newLineItem['tax_amount'] = IndexSanityCheckHelper::indexSanityCheck('TaxAmount', $lineItem);
                 $newLineItem['account_code'] = IndexSanityCheckHelper::indexSanityCheck('AccountCode', $lineItem);
-                $newLineItem['tax_type'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $lineItem);
-                if (array_key_exists('TaxAmount',$lineItem)) {
-                    $newJournalItem['net_amount'] = $lineItem['TaxAmount'] + $lineItem['LineAmount'];
-                } else {
-                    $newJournalItem['net_amount'] = $lineItem['LineAmount'];
+                $newLineItem['tax_type_id'] = IndexSanityCheckHelper::indexSanityCheck('TaxType', $lineItem);
+
+                $taxAmount = 0;
+                if (is_array($lineItem)) {
+                    if (array_key_exists('TaxAmount', $lineItem)) {
+                        $taxAmount = $lineItem['TaxAmount'];
+                    }
+                } elseif (is_object($lineItem)) {
+                    if (property_exists($lineItem, 'TaxAmount')) {
+                        $taxAmount = $lineItem->TaxAmount;
+                    }
                 }
+                $newJournalItem['net_amount'] = $taxAmount + $lineItem['LineAmount'];
+
                 array_push($lineItems, $newLineItem);
             }
 
