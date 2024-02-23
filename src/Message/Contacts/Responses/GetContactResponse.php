@@ -140,6 +140,7 @@ class GetContactResponse extends AbstractXeroResponse
         $newContact['accounts_payable_tax_type_id'] = $contact->getAccountsPayableTaxType();
         $newContact['default_currency'] = $contact->getDefaultCurrency();
         $newContact['updated_at'] = $contact->getUpdatedDateUTC();
+        $newContact['status'] = $contact->getContactStatus();
         $newContact = $this->parseContactGroups($contact->getContactGroups(), $newContact);
         $newContact = $this->parsePhones($contact->getPhones(), $newContact);
         $newContact = $this->parseAddresses($contact->getAddresses(), $newContact);
