@@ -232,9 +232,14 @@ trait ContactRequestTrait
                 case 'DDI':
                     $newPhone->setPhoneType('DDI');
                     break;
-                default:
+                case 'FAX':
+                    $newPhone->setPhoneType('FAX');
+                    break;
+                case 'DEFAULT':
                     $newPhone->setPhoneType('DEFAULT');
                     break;
+                default:
+                    continue 2;
             }
             array_push($phones, $newPhone);
         }
