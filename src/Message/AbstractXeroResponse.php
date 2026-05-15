@@ -44,13 +44,13 @@ class AbstractXeroResponse extends AbstractResponse
             // Check if data is returned as an array
             if (is_array($this->data)){
                 if (array_key_exists('status', $this->data)) {
-                    return !$this->data['status'] == 'error';
+                    return $this->data['status'] !== 'error';
                 }
             }
             // Check if data is returned as an object
             if (is_object($this->data)){
                 if(property_exists($this->data,'status')){
-                    return !$this->data['status'] == 'error';
+                    return $this->data->status !== 'error';
                 }
             }
         } else {

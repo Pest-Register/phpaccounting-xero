@@ -3,3 +3,4 @@
 .env
 /xero_keys/
 composer.lock
+/.idea/

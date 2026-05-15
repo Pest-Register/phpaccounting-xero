@@ -275,7 +275,7 @@ class ErrorResponseHelper
                         'detail'=> $detail
                     ];
                 default:
-                    if (strpos('Please enter a unique', $response) !== false) {
+                    if (strpos($response, 'Please enter a unique') !== false) {
                         return [
                             'message' => 'Duplicate model found',
                             'status' => $status,
