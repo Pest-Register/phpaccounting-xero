@@ -22,7 +22,7 @@ class GetAccountRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|GetAccountResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|GetAccountResponse
      * @throws Exception
      */
     public function sendData($data)

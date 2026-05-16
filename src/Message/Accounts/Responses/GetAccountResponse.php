@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Accounts\Responses;
 
-use Omnipay\Common\Message\AbstractResponse;
+use PHPAccounting\Xero\Foundation\AbstractResponse;
 use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 use PHPAccounting\Xero\Message\AbstractXeroResponse;
 use XeroPHP\Models\Accounting\Account;

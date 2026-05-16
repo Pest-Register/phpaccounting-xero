@@ -21,7 +21,7 @@ class GetContactGroupRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|GetContactGroupResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|GetContactGroupResponse
      * @throws \XeroPHP\Exception
      */
     public function sendData($data)

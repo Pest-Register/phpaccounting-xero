@@ -2,8 +2,8 @@
 
 namespace PHPAccounting\Xero\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
+use PHPAccounting\Xero\Foundation\AbstractResponse;
+use PHPAccounting\Xero\Foundation\Contracts\RequestInterface;
 use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 
 class AbstractXeroResponse extends AbstractResponse

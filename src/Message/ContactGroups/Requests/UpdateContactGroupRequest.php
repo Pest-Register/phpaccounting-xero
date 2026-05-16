@@ -1,7 +1,7 @@
 <?php
 namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Requests\Traits\ContactGroupRequestTrait;
 use PHPAccounting\Xero\Message\ContactGroups\Responses\UpdateContactGroupResponse;
@@ -24,7 +24,7 @@ class UpdateContactGroupRequest extends AbstractXeroRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException
      */
     public function getData()
     {
@@ -44,7 +44,7 @@ class UpdateContactGroupRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|CreateContactGroupResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|CreateContactGroupResponse
      */
     public function sendData($data)
     {

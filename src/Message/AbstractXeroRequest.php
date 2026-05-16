@@ -2,8 +2,8 @@
 namespace PHPAccounting\Xero\Message;
 
 use Calcinai\OAuth2\Client\Provider\Xero;
-use Omnipay\Common\Message\AbstractRequest;
-use Omnipay\Common\Message\ResponseInterface;
+use PHPAccounting\Xero\Foundation\AbstractRequest;
+use PHPAccounting\Xero\Foundation\Contracts\ResponseInterface;
 use XeroPHP\Application;
 use XeroPHP\Remote\Exception\RateLimitExceededException;
 

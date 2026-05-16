@@ -1,7 +1,7 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use PHPAccounting\Xero\Message\Invoices\Responses\GetInvoiceResponse;
@@ -24,7 +24,7 @@ class GetInvoiceRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|GetContactResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|GetContactResponse
      */
     public function sendData($data)
     {

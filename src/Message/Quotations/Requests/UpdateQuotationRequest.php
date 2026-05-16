@@ -4,7 +4,7 @@
 namespace PHPAccounting\Xero\Message\Quotations\Requests;
 
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Quotations\Requests\Traits\QuotationRequestTrait;
@@ -26,7 +26,7 @@ class UpdateQuotationRequest extends AbstractXeroRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException
      */
     public function getData()
     {
@@ -57,7 +57,7 @@ class UpdateQuotationRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|UpdateQuotationResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|UpdateQuotationResponse
      * @throws \XeroPHP\Exception
      */
     public function sendData($data)
