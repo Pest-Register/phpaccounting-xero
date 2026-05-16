@@ -4,7 +4,7 @@ namespace PHPAccounting\Xero\Message\ContactGroups\Requests;
 use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\ContactGroups\Requests\Traits\ContactGroupRequestTrait;
-use PHPAccounting\Xero\Message\ContactGroups\Responses\CreateContactGroupResponse;
+use PHPAccounting\Xero\Message\ContactGroups\Responses\UpdateContactGroupResponse;
 use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\ContactGroup;
 use XeroPHP\Remote\Exception;
@@ -83,6 +83,6 @@ class UpdateContactGroupRequest extends AbstractXeroRequest
      */
     public function createResponse($data)
     {
-        return $this->response = new CreateContactGroupResponse($this, $data);
+        return $this->response = new UpdateContactGroupResponse($this, $data);
     }
 }

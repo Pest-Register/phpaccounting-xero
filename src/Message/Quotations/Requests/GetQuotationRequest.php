@@ -29,6 +29,7 @@ class GetQuotationRequest extends AbstractXeroRequest
         }
         try {
             $xero = $this->createXeroApplication();
+            $modifiedAfter = $this->getLastModifiedSinceDateTime();
 
             if ($this->getAccountingID()) {
                 $quotes = $xero->loadByGUID(Quote::class, $this->getAccountingID());
@@ -51,13 +52,20 @@ class GetQuotationRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
+                    if ($modifiedAfter) {
+                        $query = $query->modifiedAfter($modifiedAfter);
+                    }
                     if ($this->getPage()) {
                         $quotes = $query->page($this->getPage())->execute();
                     } else {
                         $quotes = $query->execute();
                     }
                 } else {
-                    $quotes = $xero->load(Quote::class)->page($this->getPage())->execute();
+                    $query = $xero->load(Quote::class);
+                    if ($modifiedAfter) {
+                        $query = $query->modifiedAfter($modifiedAfter);
+                    }
+                    $quotes = $query->page($this->getPage())->execute();
                 }
             }
             $response = $quotes;

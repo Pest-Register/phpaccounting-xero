@@ -4,7 +4,7 @@ namespace PHPAccounting\Xero\Message\Contacts\Requests;
 use Omnipay\Common\Exception\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Requests\Traits\ContactRequestTrait;
-use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
+use PHPAccounting\Xero\Message\Contacts\Responses\UpdateContactResponse;
 use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Address;
 use XeroPHP\Models\Accounting\Contact;
@@ -100,6 +100,6 @@ class UpdateContactRequest extends AbstractXeroRequest
      */
     public function createResponse($data)
     {
-        return $this->response = new CreateContactResponse($this, $data);
+        return $this->response = new UpdateContactResponse($this, $data);
     }
 }

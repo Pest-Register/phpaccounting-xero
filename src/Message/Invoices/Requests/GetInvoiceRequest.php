@@ -34,6 +34,7 @@ class GetInvoiceRequest extends AbstractXeroRequest
         }
         try {
             $xero = $this->createXeroApplication();
+            $modifiedAfter = $this->getLastModifiedSinceDateTime();
 
             if ($this->getAccountingID()) {
                 $invoices = $xero->loadByGUID(Invoice::class, $this->getAccountingID());
@@ -56,13 +57,20 @@ class GetInvoiceRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
+                    if ($modifiedAfter) {
+                        $query = $query->modifiedAfter($modifiedAfter);
+                    }
                     if ($this->getPage()) {
                         $invoices = $query->page($this->getPage())->execute();
                     } else {
                         $invoices = $query->execute();
                     }
                 } else {
-                    $invoices = $xero->load(Invoice::class)->page($this->getPage())->execute();
+                    $query = $xero->load(Invoice::class);
+                    if ($modifiedAfter) {
+                        $query = $query->modifiedAfter($modifiedAfter);
+                    }
+                    $invoices = $query->page($this->getPage())->execute();
                 }
             }
             $response = $invoices;

@@ -77,6 +77,26 @@ class AbstractXeroResponse extends AbstractResponse
     }
 
     /**
+     * Return Xero's `xero-correlation-id` response header when available.
+     *
+     * The current XeroPHP application (calcinai/xero-php) parses entities and
+     * returns model objects directly from $xero->load(...)->execute(); the raw
+     * HTTP response (and therefore its headers) is not surfaced by the SDK at
+     * the point this response is constructed. The stub is here so callers
+     * (Mira's RequestContext plumbing) can rely on a consistent
+     * Abstract*Response::getTraceId() contract across providers. Returning the
+     * real value requires either:
+     *  (a) extending XeroPHP to expose response headers, or
+     *  (b) capturing the header in handleRequestException for the error path.
+     *
+     * @return string|null
+     */
+    public function getTraceId()
+    {
+        return null;
+    }
+
+    /**
      * Fetch Error Message from Response
      * @return array
      */
