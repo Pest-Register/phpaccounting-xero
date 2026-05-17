@@ -29,7 +29,7 @@ class AbstractXeroResponse extends AbstractResponse
      * Checks whether the response was successful
      * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         if ($this->data) {
             if ($this->data instanceof \XeroPHP\Remote\Collection) {
