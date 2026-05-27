@@ -1,7 +1,7 @@
 <?php
 namespace PHPAccounting\Xero\Message\ManualJournals\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityInsertionHelper;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\ManualJournals\Responses\CreateManualJournalResponse;
@@ -105,7 +105,7 @@ class CreateManualJournalRequest extends AbstractXeroRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException
      */
     public function getData()
     {

@@ -1,7 +1,7 @@
 <?php
 namespace PHPAccounting\Xero;
 
-use Omnipay\Common\AbstractGateway;
+use PHPAccounting\Xero\Foundation\AbstractGateway;
 
 /**
  * Created by IntelliJ IDEA.
@@ -114,7 +114,7 @@ class Gateway extends AbstractGateway
     /**
      * Customer Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
 
     public function createContact(array $parameters = []){
@@ -131,7 +131,7 @@ class Gateway extends AbstractGateway
      * @bodyParam array $parameters
      * @bodyParam parameters.page int optional Page Index for Pagination
      * @bodyParam parameters.accountingIDs array optional Array of GUIDs for Contact Retrieval / Filtration
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
     public function getContact(array $parameters = []){
         return $this->createRequest('\PHPAccounting\Xero\Message\Contacts\Requests\GetContactRequest', $parameters);
@@ -144,7 +144,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
 
     public function createContactGroup(array $parameters = []){
@@ -167,7 +167,7 @@ class Gateway extends AbstractGateway
     /**
      * Invoice Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
 
     public function createInvoice(array $parameters = []){
@@ -189,7 +189,7 @@ class Gateway extends AbstractGateway
     /**
      * Quotation Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
     public function createQuotation(array $parameters = []){
         return $this->createRequest('\PHPAccounting\Xero\Message\Quotations\Requests\CreateQuotationRequest', $parameters);
@@ -210,7 +210,7 @@ class Gateway extends AbstractGateway
     /**
      * Account Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
 
     public function createAccount(array $parameters = []){
@@ -232,7 +232,7 @@ class Gateway extends AbstractGateway
     /**
      * Payment Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
 
     public function createPayment(array $parameters = []){
@@ -254,7 +254,7 @@ class Gateway extends AbstractGateway
     /**
      * Organisation Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
 
     public function getOrganisation(array $parameters = []){
@@ -264,7 +264,7 @@ class Gateway extends AbstractGateway
     /**
      * Inventory Item Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
 
     public function createInventoryItem(array $parameters = []){
@@ -286,7 +286,7 @@ class Gateway extends AbstractGateway
     /**
      * Tax Rates Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
 
     public function createTaxRate(array $parameters = []){
@@ -308,7 +308,7 @@ class Gateway extends AbstractGateway
     /**
      * Journal Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
     public function getJournal(array $parameters = []) {
         return $this->createRequest('\PHPAccounting\Xero\Message\Journals\Requests\GetJournalRequest', $parameters);
@@ -317,7 +317,7 @@ class Gateway extends AbstractGateway
     /**
      * Manual Journal Requests
      * @param array $parameters
-     * @return \Omnipay\Common\Message\AbstractRequest
+     * @return \PHPAccounting\Xero\Foundation\AbstractRequest
      */
     public function getManualJournal(array $parameters = []) {
         return $this->createRequest('\PHPAccounting\Xero\Message\ManualJournals\Requests\GetManualJournalRequest', $parameters);

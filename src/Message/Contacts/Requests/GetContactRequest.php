@@ -1,7 +1,7 @@
 <?php
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\GetContactResponse;
 use PHPAccounting\Xero\Traits\GetRequestTrait;
@@ -22,7 +22,7 @@ class GetContactRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|GetContactResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|GetContactResponse
      * @throws \XeroPHP\Exception
      */
     public function sendData($data)
@@ -34,6 +34,7 @@ class GetContactRequest extends AbstractXeroRequest
 
         try {
             $xero = $this->createXeroApplication();
+            $modifiedAfter = $this->getLastModifiedSinceDateTime();
 
             if ($this->getAccountingID()) {
                 $contacts = $xero->loadByGUID(Contact::class, $this->getAccountingID());
@@ -55,13 +56,20 @@ class GetContactRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
+                    if ($modifiedAfter) {
+                        $query = $query->modifiedAfter($modifiedAfter);
+                    }
                     if ($this->getPage()) {
                         $contacts = $query->page($this->getPage())->execute();
                     } else {
                         $contacts = $query->execute();
                     }
                 } else {
-                    $contacts = $xero->load(Contact::class)->page($this->getPage())->execute();
+                    $query = $xero->load(Contact::class);
+                    if ($modifiedAfter) {
+                        $query = $query->modifiedAfter($modifiedAfter);
+                    }
+                    $contacts = $query->page($this->getPage())->execute();
                 }
             }
             $response = $contacts;

@@ -1,7 +1,7 @@
 <?php
 
 namespace PHPAccounting\Xero\Message\InventoryItems\Requests;
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\SearchQueryBuilder as SearchBuilder;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\InventoryItems\Responses\GetInventoryItemResponse;
@@ -33,6 +33,7 @@ class GetInventoryItemRequest extends AbstractXeroRequest
         }
         try {
             $xero = $this->createXeroApplication();
+            $modifiedAfter = $this->getLastModifiedSinceDateTime();
             if ($this->getAccountingID()) {
                 $items = $xero->loadByGUID(Item::class, $this->getAccountingID());
             }
@@ -54,13 +55,20 @@ class GetInventoryItemRequest extends AbstractXeroRequest
                         $this->getSearchFilters(),
                         $this->getMatchAllFilters()
                     );
+                    if ($modifiedAfter) {
+                        $query = $query->modifiedAfter($modifiedAfter);
+                    }
                     if ($this->getPage()) {
                         $items = $query->page($this->getPage())->execute();
                     } else {
                         $items = $query->execute();
                     }
                 } else {
-                    $items = $xero->load(Item::class)->execute();
+                    $query = $xero->load(Item::class);
+                    if ($modifiedAfter) {
+                        $query = $query->modifiedAfter($modifiedAfter);
+                    }
+                    $items = $query->execute();
                 }
             }
             $response = $items;

@@ -4,7 +4,7 @@
 namespace PHPAccounting\Xero\Message\ManualJournals\Requests;
 
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\ManualJournals\Responses\GetManualJournalResponse;
 use XeroPHP\Models\Accounting\ManualJournal;
@@ -78,7 +78,7 @@ class GetManualJournalRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|GetManualJournalResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|GetManualJournalResponse
      */
     public function sendData($data)
     {

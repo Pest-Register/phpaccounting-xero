@@ -1,10 +1,10 @@
 <?php
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Requests\Traits\ContactRequestTrait;
-use PHPAccounting\Xero\Message\Contacts\Responses\CreateContactResponse;
+use PHPAccounting\Xero\Message\Contacts\Responses\UpdateContactResponse;
 use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
 use XeroPHP\Models\Accounting\Address;
 use XeroPHP\Models\Accounting\Contact;
@@ -27,7 +27,7 @@ class UpdateContactRequest extends AbstractXeroRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException
      */
     public function getData()
     {
@@ -59,7 +59,7 @@ class UpdateContactRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|CreateContactResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|CreateContactResponse
      */
     public function sendData($data)
     {
@@ -100,6 +100,6 @@ class UpdateContactRequest extends AbstractXeroRequest
      */
     public function createResponse($data)
     {
-        return $this->response = new CreateContactResponse($this, $data);
+        return $this->response = new UpdateContactResponse($this, $data);
     }
 }

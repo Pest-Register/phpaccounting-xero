@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\TaxRates\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\TaxRates\Requests\Traits\TaxRateRequestTrait;
 use PHPAccounting\Xero\Message\TaxRates\Responses\UpdateTaxRateResponse;
@@ -25,7 +25,7 @@ class UpdateTaxRateRequest extends AbstractXeroRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException
      */
     public function getData()
     {

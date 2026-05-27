@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Contacts\Responses\DeleteContactResponse;
 use PHPAccounting\Xero\Traits\AccountingIDRequestTrait;
@@ -35,7 +35,7 @@ class DeleteContactRequest extends AbstractXeroRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException
      */
     public function getData()
     {
@@ -52,7 +52,7 @@ class DeleteContactRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|DeleteContactResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|DeleteContactResponse
      */
     public function sendData($data)
     {

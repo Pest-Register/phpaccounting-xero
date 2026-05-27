@@ -123,4 +123,40 @@ trait GetRequestTrait
     public function getPage() {
         return $this->getParameter('page');
     }
+
+    /**
+     * Set the modified-after cutoff for delta/incremental sync. Subsequent
+     * list-style GET requests will pass this to XeroPHP's
+     * `Query::modifiedAfter($dt)`, which translates to the Xero
+     * `If-Modified-Since` header and restricts the response to records
+     * updated at or after this datetime.
+     *
+     * Accepts a DateTimeInterface, a string parsable by DateTime, or null.
+     */
+    public function setLastModifiedSince($value) {
+        return $this->setParameter('last_modified_since', $value);
+    }
+
+    /**
+     * Get the modified-after cutoff as a DateTime (or null when not set).
+     * Returning a DateTime here keeps the call site simple — request classes
+     * pass straight into `$query->modifiedAfter(...)`.
+     */
+    public function getLastModifiedSinceDateTime(): ?\DateTime {
+        $value = $this->getParameter('last_modified_since');
+        if ($value === null || $value === '') {
+            return null;
+        }
+        if ($value instanceof \DateTime) {
+            return $value;
+        }
+        if ($value instanceof \DateTimeInterface) {
+            return \DateTime::createFromInterface($value);
+        }
+        try {
+            return new \DateTime((string) $value);
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
 }

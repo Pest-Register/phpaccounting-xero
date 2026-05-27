@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Accounts\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Accounts\Requests\Traits\AccountRequestTrait;
 use PHPAccounting\Xero\Message\Accounts\Responses\CreateAccountResponse;
@@ -25,7 +25,7 @@ class CreateAccountRequest extends AbstractXeroRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException
      */
     public function getData()
     {
@@ -53,7 +53,7 @@ class CreateAccountRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|CreateAccountResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|CreateAccountResponse
      */
     public function sendData($data)
     {

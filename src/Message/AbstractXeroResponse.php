@@ -2,8 +2,8 @@
 
 namespace PHPAccounting\Xero\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
+use PHPAccounting\Xero\Foundation\AbstractResponse;
+use PHPAccounting\Xero\Foundation\Contracts\RequestInterface;
 use PHPAccounting\Xero\Helpers\ErrorResponseHelper;
 
 class AbstractXeroResponse extends AbstractResponse
@@ -29,7 +29,7 @@ class AbstractXeroResponse extends AbstractResponse
      * Checks whether the response was successful
      * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         if ($this->data) {
             if ($this->data instanceof \XeroPHP\Remote\Collection) {
@@ -44,13 +44,13 @@ class AbstractXeroResponse extends AbstractResponse
             // Check if data is returned as an array
             if (is_array($this->data)){
                 if (array_key_exists('status', $this->data)) {
-                    return !$this->data['status'] == 'error';
+                    return $this->data['status'] !== 'error';
                 }
             }
             // Check if data is returned as an object
             if (is_object($this->data)){
                 if(property_exists($this->data,'status')){
-                    return !$this->data['status'] == 'error';
+                    return $this->data->status !== 'error';
                 }
             }
         } else {
@@ -74,6 +74,26 @@ class AbstractXeroResponse extends AbstractResponse
             $this->data['detail'] ?? null,
             $this->data,
             $this->modelType);
+    }
+
+    /**
+     * Return Xero's `xero-correlation-id` response header when available.
+     *
+     * The current XeroPHP application (calcinai/xero-php) parses entities and
+     * returns model objects directly from $xero->load(...)->execute(); the raw
+     * HTTP response (and therefore its headers) is not surfaced by the SDK at
+     * the point this response is constructed. The stub is here so callers
+     * (Mira's RequestContext plumbing) can rely on a consistent
+     * Abstract*Response::getTraceId() contract across providers. Returning the
+     * real value requires either:
+     *  (a) extending XeroPHP to expose response headers, or
+     *  (b) capturing the header in handleRequestException for the error path.
+     *
+     * @return string|null
+     */
+    public function getTraceId()
+    {
+        return null;
     }
 
     /**

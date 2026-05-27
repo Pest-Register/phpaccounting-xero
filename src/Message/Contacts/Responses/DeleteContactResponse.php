@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Contacts\Responses;
 
-use Omnipay\Common\Message\AbstractResponse;
+use PHPAccounting\Xero\Foundation\AbstractResponse;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractXeroResponse;
 

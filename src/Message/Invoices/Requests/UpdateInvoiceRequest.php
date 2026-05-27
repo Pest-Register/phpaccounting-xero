@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\Invoices\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\Invoices\Requests\Traits\InvoiceRequestTrait;
 use PHPAccounting\Xero\Message\Invoices\Responses\UpdateInvoiceResponse;
@@ -25,7 +25,7 @@ class UpdateInvoiceRequest extends AbstractXeroRequest
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
      * @return mixed
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws \PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException
      */
     public function getData()
     {
@@ -54,7 +54,7 @@ class UpdateInvoiceRequest extends AbstractXeroRequest
     /**
      * Send Data to Xero Endpoint and Retrieve Response via Response Interface
      * @param mixed $data Parameter Bag Variables After Validation
-     * @return \Omnipay\Common\Message\ResponseInterface|UpdateInvoiceResponse
+     * @return \PHPAccounting\Xero\Foundation\Contracts\ResponseInterface|UpdateInvoiceResponse
      */
     public function sendData($data)
     {

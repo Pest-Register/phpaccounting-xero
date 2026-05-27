@@ -1,29 +1,23 @@
 <?php
 namespace PHPAccounting\Xero\Message;
 
-use Omnipay\Common\Message\RequestInterface;
+use PHPAccounting\Xero\Foundation\AbstractResponse;
+use PHPAccounting\Xero\Foundation\Contracts\RequestInterface;
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: Dylan
- * Date: 13/05/2019
- * Time: 3:33 PM
- */
-
-class Response extends \Omnipay\Common\Message\AbstractResponse
+class Response extends AbstractResponse
 {
-
     /**
      * Request id
      *
      * @var string URL
      */
     protected $requestId = null;
+
     /**
      * @var array
      */
     protected $headers = [];
+
     public function __construct(RequestInterface $request, $data, $headers = [])
     {
         $this->request = $request;
@@ -31,12 +25,13 @@ class Response extends \Omnipay\Common\Message\AbstractResponse
         $this->headers = $headers;
         parent::__construct($request, $data);
     }
+
     /**
      * Is the response successful?
      *
      * @return boolean
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return $this->data != null;
     }

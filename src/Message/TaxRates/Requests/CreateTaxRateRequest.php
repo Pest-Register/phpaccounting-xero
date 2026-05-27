@@ -2,7 +2,7 @@
 
 namespace PHPAccounting\Xero\Message\TaxRates\Requests;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use PHPAccounting\Xero\Foundation\Exceptions\InvalidRequestException;
 use PHPAccounting\Xero\Helpers\IndexSanityCheckHelper;
 use PHPAccounting\Xero\Message\AbstractXeroRequest;
 use PHPAccounting\Xero\Message\TaxRates\Requests\Traits\TaxRateRequestTrait;
