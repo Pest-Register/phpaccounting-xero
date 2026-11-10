@@ -71,6 +71,23 @@ class CreateManualJournalRequest extends AbstractXeroRequest
     }
 
     /**
+     * Get LineAmountTypes Parameter from Parameter Bag
+     * @return mixed
+     */
+    public function getLineAmountTypes(){
+        return $this->getParameter('line_amount_types');
+    }
+
+    /**
+     * Set LineAmountTypes Parameter from Parameter Bag
+     * @param string $value LineAmountTypes (Inclusive, Exclusive, NoTax)
+     * @return CreateManualJournalRequest
+     */
+    public function setLineAmountTypes($value){
+        return $this->setParameter('line_amount_types', $value);
+    }
+
+    /**
      * Get Date Parameter from Parameter Bag
      * @see https://developer.xero.com/documentation/api/manual-journals
      * @return mixed
@@ -117,6 +134,8 @@ class CreateManualJournalRequest extends AbstractXeroRequest
 
         $this->issetParam('Narration', 'narration');
         $this->issetParam('Date', 'date');
+        $this->issetParam('Status', 'status');
+        $this->issetParam('LineAmountTypes', 'line_amount_types');
         $this->issetParam('JournalLines', 'journal_data');
 
         return $this->data;
@@ -144,6 +163,8 @@ class CreateManualJournalRequest extends AbstractXeroRequest
                     $methodName = 'set'. $key;
                     $date = \DateTime::createFromFormat('Y-m-d H:i:s', $value);
                     $journal->$methodName($date);
+                } elseif ($key === 'LineAmountTypes') {
+                    $journal->setLineAmountType($value);
                 } else {
                     $methodName = 'set'. $key;
                     $journal->$methodName($value);
