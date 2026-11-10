@@ -2,6 +2,7 @@
 
 namespace PHPAccounting\Xero\Helpers;
 
+use XeroPHP\Remote\Exception\RateLimitExceededException;
 use function GuzzleHttp\Psr7\str;
 
 /**
@@ -17,12 +18,18 @@ class ErrorResponseHelper
      * @return array
      */
     public static function parseErrorResponse ($response, $type, $status, $errorCode, $statusCode, $detail, $exception, $model = '') {
-        if ($type == 'RateLimitExceeded') {
+        // Requests pass get_class() of the caught exception as the type
+        if ($type == 'RateLimitExceeded' || $type == RateLimitExceededException::class) {
             return [
                 'message' => $response,
                 'exception' => $response,
-                'rate_problem' => $exception['rate_problem'],
-                'retry' => $exception['retry']
+                'status' => $status,
+                'error_code' => 429,
+                'status_code' => 429,
+                'detail' => $detail,
+                // minute, appminute or day (X-Rate-Limit-Problem), and seconds from Retry-After
+                'rate_problem' => $exception['rate_problem'] ?? null,
+                'retry' => $exception['retry'] ?? null
             ];
         } else {
             switch ($model) {
